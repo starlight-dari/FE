@@ -7,16 +7,19 @@ import { useRouter } from "next/navigation";
 
 export default function Page(props) {
   const router = useRouter();
-  const code = new URL(window.location.href).searchParams.get("code");
 
   //   const redirect_uri = "http://localhost:3000/api/auth/kakao/callback";
 
   // 인가코드 백으로 보내는 코드
   useEffect(() => {
     const kakaoLogin = async () => {
+      const code = new URL(window.location.href).searchParams.get("code");
+
       await axios({
         method: "GET",
-        url: `http://localhost:3000/api/auth/kakao/callback/?code=${code}`,
+        // url: `http://localhost:8080/api/auth/kakao/callback`,
+        url: `http://localhost:3000/api/auth/kakao/callback`,
+        params: { code },
         headers: {
           "Content-Type": "application/json;charset=utf-8", // json형태로 데이터를 보내겠다는뜻
           "Access-Control-Allow-Origin": "*", // 이건 cors 에러때문에 넣어둔것. 프로젝트에 맞게 지워도됨
@@ -32,7 +35,7 @@ export default function Page(props) {
       });
     };
     kakaoLogin();
-  }, [props.history]);
+  }, []);
 
   return (
     <>
