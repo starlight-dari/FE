@@ -23,12 +23,13 @@ const Container = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  height: 65px;
 `;
 
 const Button = styled.button`
   border: none;
   position: absolute;
-  right: 0px;
+  right: 20px;
   background: transparent;
   cursor: pointer;
 `;
