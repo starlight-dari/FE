@@ -9,10 +9,10 @@ export default function Page() {
   const [genderSelected, setGenderSelected] = useState("");
 
   const [isOpen, setIsOpen] = useState(false);
-  const [personalitySelected, setPersonalitSelected] = useState("성격");
+  const [personalitySelected, setPersonalitySelected] = useState("성격");
 
   const handleSelect = (option: string) => {
-    setPersonalitSelected(option);
+    setPersonalitySelected(option);
     setIsOpen(false);
   };
 
@@ -121,7 +121,8 @@ const Body = styled.div`
 const Container = styled.div`
   width: 90vw;
   height: 565px;
-  background-color: #fff;
+  background-color: tansparent;
+  color: white;
   position: relative;
   display: flex;
   align-items: center;
@@ -162,7 +163,7 @@ const GenderButton = styled.span`
   }
 
   input[type="radio"]:checked + label {
-    background-color: #65558f;
+    background-color: #22225e;
     color: #fff;
   }
 
@@ -174,6 +175,7 @@ const GenderButton = styled.span`
 
     &:hover {
       background-color: #ece6f0;
+      color: black;
     }
   }
 `;
@@ -200,6 +202,7 @@ const SelectedOption = styled.div`
   padding: 10px;
   border: 1px solid gray;
   background-color: #fff;
+  color: black;
   cursor: pointer;
 `;
 
@@ -210,6 +213,7 @@ const OptionsList = styled.ul<{ isOpen: boolean }>`
   width: 100px;
   border: 1px solid gray;
   background-color: #fff;
+  color: black;
   list-style: none;
   padding: 0;
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
@@ -228,8 +232,8 @@ const Button = styled.button`
   width: 146px;
   height: 40px;
   border: none;
-  border-radius: 100px;
-  background: #65558f;
+  border-radius: 5px;
+  background: #22225e;
   color: #fff;
   cursor: pointer;
   position: absolute;
