@@ -24,6 +24,7 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   height: 65px;
+  border-bottom: 1px solid #fff;
 `;
 
 const Button = styled.button`
