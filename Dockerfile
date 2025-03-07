@@ -23,6 +23,6 @@ RUN rm /etc/nginx/conf.d/nginx.conf
 RUN rm -rf /etc/nginx/conf.d/*
 
 # nginx.conf을 /etc/nginx/conf.d/ 경로에 있는 nginx.conf에 복사한다.
-COPY nginx/default.conf /etc/nginx/conf.d/nginx.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
 
 COPY --from=builder /app/out /usr/share/nginx/html
