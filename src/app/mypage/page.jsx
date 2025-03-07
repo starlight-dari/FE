@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -57,9 +58,6 @@ export default function Page() {
         <button type="button" onClick={() => router.push("/add_new_animal")}>
           추가
         </button>
-        <div>추억이 담긴 물건</div>
-        <Image alt="추억이 담긴 물건 사진" />
-        <button>추가</button>
       </div>
     </div>
   );

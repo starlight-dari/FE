@@ -15,7 +15,19 @@ const KakaoLoginButton = () => {
 
   return (
     <>
-      <button onClick={handleLogin}>카카오로 시작하기</button>
+      <button
+        style={{
+          whiteSpace: "nowrap",
+          padding: "10px 20px",
+          borderRadius: "12px",
+          color: "black",
+          backgroundColor: "#fff",
+          cursor: "pointer",
+        }}
+        onClick={handleLogin}
+      >
+        카카오로 시작하기
+      </button>
     </>
   );
 };
