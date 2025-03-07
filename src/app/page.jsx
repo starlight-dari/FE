@@ -93,7 +93,19 @@ export default function Home() {
       <Canvas style={{ background: "black", height: "100vh" }}>
         <ambientLight />
         <PulsatingStars />
-        <Html center>
+        <Html
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%) scale(1)",
+            transformOrigin: "0px 0px",
+            zIndex: "16695054",
+            display: "flex",
+            flexDirection: "column",
+            // alignItems: "center",
+          }}
+        >
           <img
             alt="logo"
             src="/starlight-logo.png"
