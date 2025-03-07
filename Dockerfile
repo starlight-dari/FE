@@ -10,7 +10,7 @@ RUN npm install
 COPY . .
 
 # Next.js를 빌드한다.
-RUN npm run build
+RUN npm run dev
 #RUN npm run export
 
 # 이미지 생성
