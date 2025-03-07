@@ -19,10 +19,10 @@ FROM nginx
 # 오픈할 포트를 적어둔다.
 EXPOSE 3000
 
-RUN rm /etc/nginx/conf.d/nginx.conf
+RUN rm /etc/nginx/conf.d/default.conf
 RUN rm -rf /etc/nginx/conf.d/*
 
-# nginx.conf을 /etc/nginx/conf.d/ 경로에 있는 nginx.conf에 복사한다.
-COPY nginx/nginx.conf /etc/nginx/conf.d/nginx.conf
+# default.conf을 /etc/nginx/conf.d/ 경로에 있는 default.conf에 복사한다.
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=builder /app/out /usr/share/nginx/html
