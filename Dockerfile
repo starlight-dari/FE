@@ -9,9 +9,9 @@ RUN npm install
 
 COPY . .
 
-# Next.js를 빌드한다.
+# Next.js 빌드 실행
 RUN npm run build
-#RUN npm run export
+RUN npm run export
 
 # 이미지 생성
 FROM nginx
