@@ -99,7 +99,7 @@ export default function Home() {
             src="/starlight-logo.png"
             style={{ width: "250px" }}
           />
-          {/* <KakaoLoginButton /> */}
+          <KakaoLoginButton />
         </Html>
       </Canvas>
     </>

@@ -28,7 +28,9 @@ const ShareReviewPage = () => {
           </Label>
         </Top>
         <Container>
-          <Input placeholder="제목을 입력해주세요." />
+          <Item>
+            <Input placeholder="제목을 입력해주세요." />
+          </Item>
           <Item>
             <Label style={{ paddingRight: "30px" }}>카테고리</Label>
             <SelectWrapper>
@@ -68,8 +70,10 @@ const ShareReviewPage = () => {
             </ContentArea>
             <ImageUpload />
           </ContentWrapper>
-          <Button>등록</Button>
-          <Button>취소</Button>
+          <ButtonWrapper>
+            <Button>등록</Button>
+            <Button>취소</Button>
+          </ButtonWrapper>
         </Container>
       </Body>
     </>
@@ -84,11 +88,11 @@ const ImageUpload = () => {
   };
 
   return (
-    <div>
+    <UploadContainer>
       <p>첨부할 사진이 있다면 첨부해주세요.</p>
       <FileInput ref={fileInputRef} type="file" accept="image/*" />
       <UploadButton onClick={handleClick}>컴퓨터에서 선택하기</UploadButton>
-    </div>
+    </UploadContainer>
   );
 };
 
@@ -133,7 +137,6 @@ const Input = styled.input`
   width: 100%;
   padding: 10px;
   border: none;
-  border-bottom: 1px solid #fff;
   outline: none;
   background: transparent;
   color: #fff;
@@ -145,7 +148,9 @@ const Input = styled.input`
   }
 `;
 
-const Label = styled.span``;
+const Label = styled.span`
+  padding-left: 5px;
+`;
 
 const SelectWrapper = styled.div`
   position: relative;
@@ -180,24 +185,27 @@ const OptionItem = styled.li`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+`;
+
 const Button = styled.button`
   padding: 5px 30px;
   height: 40px;
   border: none;
-  background: #3a578d;
+  background: #aac8ff;
   color: #fff;
   cursor: pointer;
-  position: absolute;
-  top: 25px;
-  right: 34px;
 `;
 
-const ContentWrapper = styled.div`
-  padding: 15px;
-`;
+const ContentWrapper = styled.div``;
 
 const ContentArea = styled.div`
-  padding: 5px;
+  padding: 10px;
   border-bottom: 1px solid #fff;
 `;
 
@@ -205,7 +213,13 @@ const FileInput = styled.input`
   display: none;
 `;
 
+const UploadContainer = styled.div`
+  padding: 10px 0;
+  border-bottom: 1px solid #fff;
+`;
+
 const UploadButton = styled.button`
+  margin-top: 5px;
   padding: 5px 30px;
   height: 40px;
   border: none;
@@ -216,9 +230,9 @@ const UploadButton = styled.button`
 
 const Textarea = styled.textarea`
   width: 100%;
-  height: 300px;
-  // padding: 10px;
+  height: 200px;
   background: transparent;
+  border: none;
   resize: none;
   outline: none;
   color: #fff;
