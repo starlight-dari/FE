@@ -17,6 +17,12 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Pretendard-Regular', sans-serif;
   }
+
+  body, html {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* 전체 페이지 스크롤 방지 */
+}
 `;
 
 export default GlobalStyle;
