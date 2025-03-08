@@ -32,5 +32,13 @@ jobs:
         key: ${{ secrets.AWS_KEY }}
         script: |
           echo "AWS 연결"
+          # 기존 프론트엔드 컨테이너 중지 및 삭제
+          docker stop frontend || true
+          docker rm frontend || true
+          
+          # 기존 프론트엔드 이미지 삭제
+          docker rmi ${{ secrets.DOCKER_USER_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}-fe || true
           docker pull ${{ secrets.DOCKER_USER_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}-fe
-          docker-compose up -d
+          
+          # docker-compose에서 frontend 컨테이너만 재시작
+          docker-compose up -d --force-recreate --build frontend
