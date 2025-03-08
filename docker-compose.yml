@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  backend:
+    container_name: frontend
+    image: snoony/starlight-fe
+    ports:
+      - "3000:3000"
+    networks:
+      - network
+
+networks:
+  network:

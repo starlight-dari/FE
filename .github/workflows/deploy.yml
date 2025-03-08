@@ -39,6 +39,6 @@ jobs:
           # 기존 프론트엔드 이미지 삭제
           docker rmi ${{ secrets.DOCKER_USER_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}-fe || true
           docker pull ${{ secrets.DOCKER_USER_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}-fe
-          
+
           # docker-compose에서 frontend 컨테이너만 재시작
-          docker-compose up -d --force-recreate --build frontend
+          docker-compose up -f docker-compose.yml up -d --force-recreate --build
