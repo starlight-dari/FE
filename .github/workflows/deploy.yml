@@ -41,4 +41,4 @@ jobs:
           docker pull ${{ secrets.DOCKER_USER_NAME }}/${{ secrets.DOCKER_IMAGE_NAME }}-fe
 
           # docker-compose에서 frontend 컨테이너만 재시작
-          docker-compose up -f docker-compose.yml up -d --force-recreate --build
+          docker-compose up -f /home/ubuntu/docker-compose.frontend.yml up -d --force-recreate --build
