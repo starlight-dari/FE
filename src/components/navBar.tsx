@@ -7,6 +7,7 @@ import chevron_down from "/public/chevron_down.svg";
 
 import MARU from "/public/maru.svg";
 import KONG from "/public/kong.svg";
+import { useRouter } from "next/navigation";
 
 interface NavBarProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ interface NavBarProps {
 }
 
 const NavBar = ({ isOpen, navRef }: NavBarProps) => {
+  const router = useRouter();
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
 
   return (
@@ -26,7 +28,7 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
         </User>
       </Profile>
       <MenuBar>
-        <Menu>마이페이지</Menu>
+        <Menu onClick={() => router.push(`/mypage`)}>마이페이지</Menu>
         <Menu onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}>
           나의 별자리
           <ToggleButton>
@@ -49,11 +51,12 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
             </Item>
           </SubMenu>
         )}
-        <Menu>
+        <Menu onClick={() => router.push(`/memoryAlbum`)}>
           추억앨범
           <AlertBadge />
         </Menu>
-        <Menu>커뮤니티</Menu>
+        <Menu onClick={() => router.push(`/community`)}>추억 저장소</Menu>
+        <Menu onClick={() => router.push(`/shareReview`)}>후기 나눔</Menu>
       </MenuBar>
     </Wrapper>
   );
