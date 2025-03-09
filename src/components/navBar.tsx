@@ -10,7 +10,7 @@ import KONG from "/public/kong.svg";
 
 interface NavBarProps {
   isOpen: boolean;
-  navRef: React.RefObject<HTMLDivElement>;
+  navRef: React.RefObject<HTMLDivElement | null>;
 }
 
 const NavBar = ({ isOpen, navRef }: NavBarProps) => {
