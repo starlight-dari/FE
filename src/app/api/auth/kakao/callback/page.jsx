@@ -10,9 +10,12 @@ export default function Page(props) {
 
   // 인가코드 백으로 보내는 코드
   useEffect(() => {
+    console.log("useEffect 실행");
+
     if (!hasRun.current) {
       hasRun.current = true;
 
+      console.log("kakaologin 함수 시작");
       const kakaoLogin = async () => {
         try {
           const code = new URL(window.location.href).searchParams.get("code");
