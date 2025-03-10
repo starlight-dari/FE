@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 
@@ -8,7 +8,18 @@ import JJONG from "/public/jjong.svg";
 import edit from "/public/edit.svg";
 import axios from "axios";
 
+interface UserData {
+  email: string;
+  kk_nickname: string;
+  memory_num: number;
+  profileImage: string;
+  st_nickname: string;
+}
+
 const UserInfo = () => {
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     const getUserInfo = async () => {
       try {
@@ -22,13 +33,25 @@ const UserInfo = () => {
         });
 
         console.log("서버 응답:", response);
+
+        setUserData(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("유저 정보 요청 중 오류 발생:", error);
+        setLoading(false);
       }
     };
 
     getUserInfo();
   }, []);
+
+  if (loading) {
+    return <h1>로그인 중입니다...</h1>;
+  }
+
+  if (!userData) {
+    return <h1>로그인에 실패하였습니다.</h1>;
+  }
 
   return (
     <Container>
@@ -36,19 +59,19 @@ const UserInfo = () => {
       <UserWrapper>
         <UserDetail>
           <User>
-            <UserName>백주영</UserName>
+            <UserName>{userData.kk_nickname}</UserName>
             <span>님</span>
           </User>
-          <UserEmail>example@domain.com</UserEmail>
+          <UserEmail>{userData.email}</UserEmail>
         </UserDetail>
         <UserNickName>
-          닉네임: 134435
+          닉네임: {userData.st_nickname}
           <EditButton>
             <Image src={edit} alt="edit" width={12} height={12} />
           </EditButton>
         </UserNickName>
       </UserWrapper>
-      <MemoryStar>추억별 34</MemoryStar>
+      <MemoryStar>추억별 {userData.memory_num}</MemoryStar>
     </Container>
   );
 };
