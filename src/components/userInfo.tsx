@@ -45,6 +45,25 @@ const UserInfo = () => {
     getUserInfo();
   }, []);
 
+  const editUserNickname = async () => {
+    try {
+      const response = await axios({
+        method: "PUT",
+        url: `http://3.37.55.176:8080/member/updateName`,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      });
+
+      console.log("서버 응답:", response);
+
+      setUserData(response.data);
+    } catch (error) {
+      console.error("유저 닉네임 수정 중 오류 발생:", error);
+    }
+  };
+
   if (loading) {
     return <h1>로그인 중입니다...</h1>;
   }
@@ -66,7 +85,7 @@ const UserInfo = () => {
         </UserDetail>
         <UserNickName>
           닉네임: {userData.st_nickname}
-          <EditButton>
+          <EditButton onClick={editUserNickname}>
             <Image src={edit} alt="edit" width={12} height={12} />
           </EditButton>
         </UserNickName>
