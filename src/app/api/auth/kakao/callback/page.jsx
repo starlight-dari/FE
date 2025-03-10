@@ -20,6 +20,7 @@ export default function Page(props) {
         // url: `http://localhost:8080/api/auth/kakao/callback`,
         url: `http://3.37.55.176:8080/api/auth/kakao/callback`,
         withCredentials: true,
+
         params: { code },
         headers: {
           "Content-Type": "application/json;charset=utf-8", // json형태로 데이터를 보내겠다는뜻
