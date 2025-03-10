@@ -12,7 +12,7 @@ interface UserData {
   email: string;
   kk_nickname: string;
   memory_num: number;
-  profileImage: string;
+  profile_img: string;
   st_nickname: string;
 }
 
@@ -74,7 +74,7 @@ const UserInfo = () => {
 
   return (
     <Container>
-      <UserImage src={JJONG} alt="user photo" />
+      <UserImage src={userData.profile_img} alt="user photo" />
       <UserWrapper>
         <UserDetail>
           <User>
