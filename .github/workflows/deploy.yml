@@ -13,7 +13,14 @@ jobs:
     - name: make .env
       run: |
         touch .env
-        echo "${{ secrets.SECRET_ENV }}" > .env
+        echo "${{ secrets.ENV }}" > .env
+        echo "✅ .env 파일 생성 완료"
+    
+    - name: Check .env content
+      run: |
+        echo "✅ .env 파일 내용:"
+        cat .env
+        
     - name: 도커허브에 로그인
       uses: docker/login-action@v1
       with:
