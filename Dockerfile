@@ -11,7 +11,7 @@ COPY . .
 
 # Next.js 빌드 실행
 RUN npm run build
-RUN npm run export
+RUN npm run start
 
 # 이미지 생성
 FROM nginx
