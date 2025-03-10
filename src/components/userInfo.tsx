@@ -1,13 +1,35 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 
 import JJONG from "/public/jjong.svg";
 import edit from "/public/edit.svg";
+import axios from "axios";
 
 const UserInfo = () => {
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const response = await axios({
+          method: "GET",
+          url: `http://3.37.55.176:8080/member/select`,
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+        });
+
+        console.log("서버 응답:", response);
+      } catch (error) {
+        console.error("유저 정보 요청 중 오류 발생:", error);
+      }
+    };
+
+    getUserInfo();
+  }, []);
+
   return (
     <Container>
       <UserImage src={JJONG} alt="user photo" />
