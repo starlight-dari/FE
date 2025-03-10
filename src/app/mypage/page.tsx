@@ -7,6 +7,7 @@ import Header from "../../components/header";
 import Image from "next/image";
 
 import UserInfo from "../../components/userInfo";
+import MyStar from "../../components/myStar";
 
 export default function Page() {
   const router = useRouter();
@@ -22,6 +23,7 @@ export default function Page() {
         </MenuBar>
         <Container>
           <UserInfo />
+          <MyStar />
         </Container>
       </Body>
     </>
