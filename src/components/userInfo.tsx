@@ -17,6 +17,8 @@ interface UserData {
 
 const UserInfo = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [isEditingNickname, setIsEditingNickname] = useState(false);
+  const [nickname, setNickname] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -44,7 +46,21 @@ const UserInfo = () => {
     getUserInfo();
   }, []);
 
-  const editUserNickname = async () => {
+  useEffect(() => {
+    if (userData && userData.st_nickname) {
+      setNickname(userData.st_nickname);
+    }
+  }, [userData]);
+
+  const handleNicknameChange = (e: any) => {
+    setNickname(e.target.value);
+  };
+
+  const editUserNickname = () => {
+    setIsEditingNickname(true);
+  };
+
+  const saveUserNickname = async () => {
     try {
       const response = await axios({
         method: "PUT",
@@ -53,14 +69,16 @@ const UserInfo = () => {
         headers: {
           "Content-Type": "application/json;charset=utf-8",
         },
+        data: {
+          nickname: nickname,
+        },
       });
 
       console.log("서버 응답:", response);
-
-      setUserData(response.data);
     } catch (error) {
       console.error("유저 닉네임 수정 중 오류 발생:", error);
     }
+    setIsEditingNickname(false);
   };
 
   if (loading) {
@@ -82,12 +100,22 @@ const UserInfo = () => {
           </User>
           <UserEmail>{userData.email}</UserEmail>
         </UserDetail>
-        <UserNickName>
-          닉네임: {userData.st_nickname}
-          <EditButton onClick={editUserNickname}>
-            <Image src={edit} alt="edit" width={12} height={12} />
-          </EditButton>
-        </UserNickName>
+        {isEditingNickname ? (
+          <UserNickName>
+            닉네임: <input value={nickname} onChange={handleNicknameChange} />
+            <EditButton onClick={saveUserNickname}>
+              {/* <Image src={edit} alt="edit" width={12} height={12} /> */}
+              저장
+            </EditButton>
+          </UserNickName>
+        ) : (
+          <UserNickName>
+            닉네임: {userData.st_nickname}
+            <EditButton onClick={editUserNickname}>
+              <Image src={edit} alt="edit" width={12} height={12} />
+            </EditButton>
+          </UserNickName>
+        )}
       </UserWrapper>
       <MemoryStar>추억별 {userData.memory_num}</MemoryStar>
     </Container>
