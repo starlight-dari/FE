@@ -3,9 +3,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
-
-import edit from "/public/edit.svg";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface PetData {
   member_id: number;
@@ -20,6 +19,8 @@ interface PetData {
 }
 
 const MyStar = () => {
+  const router = useRouter();
+
   const [petDatas, setPetDatas] = useState<PetData[] | null>([]);
   const [loading, setLoading] = useState(true);
 
@@ -71,7 +72,9 @@ const MyStar = () => {
           </Pet>
         ))}
       </PetList>
-      <Button>별자리 추가하기</Button>
+      <Button onClick={() => router.push("/add_new_animal")}>
+        별자리 추가하기
+      </Button>
     </Container>
   );
 };
@@ -94,7 +97,6 @@ const PetList = styled.div`
   display: flex;
   flex-direction: column;
   height: 300px;
-  border: 1px solid red;
   overflow-y: auto;
 `;
 
@@ -103,7 +105,6 @@ const Pet = styled.div`
   align-items: center;
   gap: 15px;
   padding: 5px;
-  border: 1px solid green;
 `;
 
 const PetImage = styled(Image)`
