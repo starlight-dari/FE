@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 
-import JJONG from "/public/jjong.svg";
 import edit from "/public/edit.svg";
 import axios from "axios";
 
@@ -25,7 +24,7 @@ const UserInfo = () => {
       try {
         const response = await axios({
           method: "GET",
-          url: `http://3.37.55.176:8080/member/select`,
+          url: `http://3.37.55.176:8080/member`,
           withCredentials: true,
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -49,7 +48,7 @@ const UserInfo = () => {
     try {
       const response = await axios({
         method: "PUT",
-        url: `http://3.37.55.176:8080/member/updateName`,
+        url: `http://3.37.55.176:8080/member/name`,
         withCredentials: true,
         headers: {
           "Content-Type": "application/json;charset=utf-8",
