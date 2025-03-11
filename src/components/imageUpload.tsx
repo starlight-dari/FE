@@ -2,9 +2,21 @@ import Image from "next/image";
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import photoIcon from "/public/photo-icon.svg";
+import { PetFormData } from "../app/add_new_animal/page";
 
-const ImageUpload = () => {
-  const [image, setImage] = useState<string | null>(null);
+interface ImageUploadProps {
+  formData: PetFormData;
+  setFormData: React.Dispatch<React.SetStateAction<PetFormData>>;
+  setImage: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const ImageUpload: React.FC<ImageUploadProps> = ({
+  formData,
+  setFormData,
+  setImage,
+}) => {
+  // const [image, setImage] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -12,6 +24,11 @@ const ImageUpload = () => {
     const file = event.target.files?.[0];
     if (file) {
       setImage(URL.createObjectURL(file));
+      setImagePreview(URL.createObjectURL(file));
+      setFormData((prev: any) => ({
+        ...prev,
+        pet_img: file.name,
+      }));
     }
   };
 
@@ -30,6 +47,11 @@ const ImageUpload = () => {
     const file = event.dataTransfer.files?.[0];
     if (file) {
       setImage(URL.createObjectURL(file));
+      setImagePreview(URL.createObjectURL(file));
+      setFormData((prev: any) => ({
+        ...prev,
+        pet_img: file.name,
+      }));
     }
   };
 
@@ -45,8 +67,8 @@ const ImageUpload = () => {
         onDrop={handleDrop}
         dragging={dragging}
       >
-        {image ? (
-          <Preview src={image} alt="Uploaded preview" />
+        {imagePreview ? (
+          <Preview src={imagePreview} alt="Uploaded preview" />
         ) : (
           <Placeholder>
             <Image src={photoIcon} alt="photoIcon" />
@@ -65,7 +87,9 @@ const ImageUpload = () => {
           ref={fileInputRef}
           type="file"
           accept="image/*"
-          onChange={handleImageChange}
+          onChange={(e) => {
+            handleImageChange(e);
+          }}
         />
       </DropZone>
       <Button onClick={handleButtonClick}>컴퓨터에서 선택하기</Button>
