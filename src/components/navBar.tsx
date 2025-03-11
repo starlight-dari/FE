@@ -8,6 +8,7 @@ import chevron_down from "/public/chevron_down.svg";
 import MARU from "/public/maru.svg";
 import KONG from "/public/kong.svg";
 import { useRouter } from "next/navigation";
+import LogoutButton from "./logoutButton";
 
 interface NavBarProps {
   isOpen: boolean;
@@ -26,6 +27,7 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
           <UserName>백주영</UserName>
           <span>님</span>
         </User>
+        <LogoutButton />
       </Profile>
       <MenuBar>
         <Menu onClick={() => router.push(`/mypage`)}>마이페이지</Menu>
@@ -89,6 +91,7 @@ const Profile = styled.div`
   align-items: center;
   gap: 10px;
   padding-bottom: 20px;
+  position: relative;
 `;
 
 const ProfilePhoto = styled.div`
