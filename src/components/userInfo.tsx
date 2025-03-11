@@ -21,28 +21,28 @@ const UserInfo = () => {
   const [nickname, setNickname] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const getUserInfo = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `http://3.37.55.176:8080/member`,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      });
+
+      console.log("서버 응답:", response);
+
+      setUserData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("유저 정보 요청 중 오류 발생:", error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        const response = await axios({
-          method: "GET",
-          url: `http://3.37.55.176:8080/member`,
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
-        });
-
-        console.log("서버 응답:", response);
-
-        setUserData(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("유저 정보 요청 중 오류 발생:", error);
-        setLoading(false);
-      }
-    };
-
     getUserInfo();
   }, []);
 
@@ -79,6 +79,7 @@ const UserInfo = () => {
       console.error("유저 닉네임 수정 중 오류 발생:", error);
     }
     setIsEditingNickname(false);
+    await getUserInfo();
   };
 
   if (loading) {
@@ -102,7 +103,7 @@ const UserInfo = () => {
         </UserDetail>
         {isEditingNickname ? (
           <UserNickName>
-            닉네임: <input value={nickname} onChange={handleNicknameChange} />
+            닉네임: <Input value={nickname} onChange={handleNicknameChange} />
             <EditButton onClick={saveUserNickname}>
               {/* <Image src={edit} alt="edit" width={12} height={12} /> */}
               저장
@@ -112,7 +113,8 @@ const UserInfo = () => {
           <UserNickName>
             닉네임: {userData.st_nickname}
             <EditButton onClick={editUserNickname}>
-              <Image src={edit} alt="edit" width={12} height={12} />
+              {/* <Image src={edit} alt="edit" width={12} height={12} /> */}
+              수정
             </EditButton>
           </UserNickName>
         )}
@@ -174,12 +176,24 @@ const UserNickName = styled.div`
   align-items: center;
 `;
 
+const Input = styled.input`
+  font-family: "Pretendard-Regular", sans-serif;
+  border: none;
+  outline: none;
+  padding: 3px 5px;
+  width: 70px;
+`;
+
 const EditButton = styled.button`
   display: flex;
   align-items: center;
   border: none;
-  background: transparent;
   cursor: pointer;
+  font-family: "Pretendard-Regular", sans-serif;
+  color: black;
+  background: #fff;
+  padding: 3px 5px;
+  border-radius: 5px;
 `;
 
 const MemoryStar = styled.div`
