@@ -5,6 +5,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 export default function Page(props) {
+  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+
   const router = useRouter();
   const hasRun = useRef(false);
 
@@ -27,8 +29,7 @@ export default function Page(props) {
 
           const response = await axios({
             method: "GET",
-            url: `http://3.37.55.176:8080/api/auth/kakao/callback`,
-            // url: `http://localhost:8080/api/auth/kakao/callback`,
+            url: `http://${server_url}:8080/api/auth/kakao/callback`,
             withCredentials: true,
             params: { code },
             headers: {

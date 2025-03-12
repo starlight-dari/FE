@@ -19,6 +19,8 @@ interface PetData {
 }
 
 const MyStar = () => {
+  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+
   const router = useRouter();
 
   const [petDatas, setPetDatas] = useState<PetData[] | null>([]);
@@ -29,7 +31,7 @@ const MyStar = () => {
       try {
         const response = await axios({
           method: "GET",
-          url: `http://3.37.55.176:8080/pets`,
+          url: `http://${server_url}:8080/pets`,
           withCredentials: true,
           headers: {
             "Content-Type": "application/json;charset=utf-8",
@@ -55,6 +57,20 @@ const MyStar = () => {
 
   if (!petDatas) {
     return <h1>반려동물 정보가 존재하지 않습니다.</h1>;
+  }
+
+  if (petDatas.length == 0) {
+    return (
+      <Container>
+        <Title>나의 별자리</Title>
+        <NoPet>
+          <h3>새 별자리를 만들고 다른 사람들과 별빛을 나눠보세요.</h3>
+        </NoPet>
+        <Button onClick={() => router.push("/add_new_animal")}>
+          별자리 추가하기
+        </Button>
+      </Container>
+    );
   }
 
   return (
@@ -132,6 +148,13 @@ const Button = styled.button`
   border-radius: 5px;
   position: absolute;
   bottom: 20px;
+`;
+
+const NoPet = styled.div`
+  display: flex;
+  height: 300px;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default MyStar;

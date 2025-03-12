@@ -16,6 +16,8 @@ interface UserData {
 }
 
 const UserInfo = () => {
+  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isEditingNickname, setIsEditingNickname] = useState(false);
   const [nickname, setNickname] = useState("");
@@ -25,7 +27,7 @@ const UserInfo = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://3.37.55.176:8080/member`,
+        url: `http://${server_url}:8080/member`,
         withCredentials: true,
         headers: {
           "Content-Type": "application/json;charset=utf-8",
@@ -64,7 +66,7 @@ const UserInfo = () => {
     try {
       const response = await axios({
         method: "PUT",
-        url: `http://3.37.55.176:8080/member/name`,
+        url: `http://${server_url}:8080/member/name`,
         withCredentials: true,
         headers: {
           "Content-Type": "application/json;charset=utf-8",
