@@ -1,33 +1,118 @@
 // import "../globals.css";
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import chevron_up from "/public/chevron_up.svg";
 import chevron_down from "/public/chevron_down.svg";
-
-import MARU from "/public/maru.svg";
-import KONG from "/public/kong.svg";
 import { useRouter } from "next/navigation";
 import LogoutButton from "./logoutButton";
+import axios from "axios";
 
 interface NavBarProps {
   isOpen: boolean;
   navRef: React.RefObject<HTMLDivElement | null>;
 }
 
+interface UserData {
+  name: string;
+  profileUrl: string;
+  petList: {
+    pet_id: number;
+    pet_img: string;
+    pet_name: string;
+  }[];
+}
+
 const NavBar = ({ isOpen, navRef }: NavBarProps) => {
+  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState<UserData | null>(null);
+
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const response = await axios({
+          method: "GET",
+          url: `http://${server_url}:8080/member/nav`,
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+        });
+
+        console.log("서버 응답:", response);
+
+        setUserData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("유저 정보 요청 중 오류 발생:", error);
+        setLoading(false);
+      }
+    };
+
+    getUserInfo();
+  }, []);
+
+  if (loading) {
+    return (
+      <Wrapper isOpen={isOpen} ref={navRef}>
+        <Profile>
+          <div>유저 정보를 받아오고 있어요...</div>
+        </Profile>
+        <MenuBar>
+          <Menu onClick={() => router.push(`/mypage`)}>마이페이지</Menu>
+          <Menu onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}>
+            나의 별자리
+            <ToggleButton>
+              {isSubMenuOpen ? (
+                <Image src={chevron_up} alt="chevron_up" />
+              ) : (
+                <Image src={chevron_down} alt="chevron_down" />
+              )}
+            </ToggleButton>
+          </Menu>
+          {isSubMenuOpen && (
+            <SubMenu>
+              <div style={{ padding: "10px" }}>
+                유저 정보를 받아오고 있어요...
+              </div>
+            </SubMenu>
+          )}
+          <Menu onClick={() => router.push(`/memoryAlbum`)}>
+            추억앨범
+            <AlertBadge />
+          </Menu>
+          <Menu onClick={() => router.push(`/community`)}>추억 저장소</Menu>
+          <Menu onClick={() => router.push(`/shareReview`)}>후기 나눔</Menu>
+        </MenuBar>
+      </Wrapper>
+    );
+  }
 
   return (
     <Wrapper isOpen={isOpen} ref={navRef}>
       <Profile>
-        <ProfilePhoto />
-        <User>
-          <UserName>백주영</UserName>
-          <span>님</span>
-        </User>
-        <LogoutButton />
+        {userData ? (
+          <>
+            <ProfilePhoto
+              src={userData.profileUrl}
+              alt="kakaotalk profile photo"
+            />
+            <User>
+              <UserName>{userData.name}</UserName>
+              <span>님</span>
+            </User>
+            <LogoutButton />
+          </>
+        ) : (
+          <div style={{ paddingLeft: "10px" }}>
+            유저 정보가 존재하지 않습니다.
+          </div>
+        )}
       </Profile>
       <MenuBar>
         <Menu onClick={() => router.push(`/mypage`)}>마이페이지</Menu>
@@ -43,14 +128,28 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
         </Menu>
         {isSubMenuOpen && (
           <SubMenu>
-            <Item>
-              <PetImage src={MARU} alt="" />
-              마루자리
-            </Item>
-            <Item>
-              <PetImage src={KONG} alt="" />
-              콩이자리
-            </Item>
+            {userData ? (
+              !userData.petList || userData?.petList.length === 0 ? (
+                <NoPet>
+                  <div>아직 별자리가 없어요.</div>
+                  <div>새 별자리를 만들어 보세요.</div>
+                  <Button onClick={() => router.push("/add_new_animal")}>
+                    별자리 만들러 가기
+                  </Button>
+                </NoPet>
+              ) : (
+                userData.petList.map((item, index) => (
+                  <Item key={index}>
+                    <PetImage src={item.pet_img} alt="" />
+                    {item.pet_name}
+                  </Item>
+                ))
+              )
+            ) : (
+              <div style={{ padding: "10px" }}>
+                유저 정보가 존재하지 않습니다.
+              </div>
+            )}
           </SubMenu>
         )}
         <Menu onClick={() => router.push(`/memoryAlbum`)}>
@@ -94,11 +193,11 @@ const Profile = styled.div`
   position: relative;
 `;
 
-const ProfilePhoto = styled.div`
+const ProfilePhoto = styled(Image)`
   width: 40px;
   height: 40px;
   border-radius: 100px;
-  background: red;
+  background: gray;
 `;
 
 const User = styled.div`
@@ -155,6 +254,29 @@ const ToggleButton = styled.button`
   align-items: center;
   border: none;
   background: none;
+  cursor: pointer;
 `;
 
 const AlertBadge = styled.span``;
+
+const NoPet = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 30px 10px;
+  height: 80px;
+  align-items: center;
+  // justify-content: center;
+  position: relative;
+`;
+
+const Button = styled.button`
+  border: none;
+  background: #22225e;
+  cursor: pointer;
+  padding: 10px 20px;
+  color: #fff;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 10px;
+`;
