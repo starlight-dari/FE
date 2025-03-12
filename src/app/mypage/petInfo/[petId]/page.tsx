@@ -20,6 +20,21 @@ export interface PetInfoData {
   member_id: number;
 }
 
+const GenderMap: Record<string, string> = {
+  MALE: "남자",
+  FEMALE: "여자",
+  NONE: "모르겠어요",
+};
+
+const PersonalityMap: Record<string, string> = {
+  CHARMING: "애교가 많아요",
+  INDEPENDENT: "혼자서도 잘 놀아요",
+  CURIOUS: "호기심이 많아요",
+  CALM: "얌전해요",
+  STUBBORN: "자기주장이 강해요",
+  SENSITIVE: "감수성이 풍부해요",
+};
+
 export default function Page() {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -90,16 +105,16 @@ export default function Page() {
             <ItemWrapper>
               <Title>동물 정보</Title>
               <Item>
-                <Label style={{ paddingRight: "24px" }}>이름</Label>
+                <Label style={{ paddingRight: "62px" }}>이름</Label>
                 <Label>{selectedPet.pet_name}</Label>
               </Item>
               <Item>
-                <Label style={{ paddingRight: "38px" }}>종</Label>
+                <Label style={{ paddingRight: "75px" }}>종</Label>
                 <Label>{selectedPet.species}</Label>
               </Item>
               <Item>
-                <Label style={{ paddingRight: "24px" }}>성별</Label>
-                <Label>{selectedPet.gender}</Label>
+                <Label style={{ paddingRight: "62px" }}>성별</Label>
+                <Label>{GenderMap[selectedPet.gender]}</Label>
               </Item>
               <Item>
                 <Label style={{ paddingRight: "30px" }}>태어난 날</Label>
@@ -111,7 +126,7 @@ export default function Page() {
               </Item>
               <Item>
                 <Label style={{ paddingRight: "62px" }}>성격</Label>
-                <Label>{selectedPet.personality}</Label>
+                <Label>{PersonalityMap[selectedPet.personality]}</Label>
               </Item>
             </ItemWrapper>
             <Button>수정하기</Button>
