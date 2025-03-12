@@ -54,7 +54,7 @@ export default function Page() {
     getUsersPetInfo();
   }, []);
 
-  if (!loading) {
+  if (loading) {
     return (
       <>
         <Header />
