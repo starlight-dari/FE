@@ -80,10 +80,14 @@ const MyStar = () => {
         {petDatas?.map((item, index) => (
           <Pet key={index}>
             <PetImage src={item.pet_img} alt="pet photo" />
-            <PetName>{item.pet_name}자리</PetName>
+            <PetName>{item.pet_name}</PetName>
             <ul>
               <List>{item.pet_name}자리 보러가기</List>
-              <List>반려동물 정보 수정하기</List>
+              <List
+                onClick={() => router.push(`/mypage/petInfo/${item.pet_id}`)}
+              >
+                {item.pet_name} 정보 보기
+              </List>
             </ul>
           </Pet>
         ))}
@@ -137,6 +141,7 @@ const PetName = styled.div`
 
 const List = styled.li`
   list-style-type: circle;
+  cursor: pointer;
 `;
 
 const Button = styled.button`
