@@ -37,10 +37,6 @@ const CreateStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <Highlight>반려동물의 몸 위</Highlight>에 점을 위치시켜 주세요.
               </li>
               <li>
-                직사각형 사진보다 <Highlight>정사각형</Highlight> 사진을
-                올려주세요.
-              </li>
-              <li>
                 반려동물의 몸이 <Highlight>잘리지 않은</Highlight> 사진을
                 올려주세요.
               </li>
