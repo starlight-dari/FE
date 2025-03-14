@@ -111,6 +111,8 @@ export default function Page() {
             </ImageContainer>
             {isEditing ? (
               <EditingAnimalInfo
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
                 pet_id={selectedPet.pet_id}
                 pet_name={selectedPet.pet_name}
                 species={selectedPet.species}

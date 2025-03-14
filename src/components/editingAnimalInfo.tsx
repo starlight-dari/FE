@@ -16,7 +16,12 @@ export interface EditingPetFormData {
   personality: string;
 }
 
-const EditingAnimalInfo: React.FC<EditingPetFormData> = ({
+interface EditingAnimalInfoProps extends EditingPetFormData {
+  isEditing: boolean;
+  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const EditingAnimalInfo: React.FC<EditingAnimalInfoProps> = ({
   pet_id,
   pet_name,
   species,
@@ -24,6 +29,8 @@ const EditingAnimalInfo: React.FC<EditingPetFormData> = ({
   birth_date,
   death_date,
   personality,
+  isEditing,
+  setIsEditing,
 }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -72,27 +79,25 @@ const EditingAnimalInfo: React.FC<EditingPetFormData> = ({
 
   // 저장 버튼 클릭 시
   const handleSave = async () => {
-    const getUsersPetInfo = async () => {
-      try {
-        const response = await axios({
-          method: "PATCH",
-          url: `http://${server_url}:8080/pets/${pet_id}`,
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
-          data: editedPet,
-        });
+    try {
+      const response = await axios({
+        method: "PATCH",
+        url: `http://${server_url}:8080/pets/${pet_id}`,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        data: editedPet,
+      });
 
-        console.log("서버 응답:", response);
+      console.log("서버 응답:", response);
 
-        setEditedPet(response.data); // 수정된 정보 반영
-        // setIsEditing(false);
-      } catch (error) {
-        console.error("반려동물 정보 요청 중 오류 발생:", error);
-        // setIsEditing(false);
-      }
-    };
+      setEditedPet(response.data); // 수정된 정보 반영
+      setIsEditing(false);
+    } catch (error) {
+      console.error("반려동물 정보 요청 중 오류 발생:", error);
+      setIsEditing(false);
+    }
   };
 
   return (
@@ -245,7 +250,7 @@ const EditingAnimalInfo: React.FC<EditingPetFormData> = ({
           </SelectWrapper>
         </Item>
       </ItemWrapper>
-      <Button>수정하기</Button>
+      <Button onClick={handleSave}>수정하기</Button>
     </>
   );
 };
