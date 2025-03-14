@@ -33,16 +33,35 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
 
   const postNewPetInfo = async () => {
     try {
+      const data = new FormData();
+
+      // 파일 및 데이터 추가
+      // data.append("pet_img", formData.pet_img); // 파일 객체로 추가
+      if (formData.pet_img) {
+        data.append("pet_img", formData.pet_img);
+      }
+      data.append("pet_name", formData.pet_name);
+      data.append("species", formData.species);
+      data.append("gender", formData.gender);
+      data.append("birth_date", formData.birth_date || "");
+      data.append("death_date", formData.death_date || "");
+      data.append("personality", formData.personality || "");
+      if (formData.selected_x)
+        data.append("selected_x", String(formData.selected_x));
+      if (formData.selected_y)
+        data.append("selected_y", String(formData.selected_y));
+
       const response = await axios({
         method: "POST",
         url: `http://${server_url}:8080/pets`,
         withCredentials: true,
-        headers: {
-          // "Content-Type": " multipart/form-data",
-        },
-        data: {
-          formData,
-        },
+        // headers: {
+        //   "Content-Type": " multipart/form-data",
+        // },
+        // data: {
+        //   formData,
+        // },
+        data: data,
       });
 
       console.log("서버 응답:", response);

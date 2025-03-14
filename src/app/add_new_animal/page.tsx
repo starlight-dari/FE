@@ -8,7 +8,7 @@ import NewPetInfo from "../../components/newPetInfo";
 import PetCoordinatesInfo from "../../components/petCoordinatesInfo";
 
 export interface PetFormData {
-  pet_img: string;
+  pet_img: File | null;
   pet_name: string;
   species: string;
   gender: string;
@@ -22,7 +22,7 @@ export interface PetFormData {
 export default function Page() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<PetFormData>({
-    pet_img: "",
+    pet_img: null,
     pet_name: "",
     species: "",
     gender: "",
