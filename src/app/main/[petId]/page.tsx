@@ -109,7 +109,7 @@ export default function Page() {
         });
 
         console.log("서버 응답:", response);
-
+        setPetData(response.data);
         setLoading(false);
       } catch (error) {
         console.error("반려동물의 별자리 요청 중 오류 발생:", error);
