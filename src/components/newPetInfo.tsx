@@ -110,49 +110,49 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
             <GenderButton>
               <input
                 type="radio"
-                id="male"
+                id="MALE"
                 name="gender"
-                value="male"
-                checked={genderSelected === "male"}
+                value="MALE"
+                checked={genderSelected === "MALE"}
                 onChange={(e) => {
                   handleGenderSelect(e);
                 }}
               />
               <label
-                htmlFor="male"
-                className={genderSelected === "male" ? "selected" : ""}
+                htmlFor="MALE"
+                className={genderSelected === "MALE" ? "selected" : ""}
               >
                 남자
               </label>
               <input
                 type="radio"
-                id="female"
+                id="FEMALE"
                 name="gender"
-                value="female"
-                checked={genderSelected === "female"}
+                value="FEMALE"
+                checked={genderSelected === "FEMALE"}
                 onChange={(e) => {
                   handleGenderSelect(e);
                 }}
               />
               <label
-                htmlFor="female"
-                className={genderSelected === "female" ? "selected" : ""}
+                htmlFor="FEMALE"
+                className={genderSelected === "FEMALE" ? "selected" : ""}
               >
                 여자
               </label>
               <input
                 type="radio"
-                id="none"
+                id="NONE"
                 name="gender"
-                value="none"
-                checked={genderSelected === "none"}
+                value="NONE"
+                checked={genderSelected === "NONE"}
                 onChange={(e) => {
                   handleGenderSelect(e);
                 }}
               />
               <label
-                htmlFor="none"
-                className={genderSelected === "none" ? "selected" : ""}
+                htmlFor="NONE"
+                className={genderSelected === "NONE" ? "selected" : ""}
               >
                 모르겠어요
               </label>
