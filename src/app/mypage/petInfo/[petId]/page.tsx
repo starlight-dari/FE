@@ -46,30 +46,30 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
 
+  const getUsersPetInfo = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `http://${server_url}:8080/pets`,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+      });
+
+      console.log("서버 응답:", response);
+
+      setPetDatas(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("반려동물 정보 요청 중 오류 발생:", error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const getUsersPetInfo = async () => {
-      try {
-        const response = await axios({
-          method: "GET",
-          url: `http://${server_url}:8080/pets`,
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
-        });
-
-        console.log("서버 응답:", response);
-
-        setPetDatas(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("반려동물 정보 요청 중 오류 발생:", error);
-        setLoading(false);
-      }
-    };
-
     getUsersPetInfo();
-  }, []);
+  }, [isEditing]);
 
   // 수정 버튼 클릭 시
   const handleEdit = () => {
