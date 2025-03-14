@@ -38,7 +38,7 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
         url: `http://${server_url}:8080/pets`,
         withCredentials: true,
         headers: {
-          "Content-Type": "application/json;charset=utf-8",
+          "Content-Type": " multipart/form-data",
         },
         data: {
           formData,
