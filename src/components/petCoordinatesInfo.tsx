@@ -51,6 +51,8 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
       if (formData.selected_y)
         data.append("selected_y", String(formData.selected_y));
 
+      console.log("POST할 FormData:", data);
+
       const response = await axios({
         method: "POST",
         url: `http://${server_url}:8080/pets`,
