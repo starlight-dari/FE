@@ -50,7 +50,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
         ...prev,
-        pet_img: file.name,
+        pet_img: file,
       }));
     }
   };

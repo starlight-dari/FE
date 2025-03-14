@@ -55,7 +55,7 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
 
   const isFormValid = useCallback((): boolean => {
     return (
-      formData.pet_img !== "" &&
+      formData.pet_img !== null &&
       formData.pet_name?.trim() !== "" &&
       formData.species?.trim() !== "" &&
       formData.gender?.trim() !== "" &&
