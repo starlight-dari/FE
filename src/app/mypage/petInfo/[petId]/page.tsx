@@ -7,6 +7,7 @@ import Header from "../../../../components/header";
 import Image from "next/image";
 import axios from "axios";
 import { useParams } from "next/navigation";
+import EditingAnimalInfo from "../../../../components/editingAnimalInfo";
 
 export interface PetInfoData {
   pet_id: number;
@@ -43,6 +44,7 @@ export default function Page() {
 
   const [petDatas, setPetDatas] = useState<PetInfoData[] | null>([]);
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const getUsersPetInfo = async () => {
@@ -68,6 +70,11 @@ export default function Page() {
 
     getUsersPetInfo();
   }, []);
+
+  // 수정 버튼 클릭 시
+  const handleEdit = () => {
+    setIsEditing(true);
+  };
 
   if (loading) {
     return (
@@ -102,34 +109,48 @@ export default function Page() {
             <ImageContainer>
               <Image src={selectedPet.pet_img} alt="pet image" />
             </ImageContainer>
-            <ItemWrapper>
-              <Title>동물 정보</Title>
-              <Item>
-                <Label style={{ paddingRight: "62px" }}>이름</Label>
-                <Label>{selectedPet.pet_name}</Label>
-              </Item>
-              <Item>
-                <Label style={{ paddingRight: "75px" }}>종</Label>
-                <Label>{selectedPet.species}</Label>
-              </Item>
-              <Item>
-                <Label style={{ paddingRight: "62px" }}>성별</Label>
-                <Label>{GenderMap[selectedPet.gender]}</Label>
-              </Item>
-              <Item>
-                <Label style={{ paddingRight: "30px" }}>태어난 날</Label>
-                <Label>{selectedPet.birth_date}</Label>
-              </Item>
-              <Item>
-                <Label style={{ paddingRight: "26px" }}>별이 된 날</Label>
-                <Label>{selectedPet.death_date}</Label>
-              </Item>
-              <Item>
-                <Label style={{ paddingRight: "62px" }}>성격</Label>
-                <Label>{PersonalityMap[selectedPet.personality]}</Label>
-              </Item>
-            </ItemWrapper>
-            <Button>수정하기</Button>
+            {isEditing ? (
+              <EditingAnimalInfo
+                pet_id={selectedPet.pet_id}
+                pet_name={selectedPet.pet_name}
+                species={selectedPet.species}
+                gender={selectedPet.gender}
+                birth_date={selectedPet.birth_date}
+                death_date={selectedPet.death_date}
+                personality={selectedPet.personality}
+              />
+            ) : (
+              <>
+                <ItemWrapper>
+                  <Title>동물 정보</Title>
+                  <Item>
+                    <Label style={{ paddingRight: "62px" }}>이름</Label>
+                    <Label>{selectedPet.pet_name}</Label>
+                  </Item>
+                  <Item>
+                    <Label style={{ paddingRight: "75px" }}>종</Label>
+                    <Label>{selectedPet.species}</Label>
+                  </Item>
+                  <Item>
+                    <Label style={{ paddingRight: "62px" }}>성별</Label>
+                    <Label>{GenderMap[selectedPet.gender]}</Label>
+                  </Item>
+                  <Item>
+                    <Label style={{ paddingRight: "30px" }}>태어난 날</Label>
+                    <Label>{selectedPet.birth_date}</Label>
+                  </Item>
+                  <Item>
+                    <Label style={{ paddingRight: "26px" }}>별이 된 날</Label>
+                    <Label>{selectedPet.death_date}</Label>
+                  </Item>
+                  <Item>
+                    <Label style={{ paddingRight: "62px" }}>성격</Label>
+                    <Label>{PersonalityMap[selectedPet.personality]}</Label>
+                  </Item>
+                </ItemWrapper>
+                <Button onClick={handleEdit}>수정하기</Button>
+              </>
+            )}
           </>
         ) : (
           <p>해당 반려동물을 찾을 수 없습니다.</p>
