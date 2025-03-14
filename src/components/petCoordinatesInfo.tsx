@@ -9,6 +9,7 @@ import goBack from "/public/chevron_left.svg";
 import Image from "next/image";
 import { PetFormData } from "../app/add_new_animal/page";
 import StarCoordinates from "./setStarCoordinates";
+import axios from "axios";
 
 interface PetCoordinatesInfoProps {
   formData: PetFormData;
@@ -23,10 +24,32 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
   petImage,
   prevStep,
 }) => {
+  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const postNewPetInfo = async () => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: `http://${server_url}:8080/pets`,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        data: {
+          formData,
+        },
+      });
+
+      console.log("서버 응답:", response);
+    } catch (error) {
+      console.error("신규 반려동물 정보 추가 중 오류 발생:", error);
+    }
+  };
 
   return (
     <>
@@ -44,15 +67,15 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
             </TransparentButton>
           </TitleWrapper>
           <div>
-            {formData.pet_name}의 몸 위에 점을 위치시켜 주세요.
-            <br /> 사진이 직사각형이거나, 전체 사진 크기에 비해 동물이 작다면
-            정사각형 모양 안에 동물이 들어오도록 위치를 조정해주세요.
+            {formData.pet_name}의 몸 위에 점을 위치시켜 주세요. <br />
+            올려주신 {formData.pet_name}의 사진을 바탕으로 별자리 모양이 생성될
+            거에요.
           </div>
           <TransparentButton onClick={prevStep}>
             <Image src={goBack} alt="" />
           </TransparentButton>
         </ItemWrapper>
-        <Button>새 별자리 만들기</Button>
+        <Button onClick={postNewPetInfo}>새 별자리 만들기</Button>
       </Body>
       <CreateStarModal isOpen={isModalOpen} onClose={closeModal} />
     </>

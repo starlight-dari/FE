@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-import Image from "next/image";
-import axios from "axios";
+// import Image from "next/image";
 import { PetFormData } from "../app/add_new_animal/page";
 
 interface StarCoordinatesProps {
@@ -17,6 +16,75 @@ interface Coordinates {
   y: number;
 }
 
+const ImageResizer: React.FC<{
+  imageUrl: string;
+  onClick: (x: number, y: number) => void;
+}> = ({ imageUrl, onClick }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (!imageUrl) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const img = new Image();
+    img.src = imageUrl;
+
+    img.onload = () => {
+      // 원본 이미지 크기 가져오기
+      const originalWidth = img.width;
+      const originalHeight = img.height;
+
+      // 비율 유지하면서 크기 조정
+      let newWidth, newHeight;
+      if (originalWidth > originalHeight) {
+        newWidth = 512;
+        newHeight = (originalHeight / originalWidth) * 512;
+      } else {
+        newHeight = 512;
+        newWidth = (originalWidth / originalHeight) * 512;
+      }
+
+      // 캔버스 초기화 후 흰색 배경 채우기
+      ctx.clearRect(0, 0, 512, 512);
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, 512, 512);
+
+      // 중앙 정렬된 위치 계산
+      const offsetX = (512 - newWidth) / 2;
+      const offsetY = (512 - newHeight) / 2;
+
+      // 이미지 그리기
+      ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
+    };
+  }, []);
+
+  // canvas 클릭 이벤트 추가
+  const handleClick = (e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const flippedY = 512 - y; // Y축 반전 적용
+
+    onClick(x, flippedY);
+  };
+
+  return (
+    <canvas
+      ref={canvasRef}
+      width={512}
+      height={512}
+      style={{ border: "1px solid black" }}
+      onClick={handleClick}
+    />
+  );
+};
+
 const StarCoordinates: React.FC<StarCoordinatesProps> = ({
   formData,
   setFormData,
@@ -27,56 +95,24 @@ const StarCoordinates: React.FC<StarCoordinatesProps> = ({
     y: 256,
   });
 
-  // 좌표 클릭 handler
-  const handleClick = (
-    e: React.MouseEvent<HTMLDivElement, MouseEvent>
-  ): void => {
-    const { offsetX, offsetY } = e.nativeEvent;
-    // 512px * 512px 이미지를 기준으로 좌표를 계산
-    const x = offsetX;
-    const y = offsetY;
-    const flippedY = 512 - offsetY; // Y축을 반전
-    setCoordinates({ x, y: flippedY });
-    console.log(`x, y: ${x}, ${y}`);
+  const handleCanvasClick = (x: number, y: number) => {
+    setCoordinates({ x, y });
+    setFormData((prev: PetFormData) => ({
+      ...prev,
+      selected_x: x,
+      selected_y: y,
+    }));
 
-    console.log("전달하는 y값은 변경해준다");
-    console.log(`Flipped x, y: ${x}, ${flippedY}`);
+    console.log(`Flipped x, y: ${x}, ${y}`);
   };
-
-  // 이미지와 좌표 전송 handler
-  // const handleSubmit = async (): Promise<void> => {
-  //   if (coordinates) {
-  //     const formData = new FormData();
-  //     formData.append("coordinates", JSON.stringify(coordinates));
-
-  //     try {
-  //       const response = await axios.post(
-  //         "http://localhost:5000/upload",
-  //         formData,
-  //         {
-  //           headers: {
-  //             "Content-Type": "multipart/form-data",
-  //           },
-  //         }
-  //       );
-  //       console.log("서버 응답:", response.data);
-  //     } catch (error) {
-  //       console.error("업로드 실패:", error);
-  //     }
-  //   }
-  // };
 
   return (
     <Container>
-      <PetImage
-        src={petImage || "/photo-icon.svg"}
-        alt="Uploaded pet image"
-        width={512}
-        height={0}
-        onClick={handleClick}
-        draggable={false}
-        onDragStart={(e) => e.preventDefault()}
-      />
+      {petImage ? (
+        <ImageResizer imageUrl={petImage} onClick={handleCanvasClick} />
+      ) : (
+        <p>이미지가 없습니다.</p>
+      )}
       <Dot x={coordinates.x} y={coordinates.y} />
     </Container>
   );
@@ -86,23 +122,23 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 550px;
-  height: 550px;
-  background-color: #ece6f0;
+  // width: 550px;
+  // height: 550px;
+  // background-color: #ece6f0;
   position: relative;
   margin-left: 100px;
 `;
 
-const PetImage = styled(Image)`
-  width: 512px;
-  height: auto;
-  // cursor: move;
-`;
+// const PetImage = styled(Image)`
+//   width: 512px;
+//   height: auto;
+//   // cursor: move;
+// `;
 
 const Dot = styled.div<{ x: number; y: number }>`
   position: absolute;
-  bottom: ${({ y }) => y - 54}px; // 점의 중심이 정확히 맞도록 약간 오프셋
-  left: ${({ x }) => x - 1}px;
+  bottom: ${({ y }) => y - 5}px; // 점의 중심이 정확히 맞도록 약간 오프셋
+  left: ${({ x }) => x - 5}px;
   width: 10px;
   height: 10px;
   background-color: #d793ff;
