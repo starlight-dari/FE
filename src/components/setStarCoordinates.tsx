@@ -97,6 +97,12 @@ const StarCoordinates: React.FC<StarCoordinatesProps> = ({
 
   const handleCanvasClick = (x: number, y: number) => {
     setCoordinates({ x, y });
+    setFormData((prev: PetFormData) => ({
+      ...prev,
+      selected_x: x,
+      selected_y: y,
+    }));
+
     console.log(`Flipped x, y: ${x}, ${y}`);
   };
 

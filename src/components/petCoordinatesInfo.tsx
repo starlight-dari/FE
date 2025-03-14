@@ -9,6 +9,7 @@ import goBack from "/public/chevron_left.svg";
 import Image from "next/image";
 import { PetFormData } from "../app/add_new_animal/page";
 import StarCoordinates from "./setStarCoordinates";
+import axios from "axios";
 
 interface PetCoordinatesInfoProps {
   formData: PetFormData;
@@ -23,10 +24,32 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
   petImage,
   prevStep,
 }) => {
+  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const postNewPetInfo = async () => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: `http://${server_url}:8080/pets`,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json;charset=utf-8",
+        },
+        data: {
+          formData,
+        },
+      });
+
+      console.log("서버 응답:", response);
+    } catch (error) {
+      console.error("신규 반려동물 정보 추가 중 오류 발생:", error);
+    }
+  };
 
   return (
     <>
@@ -52,7 +75,7 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
             <Image src={goBack} alt="" />
           </TransparentButton>
         </ItemWrapper>
-        <Button>새 별자리 만들기</Button>
+        <Button onClick={postNewPetInfo}>새 별자리 만들기</Button>
       </Body>
       <CreateStarModal isOpen={isModalOpen} onClose={closeModal} />
     </>

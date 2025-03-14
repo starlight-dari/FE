@@ -15,6 +15,8 @@ export interface PetFormData {
   birth_date: string;
   death_date: string;
   personality: string;
+  selected_x: number;
+  selected_y: number;
 }
 
 export default function Page() {
@@ -27,6 +29,8 @@ export default function Page() {
     birth_date: "",
     death_date: "",
     personality: "",
+    selected_x: 256,
+    selected_y: 256,
   });
   const [image, setImage] = useState<string | null>(null);
 
