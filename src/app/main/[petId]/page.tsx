@@ -47,10 +47,10 @@ const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
       // 이미지 그리기 (좌측 하단 기준)
       ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-      // 별점 그리기 (y 좌표를 변환하여 하단이 (0,0)이 되도록)
+      // 별점 그리기
       petData.starList.forEach((star) => {
         ctx.beginPath();
-        ctx.arc(star.x_star, canvas.height - star.y_star, 5, 0, Math.PI * 2);
+        ctx.arc(star.x_star, star.y_star, 5, 0, Math.PI * 2);
         ctx.fillStyle = "white";
         ctx.fill();
         ctx.closePath();
@@ -67,8 +67,8 @@ const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
 
         if (startStar && endStar) {
           ctx.beginPath();
-          ctx.moveTo(startStar.x_star, canvas.height - startStar.y_star);
-          ctx.lineTo(endStar.x_star, canvas.height - endStar.y_star);
+          ctx.moveTo(startStar.x_star, startStar.y_star);
+          ctx.lineTo(endStar.x_star, endStar.y_star);
           ctx.strokeStyle = "white";
           ctx.lineWidth = 2;
           ctx.stroke();
