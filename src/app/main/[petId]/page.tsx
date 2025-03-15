@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../../../components/header";
 import styled, { css, keyframes } from "styled-components";
+import BottomMessage from "../../../components/addStarMessageModal";
 
 interface Star {
   star_id: number;
@@ -29,11 +30,52 @@ interface PetData {
 const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [selectedStarId, setSelectedStarId] = useState<number | null>(null); // 클릭한 별의 star_id를 추적
+  const [messageVisible, setMessageVisible] = useState(false); // 메시지 표시 여부
+  const messageRef = useRef<HTMLDivElement>(null);
 
-  const handleStarClick = (starId: number) => {
+  const handleStarClick = (star: Star) => {
+    console.log(`아이디 ${star.star_id} 별이 클릭됐습니다.`);
+
     // 클릭된 별에 대해 반짝이는 효과 적용
-    setSelectedStarId(starId);
-    console.log(`아이디 ${starId} 별이 클릭됐습니다.`);
+    setSelectedStarId(star.star_id);
+
+    console.log(star.written);
+
+    if (!star.written) {
+      console.log(`아이디 ${star.star_id} 별에는 추억이 들어있지 않아요.`);
+      setMessageVisible(true);
+    }
+  };
+
+  // 바깥 클릭 시 메시지 숨기기
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        messageRef.current &&
+        !messageRef.current.contains(event.target as Node)
+      ) {
+        setMessageVisible(false);
+        setSelectedStarId(null);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleAddStar = () => {
+    if (selectedStarId !== null) {
+      // 여기서 별을 추가하는 로직을 추가 (예: 상태 변경, 서버 요청 등)
+      // const newStarList = [...starList, { star_id: selectedStarId, written: true }];
+      // setStarList(newStarList);
+
+      console.log(`아이디 ${selectedStarId} 별에 추억이 추가되었습니다.`);
+    }
+
+    // 메시지 숨기기
+    setMessageVisible(false);
   };
 
   useEffect(() => {
@@ -96,10 +138,15 @@ const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
             y={star.y_star * (700 / 512) - 4.5} // y 좌표
             selected={selectedStarId === star.star_id}
             written={star.written}
-            onClick={() => handleStarClick(star.star_id)}
+            onClick={() => handleStarClick(star)}
           />
         ))}
       </StarsContainer>
+      <BottomMessage
+        ref={messageRef}
+        show={messageVisible}
+        onAddClick={handleAddStar}
+      />
     </Container>
   );
 };
@@ -219,6 +266,7 @@ export default function Page() {
       <Header />
       <Body>
         <ConstellationCanvas petData={petData} />
+        {/* <ConstellationName>{petData.petId}</ConstellationName> */}
       </Body>
     </>
   );
@@ -226,6 +274,13 @@ export default function Page() {
 
 const Body = styled.div`
   display: flex;
-  justify-content: center;
-  height: 100vh;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: calc(100vh - 82px);
+  color: #fff;
+`;
+
+const ConstellationName = styled.div`
+  font-size: 35px;
 `;
