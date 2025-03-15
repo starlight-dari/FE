@@ -3,6 +3,8 @@
 import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import Header from "../../../components/header";
+import styled from "styled-components";
 
 interface Star {
   star_id: number;
@@ -37,53 +39,105 @@ const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
     const image = new Image();
     image.src = petData.svgPath;
 
+    let alpha = 1; // 투명도 (0 ~ 1)
+    let increasing = false; // 밝아지는지 여부
+
     image.onload = () => {
       // 캔버스 크기 설정 (이미지 크기에 맞추려면 이미지의 width, height 사용)
-      canvas.width = image.width;
-      canvas.height = image.height;
+      // canvas.width = image.width;
+      // canvas.height = image.height;
+      const CANVAS_SIZE = 700;
+      canvas.width = CANVAS_SIZE;
+      canvas.height = CANVAS_SIZE;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const SCALE = CANVAS_SIZE / 512;
 
-      // 이미지 그리기 (좌측 하단 기준)
-      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+      const drawConstellation = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 별점 그리기
-      petData.starList.forEach((star) => {
-        ctx.beginPath();
-        ctx.arc(star.x_star, star.y_star, 5, 0, Math.PI * 2);
-        ctx.fillStyle = "white";
-        ctx.fill();
-        ctx.closePath();
-      });
+        // 이미지 그리기 (좌측 하단 기준)
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
-      // 간선 그리기
-      petData.edges.forEach((edge) => {
-        const startStar = petData.starList.find(
-          (s) => s.index_id === edge.startPoint
-        );
-        const endStar = petData.starList.find(
-          (s) => s.index_id === edge.endPoint
-        );
+        // 간선 그리기
+        petData.edges.forEach((edge) => {
+          const startStar = petData.starList.find(
+            (s) => s.index_id === edge.startPoint
+          );
+          const endStar = petData.starList.find(
+            (s) => s.index_id === edge.endPoint
+          );
 
-        if (startStar && endStar) {
+          if (startStar && endStar) {
+            ctx.beginPath();
+            ctx.moveTo(startStar.x_star * SCALE, startStar.y_star * SCALE);
+            ctx.lineTo(endStar.x_star * SCALE, endStar.y_star * SCALE);
+            // ctx.strokeStyle = `rgba(123, 167, 255, ${alpha})`;
+            ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+            ctx.lineWidth = 2 * SCALE;
+            ctx.stroke();
+            ctx.closePath();
+          }
+        });
+
+        // 별점 그리기
+        petData.starList.forEach((star) => {
           ctx.beginPath();
-          ctx.moveTo(startStar.x_star, startStar.y_star);
-          ctx.lineTo(endStar.x_star, endStar.y_star);
-          ctx.strokeStyle = "white";
-          ctx.lineWidth = 2;
-          ctx.stroke();
+          ctx.arc(
+            star.x_star * SCALE,
+            star.y_star * SCALE,
+            4 * SCALE,
+            0,
+            Math.PI * 2
+          );
+
+          // 그라디언트 효과 추가
+          const gradient = ctx.createRadialGradient(
+            star.x_star * SCALE,
+            star.y_star * SCALE,
+            0,
+            star.x_star * SCALE,
+            star.y_star * SCALE,
+            6 * SCALE
+          );
+          gradient.addColorStop(0, `rgba(255, 255, 255, ${alpha})`); // 중심은 흰색
+          gradient.addColorStop(1, `rgba(161, 207, 255, ${alpha * 0.5})`); // 바깥쪽 푸른빛
+
+          if (star.written) {
+            ctx.fillStyle = gradient;
+          } else {
+            ctx.fillStyle = `#aac8ff`;
+          }
+          // 💡 Glow 효과 추가 (별이 반짝이는 느낌)
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = "#A1CFFF";
+          ctx.fill();
           ctx.closePath();
+        });
+      };
+      // 별 반짝이는 효과
+      const flickerInterval = setInterval(() => {
+        if (increasing) {
+          alpha += 0.05;
+          if (alpha >= 1) increasing = false;
+        } else {
+          alpha -= 0.05;
+          if (alpha <= 0.5) increasing = true;
         }
-      });
+        drawConstellation();
+      }, 100);
+
+      drawConstellation();
+
+      return () => clearInterval(flickerInterval);
     };
   }, [petData]);
 
   return (
     <canvas
       ref={canvasRef}
-      width={512}
-      height={512}
-      style={{ background: "black" }}
+      width={700}
+      height={700}
+      style={{ background: "transparent" }}
     />
   );
 };
@@ -122,5 +176,18 @@ export default function Page() {
   if (loading) return <p>로딩 중...</p>;
   if (!petData) return <p>데이터를 불러올 수 없습니다.</p>;
 
-  return <ConstellationCanvas petData={petData} />;
+  return (
+    <>
+      <Header />
+      <Body>
+        <ConstellationCanvas petData={petData} />
+      </Body>
+    </>
+  );
 }
+
+const Body = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+`;

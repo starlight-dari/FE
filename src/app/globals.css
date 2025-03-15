@@ -3,8 +3,12 @@
 @tailwind utilities;
 
 :root {
-  /* --background: #000; */
-  --background: linear-gradient(180deg, #101827 0%, #3a578d 100%);
+  --background: radial-gradient(
+    circle,
+    rgba(44, 62, 80, 0.9) 10%,
+    /* 중심 - 약간 밝은 블루 */ rgba(22, 34, 51, 0.95) 40%,
+    /* 중간 - 딥 블루 */ rgba(12, 19, 34, 1) 80% /* 외곽 - 거의 블랙 */
+  );
   --foreground: #171717;
 }
 
@@ -19,4 +23,24 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ✨ 반짝이는 별 애니메이션 */
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+
+.stars {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 2s infinite alternate;
 }
