@@ -1,3 +1,5 @@
+"use client";
+
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
@@ -20,8 +22,8 @@ const GlobalStyle = createGlobalStyle`
 
   body, html {
   height: 100%;
-  margin: 0;
-  overflow: hidden; /* 전체 페이지 스크롤 방지 */
+  // margin: 0;
+  // overflow: hidden; /* 전체 페이지 스크롤 방지 */
 }
 `;
 
