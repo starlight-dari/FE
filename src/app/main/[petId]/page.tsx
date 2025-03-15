@@ -95,6 +95,7 @@ const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
             x={star.x_star * (700 / 512) - 5} // x 좌표
             y={star.y_star * (700 / 512) - 4.5} // y 좌표
             selected={selectedStarId === star.star_id}
+            written={star.written}
             onClick={() => handleStarClick(star.star_id)}
           />
         ))}
@@ -139,7 +140,12 @@ const flicker = keyframes`
 `;
 
 // 별 스타일
-const StarDiv = styled.div<{ x: number; y: number; selected: boolean }>`
+const StarDiv = styled.div<{
+  x: number;
+  y: number;
+  selected: boolean;
+  written: boolean;
+}>`
   position: absolute;
   left: ${({ x, selected }) => `${selected ? x - 3 : x}px`};
   top: ${({ y, selected }) => `${selected ? y - 5 : y}px`};
@@ -148,7 +154,8 @@ const StarDiv = styled.div<{ x: number; y: number; selected: boolean }>`
   border-radius: 100%;
   cursor: pointer;
   pointer-events: all;
-  box-shadow: 0 0 10px 3px rgba(161, 207, 255, 0.7); // written이면 이 부분 지정하도록 설정해야 함
+  box-shadow: ${({ written }) =>
+    written ? "0 0 10px 3px rgba(161, 207, 255, 0.7)" : "none"};
   background: radial-gradient(
     circle,
     rgba(255, 255, 255, 1) 0%,
