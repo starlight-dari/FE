@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import StarImageUpload from "./starImageUpload";
+import axios from "axios";
 
 export interface StarFormData {
   star_id: number;
@@ -16,14 +16,18 @@ export interface StarFormData {
   shared: boolean;
 }
 
-interface ModalProps {
-  isOpen: boolean;
+interface AddStarModalProps {
   onClose: () => void;
+  starId: number | null;
 }
 
-const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
+  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  const modalRef = useRef<HTMLDivElement>(null);
+
   const [formData, setFormData] = useState<StarFormData>({
-    star_id: 0,
+    star_id: starId || 0,
     name: "",
     activityCtg: "",
     emotionCtg: "",
@@ -34,15 +38,11 @@ const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   });
   const [image, setImage] = useState<string | null>(null);
 
-  const [checked, setChecked] = useState(false);
-
   const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [activitySelected, setActivitySelected] = useState("상황");
 
   const [isEmotionOpen, setIsEmotionOpen] = useState(false);
   const [emotionSelected, setEmotionSelected] = useState("감정");
-
-  if (!isOpen) return null;
 
   const handleActivitySelect = (option: string) => {
     const ActivityMap: Record<string, string> = {
@@ -86,10 +86,71 @@ const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     }));
   };
 
+  // formData 업데이트
+  useEffect(() => {
+    if (starId !== null) {
+      setFormData((prev) => ({
+        ...prev,
+        star_id: starId, // 선택된 star_id로 업데이트
+      }));
+    }
+  }, [starId]);
+
+  const isFormValid = useCallback((): boolean => {
+    return (
+      formData.img_url !== null &&
+      formData.name?.trim() !== "" &&
+      formData.activityCtg?.trim() !== "" &&
+      formData.emotionCtg?.trim() !== "" &&
+      formData.content?.trim() !== "" &&
+      formData.isAnimal?.toString().trim() !== "" &&
+      formData.shared?.toString().trim() !== ""
+    );
+  }, [formData]); // formData가 변경될 때마다 isFormValid 함수가 새로 생성됨
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData, isFormValid]); // formData가 변경될 때마다 유효성 검사 실행
+
+  const handleSubmit = async () => {
+    try {
+      const data = new FormData();
+
+      // 파일 및 데이터 추가
+      if (formData.img_url) {
+        data.append("img_url", formData.img_url);
+      }
+      data.append("star_id", String(formData.star_id));
+      data.append("name", formData.name);
+      data.append("activityCtg", formData.activityCtg);
+      data.append("emotionCtg", formData.emotionCtg);
+      data.append("content", formData.content);
+      data.append("isAnimal", String(formData.isAnimal));
+      data.append("shared", String(formData.shared));
+
+      console.log("POST할 별 Data:", data);
+
+      const response = await axios({
+        method: "POST",
+        url: `http://${server_url}:8080/memory-stars`,
+        withCredentials: true,
+        data: data,
+      });
+
+      console.log("서버 응답:", response);
+      console.log("신규 별을 생성했습니다.");
+    } catch (error) {
+      console.error("신규 별 기록 중 오류 발생:", error);
+    }
+    onClose();
+  };
+
+  if (starId === null) return null;
+
   return (
     <>
       <ModalOverlay>
-        <ModalContent onClick={(e) => e.stopPropagation()}>
+        <ModalContent ref={modalRef} onClick={(e) => e.stopPropagation()}>
           <StarImageUpload
             formData={formData}
             setFormData={setFormData}
@@ -97,8 +158,17 @@ const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
           />
           <ModalBody>
             <ItemWrapper>
-              <Title>별 생성하기</Title>
-              <Input placeholder="새로운 별의 이름을 적어주세요." />
+              <Title>#{starId} 별에 추억 기록하기</Title>
+              <Input
+                placeholder="새로운 별의 이름을 적어주세요."
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData((prev: any) => ({
+                    ...prev,
+                    name: e.target.value,
+                  }))
+                }
+              />
               <Item>
                 <Label>어떤 상황이었나요? 어떤 감정을 느꼈나요?</Label>
                 <SelectBox>
@@ -190,6 +260,13 @@ const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <Label>기록하고 싶은 내용을 작성해 주세요.</Label>
                 <Textarea
                   placeholder={`어떤 일이 있었는지 적어주세요.\n자세히 적어주실수록, 더 정확한 내용의 편지를 받아보실 수 있어요!`}
+                  value={formData.content}
+                  onChange={(e) =>
+                    setFormData((prev: any) => ({
+                      ...prev,
+                      content: e.target.value,
+                    }))
+                  }
                 />
               </Item>
               <Item>
@@ -199,7 +276,14 @@ const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     type="radio"
                     name="photoType"
                     id="petPhoto"
-                    value="petPhoto"
+                    value="true"
+                    checked={formData.isAnimal}
+                    onChange={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        isAnimal: true,
+                      }))
+                    }
                   />
                   <span>반려동물의 사진이에요</span>
                 </RadioButtonWrapper>
@@ -208,7 +292,14 @@ const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     type="radio"
                     name="photoType"
                     id="notPetPhoto"
-                    value="notPetPhoto"
+                    value="false"
+                    checked={!formData.isAnimal}
+                    onChange={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        isAnimal: false,
+                      }))
+                    }
                   />
                   <span>반려동물의 사진이 아니에요(풍경, 사물 등)</span>
                 </RadioButtonWrapper>
@@ -219,8 +310,13 @@ const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                   <ToggleInput
                     type="checkbox"
                     id="toggle"
-                    checked={checked}
-                    onChange={() => setChecked(!checked)}
+                    checked={formData.shared}
+                    onChange={() =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        shared: !prev.shared,
+                      }))
+                    }
                   />
                   <ToggleLabel htmlFor="toggle" />
                 </ToggleSwitch>
@@ -228,7 +324,9 @@ const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             </ItemWrapper>
           </ModalBody>
           <Button onClick={onClose}>별 생성 취소하기</Button>
-          <SubmitButton onClick={onClose}>새로운 별 생성하기</SubmitButton>
+          <SubmitButton onClick={handleSubmit} disabled={!isFormValid}>
+            새로운 별 생성하기
+          </SubmitButton>
         </ModalContent>
       </ModalOverlay>
     </>
@@ -336,7 +434,7 @@ const OptionsList = styled.ul<{ isOpen: boolean }>`
   list-style: none;
   padding: 0;
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
-  z-index: 100;
+  z-index: 1000;
   height: 170px;
   overflow-y: auto;
 `;
@@ -354,7 +452,7 @@ const Button = styled.button`
   width: 146px;
   height: 40px;
   border: 1px solid #65558f;
-  border-radius: 100px;
+  border-radius: 5px;
   background: #fff;
   color: #65558f;
   cursor: pointer;
@@ -363,16 +461,11 @@ const Button = styled.button`
   right: 190px;
 `;
 
-const SubmitButton = styled.button`
-  width: 146px;
-  height: 40px;
+const SubmitButton = styled(Button)<{ disabled: boolean }>`
   border: none;
-  border-radius: 100px;
-  background: #65558f;
+  background: ${({ disabled }) => (disabled ? "#d9d9d98c" : "#22225e")};
   color: #fff;
-  cursor: pointer;
-  position: absolute;
-  bottom: 25px;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   right: 34px;
 `;
 
