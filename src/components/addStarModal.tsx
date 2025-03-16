@@ -139,6 +139,7 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
 
       console.log("서버 응답:", response);
       console.log("신규 별을 생성했습니다.");
+      alert("신규 별을 생성했습니다.");
     } catch (error) {
       console.error("신규 별 기록 중 오류 발생:", error);
     }
