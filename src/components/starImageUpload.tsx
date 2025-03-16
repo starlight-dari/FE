@@ -27,7 +27,7 @@ const StarImageUpload: React.FC<ImageUploadProps> = ({
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
         ...prev,
-        pet_img: file,
+        img_url: file,
       }));
     }
   };
@@ -50,7 +50,7 @@ const StarImageUpload: React.FC<ImageUploadProps> = ({
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
         ...prev,
-        pet_img: file,
+        img_url: file,
       }));
     }
   };
