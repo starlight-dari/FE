@@ -4,13 +4,14 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../../../components/header";
-import styled, { css, keyframes } from "styled-components";
+import styled from "styled-components";
 import BottomMessage from "../../../components/addStarMessage";
 import AddStarModal from "../../../components/addStarModal";
 import ConstellationCanvas, {
   PetData,
   Star,
 } from "../../../components/constellationCanvas";
+import StarPage from "../../../components/starModal";
 
 export default function Page() {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -114,6 +115,7 @@ export default function Page() {
       {isModalOpen && (
         <AddStarModal starId={selectedStarId} onClose={closeAddStarModal} />
       )}
+      <StarPage />
     </>
   );
 }
