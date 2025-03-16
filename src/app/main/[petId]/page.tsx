@@ -89,7 +89,7 @@ export default function Page() {
       }
     };
     getPetStarInfo();
-  }, [petId]);
+  }, [petId, isModalOpen]);
 
   if (loading) return <p>로딩 중...</p>;
   if (!petData) return <p>데이터를 불러올 수 없습니다.</p>;
