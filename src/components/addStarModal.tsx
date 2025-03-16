@@ -1,0 +1,480 @@
+"use client";
+
+import Image from "next/image";
+import styled from "styled-components";
+import React, { useState } from "react";
+import StarImageUpload from "./starImageUpload";
+
+export interface StarFormData {
+  star_id: number;
+  name: string;
+  activityCtg: string;
+  emotionCtg: string;
+  content: string;
+  img_url: File | null;
+  isAnimal: boolean;
+  shared: boolean;
+}
+
+interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const AddStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+  const [formData, setFormData] = useState<StarFormData>({
+    star_id: 0,
+    name: "",
+    activityCtg: "",
+    emotionCtg: "",
+    content: "",
+    img_url: null,
+    isAnimal: true,
+    shared: false,
+  });
+  const [image, setImage] = useState<string | null>(null);
+
+  const [checked, setChecked] = useState(false);
+
+  const [isActivityOpen, setIsActivityOpen] = useState(false);
+  const [activitySelected, setActivitySelected] = useState("상황");
+
+  const [isEmotionOpen, setIsEmotionOpen] = useState(false);
+  const [emotionSelected, setEmotionSelected] = useState("감정");
+
+  if (!isOpen) return null;
+
+  const handleActivitySelect = (option: string) => {
+    const ActivityMap: Record<string, string> = {
+      산책: "WALK",
+      놀이: "PLAY",
+      훈련: "TRAINING",
+      "먹이/간식": "FOOD",
+      병원: "HOSPITAL",
+      "목욕/미용": "GROOMING",
+      여행: "TRAVEL",
+      기념일: "ANNIVERSARY",
+      "쉬는 시간": "RELAX",
+    };
+    setActivitySelected(option);
+    setIsActivityOpen(false);
+
+    setFormData((prev: StarFormData) => ({
+      ...prev,
+      activityCtg: ActivityMap[option],
+    }));
+  };
+
+  const handleEmotionSelect = (option: string) => {
+    const EmotionMap: Record<string, string> = {
+      행복: "HAPPY",
+      감동: "TOUCHED",
+      "안정/평화": "PEACEFUL",
+      슬픔: "SAD",
+      감사: "GRATEFUL",
+      놀람: "SURPRISED",
+      아쉬움: "REGRET",
+      사랑: "LOVE",
+      기대감: "EXPECTATION",
+    };
+    setEmotionSelected(option);
+    setIsEmotionOpen(false);
+
+    setFormData((prev: StarFormData) => ({
+      ...prev,
+      emotionCtg: EmotionMap[option],
+    }));
+  };
+
+  return (
+    <>
+      <ModalOverlay>
+        <ModalContent onClick={(e) => e.stopPropagation()}>
+          <StarImageUpload
+            formData={formData}
+            setFormData={setFormData}
+            setImage={setImage}
+          />
+          <ModalBody>
+            <ItemWrapper>
+              <Title>별 생성하기</Title>
+              <Input placeholder="새로운 별의 이름을 적어주세요." />
+              <Item>
+                <Label>어떤 상황이었나요? 어떤 감정을 느꼈나요?</Label>
+                <SelectBox>
+                  <SelectWrapper>
+                    <SelectedOption
+                      onClick={() => setIsActivityOpen(!isActivityOpen)}
+                    >
+                      {activitySelected}
+                    </SelectedOption>
+                    <OptionsList isOpen={isActivityOpen}>
+                      <OptionItem onClick={() => handleActivitySelect("산책")}>
+                        산책
+                      </OptionItem>
+                      <OptionItem onClick={() => handleActivitySelect("놀이")}>
+                        놀이
+                      </OptionItem>
+                      <OptionItem onClick={() => handleActivitySelect("훈련")}>
+                        훈련
+                      </OptionItem>
+                      <OptionItem
+                        onClick={() => handleActivitySelect("먹이/간식")}
+                      >
+                        먹이/간식
+                      </OptionItem>
+                      <OptionItem onClick={() => handleActivitySelect("병원")}>
+                        병원
+                      </OptionItem>
+                      <OptionItem
+                        onClick={() => handleActivitySelect("목욕/미용")}
+                      >
+                        목욕/미용
+                      </OptionItem>
+                      <OptionItem onClick={() => handleActivitySelect("여행")}>
+                        여행
+                      </OptionItem>
+                      <OptionItem
+                        onClick={() => handleActivitySelect("기념일")}
+                      >
+                        기념일
+                      </OptionItem>
+                      <OptionItem
+                        onClick={() => handleActivitySelect("쉬는 시간")}
+                      >
+                        쉬는 시간
+                      </OptionItem>
+                    </OptionsList>
+                  </SelectWrapper>
+                  <SelectWrapper>
+                    <SelectedOption
+                      onClick={() => setIsEmotionOpen(!isEmotionOpen)}
+                    >
+                      {emotionSelected}
+                    </SelectedOption>
+                    <OptionsList isOpen={isEmotionOpen}>
+                      <OptionItem onClick={() => handleEmotionSelect("행복")}>
+                        행복
+                      </OptionItem>
+                      <OptionItem onClick={() => handleEmotionSelect("감동")}>
+                        감동
+                      </OptionItem>
+                      <OptionItem
+                        onClick={() => handleEmotionSelect("안정/평화")}
+                      >
+                        안정/평화
+                      </OptionItem>
+                      <OptionItem onClick={() => handleEmotionSelect("슬픔")}>
+                        슬픔
+                      </OptionItem>
+                      <OptionItem onClick={() => handleEmotionSelect("감사")}>
+                        감사
+                      </OptionItem>
+                      <OptionItem onClick={() => handleEmotionSelect("놀람")}>
+                        놀람
+                      </OptionItem>
+                      <OptionItem onClick={() => handleEmotionSelect("아쉬움")}>
+                        아쉬움
+                      </OptionItem>
+                      <OptionItem onClick={() => handleEmotionSelect("사랑")}>
+                        사랑
+                      </OptionItem>
+                      <OptionItem onClick={() => handleEmotionSelect("기대감")}>
+                        기대감
+                      </OptionItem>
+                    </OptionsList>
+                  </SelectWrapper>
+                </SelectBox>
+              </Item>
+              <Item>
+                <Label>기록하고 싶은 내용을 작성해 주세요.</Label>
+                <Textarea
+                  placeholder={`어떤 일이 있었는지 적어주세요.\n자세히 적어주실수록, 더 정확한 내용의 편지를 받아보실 수 있어요!`}
+                />
+              </Item>
+              <Item>
+                <Label>어떤 사진인가요?</Label>
+                <RadioButtonWrapper htmlFor="petPhoto">
+                  <RadioButton
+                    type="radio"
+                    name="photoType"
+                    id="petPhoto"
+                    value="petPhoto"
+                  />
+                  <span>반려동물의 사진이에요</span>
+                </RadioButtonWrapper>
+                <RadioButtonWrapper htmlFor="notPetPhoto">
+                  <RadioButton
+                    type="radio"
+                    name="photoType"
+                    id="notPetPhoto"
+                    value="notPetPhoto"
+                  />
+                  <span>반려동물의 사진이 아니에요(풍경, 사물 등)</span>
+                </RadioButtonWrapper>
+              </Item>
+              <ToggleWrapper>
+                <Label>별빛 저장소에 별 공개하기</Label>
+                <ToggleSwitch>
+                  <ToggleInput
+                    type="checkbox"
+                    id="toggle"
+                    checked={checked}
+                    onChange={() => setChecked(!checked)}
+                  />
+                  <ToggleLabel htmlFor="toggle" />
+                </ToggleSwitch>
+              </ToggleWrapper>
+            </ItemWrapper>
+          </ModalBody>
+          <Button onClick={onClose}>별 생성 취소하기</Button>
+          <SubmitButton onClick={onClose}>새로운 별 생성하기</SubmitButton>
+        </ModalContent>
+      </ModalOverlay>
+    </>
+  );
+};
+
+const ModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* 까만색 배경 필터 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const ModalContent = styled.div`
+  display: flex;
+  position: relative;
+  background: #101827;
+  width: 995px;
+  height: 600px;
+  padding: 40px 30px;
+  border: 1px solid #fff;
+  color: #fff;
+`;
+
+const ModalBody = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+`;
+
+const ItemWrapper = styled.div`
+  margin-left: 38px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+`;
+
+const Item = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+`;
+
+const Title = styled.div`
+  font-weight: 900;
+  font-size: 20px;
+`;
+
+const Label = styled.div`
+  font-weight: 600;
+`;
+
+const Input = styled.input`
+  width: 350px;
+  padding: 10px;
+  border: 1px solid #fff;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  font-family: "Pretendard-Regular", sans-serif; /* placeholder 글씨체 적용 */
+
+  &::placeholder {
+    font-family: "Pretendard-Regular", sans-serif; /* placeholder 글씨체 적용 */
+    font-size: 14px;
+    color: #999;
+  }
+`;
+
+const SelectBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  color: black;
+`;
+
+const SelectWrapper = styled.div`
+  position: relative;
+  width: 100px;
+`;
+
+const SelectedOption = styled.div`
+  padding: 10px;
+  border: 1px solid gray;
+  background-color: #fff;
+  color: black;
+  cursor: pointer;
+`;
+
+const OptionsList = styled.ul<{ isOpen: boolean }>`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100px;
+  border: 1px solid gray;
+  background-color: #fff;
+  color: black;
+  list-style: none;
+  padding: 0;
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  z-index: 100;
+  height: 170px;
+  overflow-y: auto;
+`;
+
+const OptionItem = styled.li`
+  padding: 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ece6f0;
+  }
+`;
+
+const Button = styled.button`
+  width: 146px;
+  height: 40px;
+  border: 1px solid #65558f;
+  border-radius: 100px;
+  background: #fff;
+  color: #65558f;
+  cursor: pointer;
+  position: absolute;
+  bottom: 25px;
+  right: 190px;
+`;
+
+const SubmitButton = styled.button`
+  width: 146px;
+  height: 40px;
+  border: none;
+  border-radius: 100px;
+  background: #65558f;
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  bottom: 25px;
+  right: 34px;
+`;
+
+const ToggleSwitch = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+/* 기존의 checkbox 버튼 숨기기 */
+const ToggleInput = styled.input`
+  display: none;
+`;
+
+/* 토글 스타일 지정 */
+const ToggleLabel = styled.label`
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 24px;
+  background-color: #ccc;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+  }
+
+  /* 토글 ON 스타일 적용 */
+  ${ToggleInput}:checked + & {
+    background-color: #65558f;
+  }
+
+  /* 토글 ON인 경우 버튼 이동 */
+  ${ToggleInput}:checked + &::before {
+    transform: translateX(16px);
+  }
+`;
+
+const ToggleWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const Textarea = styled.textarea`
+  width: 500px;
+  height: 150px;
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  font-family: "Pretendard-Regular", sans-serif; /* placeholder 글씨체 적용 */
+  padding: 10px;
+  resize: none;
+  outline: none;
+
+  &::placeholder {
+    font-family: "Pretendard-Regular", sans-serif; /* placeholder 글씨체 적용 */
+    font-size: 14px;
+    color: #999;
+  }
+`;
+
+const RadioButton = styled.input`
+  -webkit-appearance: none; /* 웹킷 브라우저에서 기본 스타일 제거*/
+  -moz-appearance: none; /* 모질라 브라우저에서 기본 스타일 제거*/
+  appearance: none; /*기본 브라우저에서 기본 스타일 제거*/
+  width: 13px;
+  height: 13px;
+  border: 1px solid #ccc;
+  border-radius: 100%;
+  outline: none;
+  cursor: pointer;
+
+  &:checked {
+    background-color: #65558f; /*체크 시 내부 원 색상*/
+    border: 3px solid #fff; /*라인이 아닌, 라인과 원 사이 색상*/
+    box-shadow: 0 0 0 1px #65558f; /*라인*/
+  }
+`;
+
+const RadioButtonWrapper = styled.label`
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 10px;
+  border: 1px solid #65558f;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: #ece6f0;
+    color: black;
+    cursor: pointer;
+  }
+`;
+
+export default AddStarModal;

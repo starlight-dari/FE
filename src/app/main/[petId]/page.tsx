@@ -5,7 +5,8 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../../../components/header";
 import styled, { css, keyframes } from "styled-components";
-import BottomMessage from "../../../components/addStarMessageModal";
+import BottomMessage from "../../../components/addStarMessage";
+import AddStarModal from "../../../components/addStarModal";
 
 interface Star {
   star_id: number;
@@ -27,7 +28,10 @@ interface PetData {
   edges: Edge[];
 }
 
-const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
+const ConstellationCanvas: React.FC<{
+  petData: PetData;
+  openModal: () => void;
+}> = ({ petData, openModal }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [selectedStarId, setSelectedStarId] = useState<number | null>(null); // 클릭한 별의 star_id를 추적
   const [messageVisible, setMessageVisible] = useState(false); // 메시지 표시 여부
@@ -67,11 +71,8 @@ const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
 
   const handleAddStar = () => {
     if (selectedStarId !== null) {
-      // 여기서 별을 추가하는 로직을 추가 (예: 상태 변경, 서버 요청 등)
-      // const newStarList = [...starList, { star_id: selectedStarId, written: true }];
-      // setStarList(newStarList);
-
-      console.log(`아이디 ${selectedStarId} 별에 추억이 추가되었습니다.`);
+      console.log(`아이디 ${selectedStarId} 별에 추억을 추가할게요.`);
+      openModal();
     }
 
     // 메시지 숨기기
@@ -235,6 +236,10 @@ export default function Page() {
   const [petData, setPetData] = useState<PetData | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   useEffect(() => {
     const getPetStarInfo = async () => {
       try {
@@ -265,9 +270,10 @@ export default function Page() {
     <>
       <Header />
       <Body>
-        <ConstellationCanvas petData={petData} />
+        <ConstellationCanvas petData={petData} openModal={openModal} />
         {/* <ConstellationName>{petData.petId}</ConstellationName> */}
       </Body>
+      <AddStarModal isOpen={isModalOpen} onClose={closeModal} />
     </>
   );
 }
