@@ -6,7 +6,12 @@ import heart_filled from "/public/heart_filled.svg";
 import X from "/public/X.svg";
 import Image from "next/image";
 
-const StarPage: React.FC = () => {
+interface StarPageModalProps {
+  onClose: () => void;
+  starId: number | null;
+}
+
+const StarPage: React.FC<StarPageModalProps> = ({ onClose, starId }) => {
   const [likes, setLikes] = useState(0);
   const [comments, setComments] = useState([
     "이 게시물이 너무 좋습니다..",
@@ -31,7 +36,7 @@ const StarPage: React.FC = () => {
 
   return (
     <ModalOverlay>
-      <XButton>
+      <XButton onClick={onClose}>
         <Image src={X} alt="X" />
       </XButton>
       <ModalContent>

@@ -22,24 +22,37 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
 
   const [selectedStarId, setSelectedStarId] = useState<number | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddStarModalOpen, setIsAddStarModalOpen] = useState(false);
+  const [isStarInfoModalOpen, setIsStarInfoModalOpen] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
   const messageRef = useRef<HTMLDivElement>(null);
 
   const openAddStarModal = () => {
-    setIsModalOpen(true);
+    setIsAddStarModalOpen(true);
   };
 
   const closeAddStarModal = () => {
-    setIsModalOpen(false);
+    setIsAddStarModalOpen(false);
+    setSelectedStarId(null); // 모달 닫을 때 선택된 별 해제
+  };
+
+  const openStarInfoModal = () => {
+    setIsStarInfoModalOpen(true);
+  };
+
+  const closeStarInfoModal = () => {
+    setIsStarInfoModalOpen(false);
     setSelectedStarId(null); // 모달 닫을 때 선택된 별 해제
   };
 
   const handleStarClick = (star: Star) => {
     setSelectedStarId(star.star_id);
-    setIsModalOpen(false);
+    setIsAddStarModalOpen(false);
+    setIsStarInfoModalOpen(false);
 
-    if (!star.written) {
+    if (star.written) {
+      openStarInfoModal(); // 추억별 모달 띄우기
+    } else {
       setMessageVisible(true); // BottomMessage 표시
     }
   };
@@ -47,7 +60,11 @@ export default function Page() {
   // 바깥 클릭 시 메시지 숨기기, 별 효과 제거
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (!messageRef.current?.contains(event.target as Node) && !isModalOpen) {
+      if (
+        !messageRef.current?.contains(event.target as Node) &&
+        !isAddStarModalOpen &&
+        !isStarInfoModalOpen
+      ) {
         setMessageVisible(false);
         setSelectedStarId(null);
       }
@@ -57,16 +74,15 @@ export default function Page() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [isModalOpen]);
+  }, [isAddStarModalOpen, isStarInfoModalOpen]);
 
   const handleAddStar = (starId: number | null) => {
+    setMessageVisible(false);
+
     if (starId !== null) {
       console.log(`아이디 ${starId} 별에 추억을 추가할게요.`);
       openAddStarModal();
     }
-
-    // 메시지 숨기기
-    setMessageVisible(false);
   };
 
   useEffect(() => {
@@ -90,7 +106,7 @@ export default function Page() {
       }
     };
     getPetStarInfo();
-  }, [petId, isModalOpen]);
+  }, [petId, isAddStarModalOpen, isStarInfoModalOpen]);
 
   if (loading) return <p>로딩 중...</p>;
   if (!petData) return <p>데이터를 불러올 수 없습니다.</p>;
@@ -112,10 +128,12 @@ export default function Page() {
           onAddClick={() => handleAddStar(selectedStarId)}
         />
       </Body>
-      {isModalOpen && (
+      {isAddStarModalOpen && (
         <AddStarModal starId={selectedStarId} onClose={closeAddStarModal} />
       )}
-      <StarPage />
+      {isStarInfoModalOpen && (
+        <StarPage starId={selectedStarId} onClose={closeStarInfoModal} />
+      )}
     </>
   );
 }
