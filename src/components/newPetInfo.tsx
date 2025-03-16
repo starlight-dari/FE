@@ -3,7 +3,7 @@
 // import "../globals.css";
 import styled from "styled-components";
 import React, { useCallback, useEffect, useState } from "react";
-import ImageUpload from "./imageUpload";
+import PetImageUpload from "./petImageUpload";
 import { PetFormData } from "../app/add_new_animal/page";
 
 interface NewPetInfoFormProps {
@@ -72,7 +72,7 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
   return (
     <>
       <Body>
-        <ImageUpload
+        <PetImageUpload
           formData={formData}
           setFormData={setFormData}
           setImage={setImage}

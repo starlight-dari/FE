@@ -5,55 +5,48 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import Header from "../../../components/header";
 import styled, { css, keyframes } from "styled-components";
-import BottomMessage from "../../../components/addStarMessageModal";
+import BottomMessage from "../../../components/addStarMessage";
+import AddStarModal from "../../../components/addStarModal";
+import ConstellationCanvas, {
+  PetData,
+  Star,
+} from "../../../components/constellationCanvas";
 
-interface Star {
-  star_id: number;
-  index_id: number;
-  x_star: number;
-  y_star: number;
-  written: boolean;
-}
+export default function Page() {
+  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+  const params = useParams();
+  const petId = Number(params.petId);
 
-interface Edge {
-  startPoint: number;
-  endPoint: number;
-}
+  const [petData, setPetData] = useState<PetData | null>(null);
+  const [loading, setLoading] = useState(true);
 
-interface PetData {
-  petId: number;
-  svgPath: string;
-  starList: Star[];
-  edges: Edge[];
-}
-
-const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [selectedStarId, setSelectedStarId] = useState<number | null>(null); // 클릭한 별의 star_id를 추적
-  const [messageVisible, setMessageVisible] = useState(false); // 메시지 표시 여부
+  const [selectedStarId, setSelectedStarId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [messageVisible, setMessageVisible] = useState(false);
   const messageRef = useRef<HTMLDivElement>(null);
 
+  const openAddStarModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeAddStarModal = () => {
+    setIsModalOpen(false);
+    setSelectedStarId(null); // 모달 닫을 때 선택된 별 해제
+  };
+
   const handleStarClick = (star: Star) => {
-    console.log(`아이디 ${star.star_id} 별이 클릭됐습니다.`);
-
-    // 클릭된 별에 대해 반짝이는 효과 적용
     setSelectedStarId(star.star_id);
-
-    console.log(star.written);
+    setIsModalOpen(false);
 
     if (!star.written) {
-      console.log(`아이디 ${star.star_id} 별에는 추억이 들어있지 않아요.`);
-      setMessageVisible(true);
+      setMessageVisible(true); // BottomMessage 표시
     }
   };
 
-  // 바깥 클릭 시 메시지 숨기기
+  // 바깥 클릭 시 메시지 숨기기, 별 효과 제거
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        messageRef.current &&
-        !messageRef.current.contains(event.target as Node)
-      ) {
+      if (!messageRef.current?.contains(event.target as Node) && !isModalOpen) {
         setMessageVisible(false);
         setSelectedStarId(null);
       }
@@ -63,177 +56,17 @@ const ConstellationCanvas: React.FC<{ petData: PetData }> = ({ petData }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [isModalOpen]);
 
-  const handleAddStar = () => {
-    if (selectedStarId !== null) {
-      // 여기서 별을 추가하는 로직을 추가 (예: 상태 변경, 서버 요청 등)
-      // const newStarList = [...starList, { star_id: selectedStarId, written: true }];
-      // setStarList(newStarList);
-
-      console.log(`아이디 ${selectedStarId} 별에 추억이 추가되었습니다.`);
+  const handleAddStar = (starId: number | null) => {
+    if (starId !== null) {
+      console.log(`아이디 ${starId} 별에 추억을 추가할게요.`);
+      openAddStarModal();
     }
 
     // 메시지 숨기기
     setMessageVisible(false);
   };
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const image = new Image();
-    image.src = petData.svgPath;
-
-    image.onload = () => {
-      const CANVAS_SIZE = 700;
-      canvas.width = CANVAS_SIZE;
-      canvas.height = CANVAS_SIZE;
-
-      const SCALE = CANVAS_SIZE / 512;
-
-      const drawConstellation = () => {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // 이미지 그리기 (좌측 하단 기준)
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-
-        // 간선 그리기
-        petData.edges.forEach((edge: Edge) => {
-          const startStar = petData.starList.find(
-            (star) => star.index_id === edge.startPoint
-          );
-          const endStar = petData.starList.find(
-            (star) => star.index_id === edge.endPoint
-          );
-
-          if (startStar && endStar) {
-            ctx.beginPath();
-            ctx.moveTo(startStar.x_star * SCALE, startStar.y_star * SCALE);
-            ctx.lineTo(endStar.x_star * SCALE, endStar.y_star * SCALE);
-            // ctx.strokeStyle = "#A1CFFF"; // 간선 색상
-            ctx.strokeStyle = `rgba(255, 255, 255, 1)`;
-            ctx.lineWidth = 2 * SCALE; // 간선 두께
-            ctx.stroke();
-            ctx.closePath();
-          }
-        });
-      };
-
-      drawConstellation();
-    };
-  }, [petData]);
-
-  return (
-    <Container>
-      <Canvas ref={canvasRef} />
-      <StarsContainer>
-        {petData.starList.map((star: Star) => (
-          <StarDiv
-            key={star.star_id}
-            x={star.x_star * (700 / 512) - 5} // x 좌표
-            y={star.y_star * (700 / 512) - 4.5} // y 좌표
-            selected={selectedStarId === star.star_id}
-            written={star.written}
-            onClick={() => handleStarClick(star)}
-          />
-        ))}
-      </StarsContainer>
-      <BottomMessage
-        ref={messageRef}
-        show={messageVisible}
-        onAddClick={handleAddStar}
-      />
-    </Container>
-  );
-};
-
-const Container = styled.div`
-  position: relative;
-  width: 700px;
-  height: 700px;
-`;
-
-const Canvas = styled.canvas`
-  position: absolute;
-  top: 0;
-  left: 0;
-`;
-
-const StarsContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-`;
-
-const flicker = keyframes`
-  0% {
-    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(161, 207, 255, 0.5) 100%);
-    box-shadow: 0 0 10px 3px rgba(161, 207, 255, 0.7);
-  }
-  50% {
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(161, 207, 255, 0.6) 100%);
-    box-shadow: 0 0 15px 5px rgba(161, 207, 255, 1);
-  }
-  100% {
-    background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(161, 207, 255, 0.5) 100%);
-    box-shadow: 0 0 10px 3px rgba(161, 207, 255, 0.7);
-  }
-`;
-
-// 별 스타일
-const StarDiv = styled.div<{
-  x: number;
-  y: number;
-  selected: boolean;
-  written: boolean;
-}>`
-  position: absolute;
-  left: ${({ x, selected }) => `${selected ? x - 3 : x}px`};
-  top: ${({ y, selected }) => `${selected ? y - 5 : y}px`};
-  width: ${({ selected }) => (selected ? "17px" : "10px")};
-  height: ${({ selected }) => (selected ? "17px" : "10px")};
-  border-radius: 100%;
-  cursor: pointer;
-  pointer-events: all;
-  box-shadow: ${({ written }) =>
-    written ? "0 0 10px 3px rgba(161, 207, 255, 0.7)" : "none"};
-  background: radial-gradient(
-    circle,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(161, 207, 255, 0.5) 100%
-  );
-  animation: ${({ selected }) =>
-    selected
-      ? css`
-          ${flicker} 1s infinite;
-        `
-      : "none"};
-
-  ${({ selected }) =>
-    selected &&
-    css`
-      background: radial-gradient(
-        circle,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(161, 207, 255, 0.5) 100%
-      );
-      box-shadow: 0 0 15px 5px rgba(161, 207, 255, 1);
-    `}
-`;
-
-export default function Page() {
-  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
-  const params = useParams();
-  const petId = Number(params.petId);
-
-  const [petData, setPetData] = useState<PetData | null>(null);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getPetStarInfo = async () => {
@@ -265,9 +98,22 @@ export default function Page() {
     <>
       <Header />
       <Body>
-        <ConstellationCanvas petData={petData} />
+        <ConstellationCanvas
+          petData={petData}
+          selectedStarId={selectedStarId}
+          onStarClick={handleStarClick}
+        />
+        {/* 반려동물 이름 */}
         {/* <ConstellationName>{petData.petId}</ConstellationName> */}
+        <BottomMessage
+          ref={messageRef}
+          show={messageVisible}
+          onAddClick={() => handleAddStar(selectedStarId)}
+        />
       </Body>
+      {isModalOpen && (
+        <AddStarModal starId={selectedStarId} onClose={closeAddStarModal} />
+      )}
     </>
   );
 }

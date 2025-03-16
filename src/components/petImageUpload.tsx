@@ -10,7 +10,7 @@ interface ImageUploadProps {
   setImage: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({
+const PetImageUpload: React.FC<ImageUploadProps> = ({
   formData,
   setFormData,
   setImage,
@@ -97,7 +97,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
   );
 };
 
-export default ImageUpload;
+export default PetImageUpload;
 
 const Container = styled.div`
   display: flex;
