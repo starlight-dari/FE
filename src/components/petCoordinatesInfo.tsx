@@ -10,6 +10,8 @@ import Image from "next/image";
 import { PetFormData } from "../app/add_new_animal/page";
 import StarCoordinates from "./setStarCoordinates";
 import axios from "axios";
+import LoadingMessage from "./loadingMessage";
+import { useRouter } from "next/navigation";
 
 interface PetCoordinatesInfoProps {
   formData: PetFormData;
@@ -25,14 +27,19 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
   prevStep,
 }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+  const router = useRouter();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const postNewPetInfo = async () => {
+  const [loading, setLoading] = useState(false);
+
+  const postNewPetInfo = async (setLoading: (value: boolean) => void) => {
     try {
+      setLoading(true);
+
       const data = new FormData();
 
       // 파일 및 데이터 추가
@@ -57,18 +64,15 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
         method: "POST",
         url: `http://${server_url}:8080/pets`,
         withCredentials: true,
-        // headers: {
-        //   "Content-Type": " multipart/form-data",
-        // },
-        // data: {
-        //   formData,
-        // },
         data: data,
       });
 
       console.log("서버 응답:", response);
+      router.push(`/main/${response.data.petId}`);
     } catch (error) {
       console.error("신규 반려동물 정보 추가 중 오류 발생:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,9 +100,12 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
             <Image src={goBack} alt="" />
           </TransparentButton>
         </ItemWrapper>
-        <Button onClick={postNewPetInfo}>새 별자리 만들기</Button>
+        <Button onClick={() => postNewPetInfo(setLoading)}>
+          새 별자리 만들기
+        </Button>
       </Body>
       <CreateStarModal isOpen={isModalOpen} onClose={closeModal} />
+      <LoadingMessage isOpen={loading} />
     </>
   );
 };
