@@ -22,6 +22,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
 
   const [selectedStarId, setSelectedStarId] = useState<number | null>(null);
+  const [selectedMemoryId, setSelectedMemoryId] = useState<number | null>(null);
   const [isAddStarModalOpen, setIsAddStarModalOpen] = useState(false);
   const [isStarInfoModalOpen, setIsStarInfoModalOpen] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
@@ -51,6 +52,7 @@ export default function Page() {
     setIsStarInfoModalOpen(false);
 
     if (star.written) {
+      setSelectedMemoryId(star.memory_id);
       openStarInfoModal(); // 추억별 모달 띄우기
     } else {
       setMessageVisible(true); // BottomMessage 표시
@@ -132,7 +134,11 @@ export default function Page() {
         <AddStarModal starId={selectedStarId} onClose={closeAddStarModal} />
       )}
       {isStarInfoModalOpen && (
-        <StarPage starId={selectedStarId} onClose={closeStarInfoModal} />
+        <StarPage
+          // starId={selectedStarId}
+          memoryId={selectedMemoryId}
+          onClose={closeStarInfoModal}
+        />
       )}
     </>
   );
