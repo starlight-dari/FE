@@ -82,7 +82,9 @@ const MyStar = () => {
             <PetImage src={item.pet_img} alt="pet photo" />
             <PetName>{item.pet_name}</PetName>
             <ul>
-              <List>{item.pet_name}자리 보러가기</List>
+              <List onClick={() => router.push(`/main/${item.pet_id}`)}>
+                {item.pet_name}자리 보러가기
+              </List>
               <List
                 onClick={() => router.push(`/mypage/petInfo/${item.pet_id}`)}
               >

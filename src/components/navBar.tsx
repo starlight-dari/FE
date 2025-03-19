@@ -139,7 +139,10 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
                 </NoPet>
               ) : (
                 userData.petList.map((item, index) => (
-                  <Item key={index}>
+                  <Item
+                    key={index}
+                    onClick={() => router.push(`/main/${item.pet_id}`)}
+                  >
                     <PetImage src={item.pet_img} alt="" />
                     {item.pet_name}
                   </Item>
