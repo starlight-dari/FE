@@ -106,8 +106,9 @@ const Container = styled.div`
 const MenuContent = styled.div`
   display: flex;
   width: calc(-360px + 100vw);
+  height: calc(100vh - 175px);
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 0 20px;
   position: relative;
 `;
