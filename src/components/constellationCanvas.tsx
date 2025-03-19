@@ -129,16 +129,16 @@ const StarsContainer = styled.div`
 
 const flicker = keyframes`
     0% {
-      background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(161, 207, 255, 0.5) 100%);
-      box-shadow: 0 0 10px 3px rgba(161, 207, 255, 0.7);
+      background: radial-gradient(circle, rgba(255, 255, 200, 1) 0%, rgba(255, 223, 128, 0.5) 100%);
+      box-shadow: 0 0 10px 3px rgba(255, 223, 128, 0.7);
     }
     50% {
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(161, 207, 255, 0.6) 100%);
-      box-shadow: 0 0 15px 5px rgba(161, 207, 255, 1);
+      background: radial-gradient(circle, rgba(255, 255, 200, 0.8) 0%, rgba(255, 223, 128, 0.6) 100%);
+      box-shadow: 0 0 15px 5px rgba(255, 223, 128, 1);
     }
     100% {
-      background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(161, 207, 255, 0.5) 100%);
-      box-shadow: 0 0 10px 3px rgba(161, 207, 255, 0.7);
+      background: radial-gradient(circle, rgba(255, 255, 200, 1) 0%, rgba(255, 223, 128, 0.5) 100%);
+      box-shadow: 0 0 10px 3px rgba(255, 223, 128, 0.7);
     }
   `;
 
@@ -158,11 +158,11 @@ const StarDiv = styled.div<{
   cursor: pointer;
   pointer-events: all;
   box-shadow: ${({ written }) =>
-    written ? "0 0 10px 3px rgba(161, 207, 255, 0.7)" : "none"};
+    written ? "0 0 10px 3px rgba(255, 223, 128, 0.7)" : "none"};
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 1) 0%,
-    rgba(161, 207, 255, 0.5) 100%
+    rgba(255, 255, 200, 1) 0%,
+    rgba(255, 223, 128, 0.5) 100%
   );
   animation: ${({ selected }) =>
     selected
@@ -176,10 +176,10 @@ const StarDiv = styled.div<{
     css`
       background: radial-gradient(
         circle,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(161, 207, 255, 0.5) 100%
+        rgba(255, 255, 200, 1) 0%,
+        rgba(255, 223, 128, 0.5) 100%
       );
-      box-shadow: 0 0 15px 5px rgba(161, 207, 255, 1);
+      box-shadow: 0 0 15px 5px rgba(255, 223, 128, 1);
     `}
 `;
 
