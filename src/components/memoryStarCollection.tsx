@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import StarPage from "./starModal";
 
 interface MemoryStar {
   memory_id: number;
@@ -18,7 +19,16 @@ const MemoryStarCollection = () => {
 
   const [memoryStars, setMemoryStars] = useState<MemoryStar[]>([]);
   const [memoryNumber, setMemoryNumber] = useState<number>(0);
+  const [isStarInfoModalOpen, setIsStarInfoModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+
+  const openStarInfoModal = () => {
+    setIsStarInfoModalOpen(true);
+  };
+
+  const closeStarInfoModal = () => {
+    setIsStarInfoModalOpen(false);
+  };
 
   useEffect(() => {
     const getMemoryStarCollection = async () => {
@@ -68,9 +78,17 @@ const MemoryStarCollection = () => {
     <Container>
       <MemoryStarList>
         {memoryStars?.map((item, index) => (
-          <Star key={index}>
-            <StarImage src={item.img_url} alt="memory star" />
-          </Star>
+          <>
+            <Star key={index} onClick={openStarInfoModal}>
+              <StarImage src={item.img_url} alt="memory star" />
+            </Star>
+            {isStarInfoModalOpen && (
+              <StarPage
+                memoryId={item.memory_id}
+                onClose={closeStarInfoModal}
+              />
+            )}
+          </>
         ))}
       </MemoryStarList>
     </Container>
