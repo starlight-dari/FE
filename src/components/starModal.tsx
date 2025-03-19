@@ -37,6 +37,30 @@ interface StarPageModalProps {
   memoryId: number | null;
 }
 
+const ActivityMap: Record<string, string> = {
+  WALK: "산책",
+  PLAY: "놀이",
+  TRAINING: "훈련",
+  FOOD: "먹이/간식",
+  HOSPITAL: "병원",
+  GROOMING: "목욕/미용",
+  TRAVEL: "여행",
+  ANNIVERSARY: "기념일",
+  RELAX: "쉬는 시간",
+};
+
+const EmotionMap: Record<string, string> = {
+  HAPPY: "행복",
+  TOUCHED: "감동",
+  PEACEFUL: "안정/평화",
+  SAD: "슬픔",
+  GRATEFUL: "감사",
+  SURPRISED: "놀람",
+  REGRET: "아쉬움",
+  LOVE: "사랑",
+  EXPECTATION: "기대감",
+};
+
 const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
 
@@ -45,25 +69,21 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
   const [newComment, setNewComment] = useState("");
   const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    const getStarInfo = async () => {
-      try {
-        const response = await axios({
-          method: "GET",
-          url: `http://${server_url}:8080/memory-stars/${memoryId}`,
-          withCredentials: true,
-        });
+  const getStarInfo = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `http://${server_url}:8080/memory-stars/${memoryId}`,
+        withCredentials: true,
+      });
 
-        console.log("서버 응답:", response);
-        setStarPage(response.data.memoryStarRepDto);
-        setComments(response.data.memComments);
-      } catch (error) {
-        console.error("별 기록 요청 중 오류 발생:", error);
-      }
-    };
-    getStarInfo();
-  }, []);
-  // 댓글 단 후 다시 요청 필요
+      console.log("서버 응답:", response);
+      setStarPage(response.data.memoryStarRepDto);
+      setComments(response.data.memComments);
+    } catch (error) {
+      console.error("별 기록 요청 중 오류 발생:", error);
+    }
+  };
 
   useEffect(() => {
     setTimeout(() => setIsVisible(true), 500); // 0.5초 후 모달 띄우기
@@ -74,16 +94,73 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
     setTimeout(onClose, 300); // 0.3초 후 모달 닫기
   };
 
-  const handleLike = () => {
-    alert("좋아요 클릭");
+  const handleLike = (isLiked: boolean) => {
+    if (isLiked) {
+      cancelLike();
+    } else {
+      addLike();
+    }
+  };
+
+  const addLike = async () => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: `http://${server_url}:8080/memory-stars/${memoryId}/likes`,
+        withCredentials: true,
+      });
+
+      console.log("서버 응답:", response);
+      getStarInfo();
+    } catch (error) {
+      console.error("좋아요 클릭 중 오류 발생:", error);
+    }
+  };
+
+  const cancelLike = async () => {
+    try {
+      const response = await axios({
+        method: "DELETE",
+        url: `http://${server_url}:8080/memory-stars/${memoryId}/likes`,
+        withCredentials: true,
+      });
+
+      console.log("서버 응답:", response);
+      getStarInfo();
+    } catch (error) {
+      console.error("좋아요 취소 중 오류 발생:", error);
+    }
+  };
+
+  const addComment = async (content: string) => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: `http://${server_url}:8080/memory-stars/comment`,
+        withCredentials: true,
+        data: {
+          content: content,
+          memory_id: memoryId,
+        },
+      });
+
+      console.log("서버 응답:", response);
+      getStarInfo();
+    } catch (error) {
+      console.error("댓글 작성 중 오류 발생:", error);
+    }
   };
 
   const handleAddComment = () => {
     if (newComment.trim()) {
-      console.log("댓글 내용: ", newComment);
+      addComment(newComment);
       setNewComment("");
     }
   };
+
+  useEffect(() => {
+    getStarInfo();
+  }, []);
 
   if (!starPage) return null;
 
@@ -98,8 +175,8 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
           <Title>{starPage.name}</Title>
           <InfoContainer>
             <div style={{ display: "flex", gap: "10px" }}>
-              <Category>{starPage.activityCtg}</Category>
-              <Category>{starPage.emotionCtg}</Category>
+              <Category>{ActivityMap[starPage.activityCtg]}</Category>
+              <Category>{EmotionMap[starPage.emotionCtg]}</Category>
             </div>
             <div style={{ position: "relative", right: "3px" }}>
               <span>{starPage.updatedAt}</span>
@@ -112,13 +189,18 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
         <div style={{ paddingLeft: "40px", width: "650px" }}>
           <StateWrapper>
             <LikeState>
-              <LikeButton onClick={handleLike}>
-                <Image src={heart} alt="like" />
+              <LikeButton onClick={() => handleLike(starPage.isLiked)}>
+                {starPage.isLiked ? (
+                  <Image src={heart_filled} alt="like" />
+                ) : (
+                  <Image src={heart} alt="like" />
+                )}
               </LikeButton>
               {starPage.likes}
             </LikeState>
             <CommentState>
-              <Image src={comment} alt="comment" />5
+              <Image src={comment} alt="comment" />
+              {starPage.commentNumber}
             </CommentState>
           </StateWrapper>
           <CommentSection>
