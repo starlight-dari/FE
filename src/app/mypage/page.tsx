@@ -8,6 +8,7 @@ import Image from "next/image";
 
 import UserInfo from "../../components/userInfo";
 import MyStar from "../../components/myStar";
+import MemoryStarCollection from "../../components/memoryStarCollection";
 
 const MenuBar = ({
   onMenuClick,
@@ -50,7 +51,7 @@ export default function Page() {
           <UserInfo />
           <MenuContent>
             {selectedContent === 1 && <MyStar />}
-            {selectedContent === 2 && <div>Content 2</div>}
+            {selectedContent === 2 && <MemoryStarCollection />}
             {selectedContent === 3 && <div>Content 3</div>}
           </MenuContent>
         </Container>
@@ -103,6 +104,10 @@ const Container = styled.div`
 `;
 
 const MenuContent = styled.div`
-  position: absolute;
-  bottom: 100px;
+  display: flex;
+  width: calc(-360px + 100vw);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
 `;
