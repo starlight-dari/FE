@@ -7,11 +7,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 
 interface MemoryStar {
-  memoryStarSimpleRepDtoList: {
-    memory_id: number;
-    img_url: string;
-  }[];
-  memoryNumber: number;
+  memory_id: number;
+  img_url: string;
 }
 
 const MemoryStarCollection = () => {
@@ -20,6 +17,7 @@ const MemoryStarCollection = () => {
   const router = useRouter();
 
   const [memoryStars, setMemoryStars] = useState<MemoryStar[]>([]);
+  const [memoryNumber, setMemoryNumber] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,7 +34,8 @@ const MemoryStarCollection = () => {
 
         console.log("서버 응답:", response);
 
-        setMemoryStars(response.data);
+        setMemoryStars(response.data.memoryStarSimpleRepDtoList);
+        setMemoryNumber(response.data.memoryNumber);
         setLoading(false);
       } catch (error) {
         console.error("반려동물 정보 요청 중 오류 발생:", error);
@@ -67,21 +66,12 @@ const MemoryStarCollection = () => {
 
   return (
     <Container>
-      {/* <MemoryStarList>
-        {memoryStars?.memoryStarSimpleRepDtoList.map((item, index) => (
-          <Star key={index} >
+      <MemoryStarList>
+        {memoryStars?.map((item, index) => (
+          <Star key={index}>
             <StarImage src={item.img_url} alt="memory star" />
           </Star>
         ))}
-      </MemoryStarList> */}
-      <MemoryStarList>
-        {memoryStars.map((memoryStar, index) =>
-          memoryStar.memoryStarSimpleRepDtoList.map((item) => (
-            <Star key={item.memory_id}>
-              <StarImage src={item.img_url} alt="memory star" />
-            </Star>
-          ))
-        )}
       </MemoryStarList>
     </Container>
   );
