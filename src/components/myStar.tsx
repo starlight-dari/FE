@@ -102,7 +102,8 @@ const MyStar = () => {
 };
 
 const Container = styled.div`
-  border: 1px solid #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
   padding: 20px;
   width: 1100px;
   height: 400px;

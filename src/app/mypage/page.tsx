@@ -64,9 +64,8 @@ const Body = styled.div`
   display: flex;
   height: 100vh;
   justify-content: center;
-  border-top: 1px solid #fff;
   position: absolute;
-  top: 65px;
+  top: 67px;
   color: #fff;
 `;
 
@@ -75,10 +74,10 @@ const MenuList = styled.div`
   flex-direction: column;
   width: 300px;
   height: calc(100vh - 65px);
-  top: 65px;
   padding: 20px 0 0 20px;
   gap: 25px;
-  border-right: 1px solid #fff;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 4px 4px 10px rgba(255, 255, 255, 0.3);
 `;
 
 const Menu = styled.div<{ isSelected: boolean }>`
