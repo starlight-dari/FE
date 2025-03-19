@@ -4,10 +4,12 @@ import styled from "styled-components";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import StarImageUpload from "./starImageUpload";
 import axios from "axios";
+import { useParams } from "next/navigation";
 
 export interface StarFormData {
   star_id: number;
   name: string;
+  pet_id: number;
   activityCtg: string;
   emotionCtg: string;
   content: string;
@@ -23,12 +25,15 @@ interface AddStarModalProps {
 
 const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+  const params = useParams();
+  const petId = Number(params.petId);
 
   const modalRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState<StarFormData>({
     star_id: starId || 0,
     name: "",
+    pet_id: petId || 0,
     activityCtg: "",
     emotionCtg: "",
     content: "",
@@ -122,6 +127,7 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
       }
       data.append("star_id", String(formData.star_id));
       data.append("name", formData.name);
+      data.append("pet_id", String(formData.pet_id));
       data.append("activityCtg", formData.activityCtg);
       data.append("emotionCtg", formData.emotionCtg);
       data.append("content", formData.content);
