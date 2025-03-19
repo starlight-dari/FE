@@ -45,7 +45,8 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   height: 65px;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
 `;
 
 const Button = styled.button`
