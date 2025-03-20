@@ -30,7 +30,8 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState<UserData | null>(null);
 
-  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  const [isMyPageSubMenuOpen, setIsMyPageSubMenuOpen] = useState(false);
+  const [isMyStarSubMenuOpen, setIsMyStarSubMenuOpen] = useState(false);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -39,9 +40,6 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
           method: "GET",
           url: `http://${server_url}:8080/member/nav`,
           withCredentials: true,
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
         });
 
         console.log("서버 응답:", response);
@@ -64,18 +62,35 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
           <div>유저 정보를 받아오고 있어요...</div>
         </Profile>
         <MenuBar>
-          <Menu onClick={() => router.push(`/mypage`)}>마이페이지</Menu>
-          <Menu onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}>
-            나의 별자리
+          <Menu onClick={() => setIsMyPageSubMenuOpen(!isMyPageSubMenuOpen)}>
+            마이페이지
             <ToggleButton>
-              {isSubMenuOpen ? (
+              {isMyPageSubMenuOpen ? (
                 <Image src={chevron_up} alt="chevron_up" />
               ) : (
                 <Image src={chevron_down} alt="chevron_down" />
               )}
             </ToggleButton>
           </Menu>
-          {isSubMenuOpen && (
+          {isMyPageSubMenuOpen && (
+            <SubMenu>
+              <Item onClick={() => router.push(`/mypage/myInfo`)}>내 정보</Item>
+              <Item onClick={() => router.push(`/mypage/myStars`)}>
+                나의 추억별
+              </Item>
+            </SubMenu>
+          )}
+          <Menu onClick={() => setIsMyStarSubMenuOpen(!isMyStarSubMenuOpen)}>
+            나의 별자리
+            <ToggleButton>
+              {isMyStarSubMenuOpen ? (
+                <Image src={chevron_up} alt="chevron_up" />
+              ) : (
+                <Image src={chevron_down} alt="chevron_down" />
+              )}
+            </ToggleButton>
+          </Menu>
+          {isMyStarSubMenuOpen && (
             <SubMenu>
               <div style={{ padding: "10px" }}>
                 유저 정보를 받아오고 있어요...
@@ -115,18 +130,35 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
         )}
       </Profile>
       <MenuBar>
-        <Menu onClick={() => router.push(`/mypage`)}>마이페이지</Menu>
-        <Menu onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}>
-          나의 별자리
+        <Menu onClick={() => setIsMyPageSubMenuOpen(!isMyPageSubMenuOpen)}>
+          마이페이지
           <ToggleButton>
-            {isSubMenuOpen ? (
+            {isMyPageSubMenuOpen ? (
               <Image src={chevron_up} alt="chevron_up" />
             ) : (
               <Image src={chevron_down} alt="chevron_down" />
             )}
           </ToggleButton>
         </Menu>
-        {isSubMenuOpen && (
+        {isMyPageSubMenuOpen && (
+          <SubMenu>
+            <Item onClick={() => router.push(`/mypage/myInfo`)}>내 정보</Item>
+            <Item onClick={() => router.push(`/mypage/myStars`)}>
+              나의 추억별
+            </Item>
+          </SubMenu>
+        )}
+        <Menu onClick={() => setIsMyStarSubMenuOpen(!isMyStarSubMenuOpen)}>
+          나의 별자리
+          <ToggleButton>
+            {isMyStarSubMenuOpen ? (
+              <Image src={chevron_up} alt="chevron_up" />
+            ) : (
+              <Image src={chevron_down} alt="chevron_down" />
+            )}
+          </ToggleButton>
+        </Menu>
+        {isMyStarSubMenuOpen && (
           <SubMenu>
             {userData ? (
               !userData.petList || userData?.petList.length === 0 ? (
@@ -139,13 +171,13 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
                 </NoPet>
               ) : (
                 userData.petList.map((item, index) => (
-                  <Item
+                  <PetItem
                     key={index}
                     onClick={() => router.push(`/main/${item.pet_id}`)}
                   >
                     <PetImage src={item.pet_img} alt="" />
                     {item.pet_name}
-                  </Item>
+                  </PetItem>
                 ))
               )
             ) : (
@@ -171,7 +203,8 @@ export default NavBar;
 const Wrapper = styled.div<{ isOpen: boolean }>`
   display: flex;
   flex-direction: column;
-  background: #f7f2fa;
+  background: #0c1322;
+  color: #fff;
   border-radius: 7px 0 0 7px;
   position: fixed;
   top: 0;
@@ -183,9 +216,6 @@ const Wrapper = styled.div<{ isOpen: boolean }>`
   box-shadow: ${({ isOpen }) =>
     isOpen ? "-4px 0 10px rgba(0, 0, 0, 0.2)" : "none"};
   z-index: 1000;
-
-  // background: #19193c;
-  // color: white;
 `;
 
 const Profile = styled.div`
@@ -227,12 +257,13 @@ const Menu = styled.div`
   font-weight: 900;
   font-size: 20px;
   cursor: pointer;
+  gap: 10px;
 `;
 
 const SubMenu = styled.div`
-  border: 1px solid #d9d9d9;
   display: flex;
   flex-direction: column;
+  gap: 5px;
 `;
 
 const PetImage = styled(Image)`
@@ -246,10 +277,10 @@ const Item = styled.div`
   align-items: center;
   gap: 15px;
   padding: 10px;
+`;
 
-  &:hover {
-    background-color: #ecd1fc61;
-  }
+const PetItem = styled(Item)`
+  background-color: #162132;
 `;
 
 const ToggleButton = styled.button`
