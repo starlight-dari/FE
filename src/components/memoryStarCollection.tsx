@@ -84,6 +84,7 @@ const MemoryStarCollection = () => {
             </Star>
             {isStarInfoModalOpen && (
               <StarPage
+                key={index}
                 memoryId={item.memory_id}
                 onClose={closeStarInfoModal}
               />
