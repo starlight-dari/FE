@@ -82,7 +82,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
       });
 
       console.log("서버 응답:", response);
-      setLoginUserId(response.data.userId);
+      setLoginUserId(response.data);
     } catch (error) {
       console.error("로그인된 유저 정보 요청 중 오류 발생:", error);
     }
