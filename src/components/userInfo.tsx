@@ -107,21 +107,21 @@ const UserInfo = () => {
           <UserNickName>
             닉네임: <Input value={nickname} onChange={handleNicknameChange} />
             <EditButton onClick={saveUserNickname}>
-              {/* <Image src={edit} alt="edit" width={12} height={12} /> */}
-              저장
+              <Image src={edit} alt="edit" width={19} height={19} />
             </EditButton>
           </UserNickName>
         ) : (
           <UserNickName>
             닉네임: {userData.st_nickname}
             <EditButton onClick={editUserNickname}>
-              {/* <Image src={edit} alt="edit" width={12} height={12} /> */}
-              수정
+              <Image src={edit} alt="edit" width={19} height={19} />
             </EditButton>
           </UserNickName>
         )}
       </UserWrapper>
-      <MemoryStar>추억별{userData.memory_num}</MemoryStar>
+      <MemoryStar>
+        추억별 <span style={{ color: "#FDE587" }}>{userData.memory_num}</span>
+      </MemoryStar>
     </Container>
   );
 };
@@ -193,11 +193,11 @@ const EditButton = styled.button`
   align-items: center;
   border: none;
   cursor: pointer;
-  font-family: "Pretendard-Regular", sans-serif;
-  color: black;
-  background: #fff;
-  padding: 3px 5px;
-  border-radius: 5px;
+  // font-family: "Pretendard-Regular", sans-serif;
+  // color: black;
+  background: none;
+  // padding: 3px 5px;
+  // border-radius: 5px;
 `;
 
 const MemoryStar = styled.div`

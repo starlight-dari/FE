@@ -24,9 +24,9 @@ const Body = styled.div`
   width: 100vw;
   height: calc(100vh - 30px);
   align-items: center;
-  justify-content: center;
   position: absolute;
   top: 90px;
   color: #fff;
   padding-top: 30px;
+  gap: 65px;
 `;
