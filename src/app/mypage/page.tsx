@@ -22,7 +22,6 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: calc(100vh - 30px);
   align-items: center;
   position: absolute;
   top: 90px;
