@@ -80,17 +80,17 @@ const MyStar = () => {
         {petDatas?.map((item, index) => (
           <Pet key={index}>
             <PetImage src={item.pet_img} alt="pet photo" />
-            <PetName>{item.pet_name}</PetName>
-            <ul>
-              <List onClick={() => router.push(`/main/${item.pet_id}`)}>
-                {item.pet_name}자리 보러가기
-              </List>
-              <List
+            <PetName>{item.pet_name}자리</PetName>
+            <ButtonWrapper>
+              <PetButton onClick={() => router.push(`/main/${item.pet_id}`)}>
+                별자리로 이동
+              </PetButton>
+              <PetButton
                 onClick={() => router.push(`/mypage/petInfo/${item.pet_id}`)}
               >
-                {item.pet_name} 정보 보기
-              </List>
-            </ul>
+                동물 정보 보기
+              </PetButton>
+            </ButtonWrapper>
           </Pet>
         ))}
       </PetList>
@@ -102,60 +102,73 @@ const MyStar = () => {
 };
 
 const Container = styled.div`
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
-  padding: 20px;
-  width: 1100px;
-  height: 400px;
+  width: 990px;
   position: relative;
+  gap: 30px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const Title = styled.div`
   font-size: 25px;
   font-weight: 900;
-  padding-bottom: 10px;
 `;
 
 const PetList = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 300px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  height: 740px;
   overflow-y: auto;
 `;
 
 const Pet = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
+  gap: 25px;
   padding: 5px;
+  border-radius: 18px;
+  background: #d9d9d929;
+  width: 280px;
+  height: 390px;
 `;
 
 const PetImage = styled(Image)`
-  width: 127px;
-  height: 127px;
-  border-radius: 100px;
+  width: 260px;
+  height: 260px;
 `;
 
 const PetName = styled.div`
   font-size: 20px;
   font-weight: 900;
-  padding-right: 500px;
 `;
 
-const List = styled.li`
-  list-style-type: circle;
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 27px;
+`;
+
+const PetButton = styled.button`
+  width: 120px;
+  height: 56px;
+  border: none;
+  background: #101827;
   cursor: pointer;
+  color: #fff;
+  border-radius: 16px;
 `;
 
 const Button = styled.button`
   border: none;
   background: #22225e;
   cursor: pointer;
-  padding: 10px 500px;
+  padding: 10px 50px;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 13px;
   position: absolute;
-  bottom: 20px;
+  top: 0;
+  right: 10px;
 `;
 
 const NoPet = styled.div`
