@@ -78,6 +78,8 @@ const MemoryStarCollection = () => {
           <>
             <Star key={index} onClick={() => openStarInfoModal(item.memory_id)}>
               <StarImage src={item.img_url} alt="memory star" />
+              <StarTitle>별 제목</StarTitle>
+              <StarWriter>별 작성자</StarWriter>
             </Star>
             {selectedMemoryId === item.memory_id && (
               <StarPage
@@ -116,15 +118,28 @@ const MemoryStarList = styled.div`
 
 const Star = styled.div`
   display: flex;
-  jusify-content: center;
-  align-items: center;
-  width: 265px;
-  height: 325px;
+  flex-direction: column;
+  width: 320px;
+  height: 370px;
+  background: #ecddd729;
+  gap: 18px;
+  border-radius: 10px;
+  cursor: pointer;
 `;
 
 const StarImage = styled(Image)`
-  width: 265px;
-  height: 265px;
+  width: 320px;
+  height: 420px;
+  border-radius: 10px;
+`;
+
+const StarTitle = styled.div`
+  padding-left: 23px;
+`;
+
+const StarWriter = styled.div`
+  padding-left: 23px;
+  color: #79747e;
 `;
 
 const NoMemoryStar = styled.div`
