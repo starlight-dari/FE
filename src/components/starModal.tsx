@@ -66,11 +66,27 @@ const EmotionMap: Record<string, string> = {
 const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
 
+  const [loginUserId, setLoginUserId] = useState(0);
   const [starPage, setStarPage] = useState<StarPageData | null>(null);
   const [comments, setComments] = useState<CommentData[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [moreModalVisible, setMoreModalVisible] = useState(false);
+
+  const getLoginUserId = async () => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `http://${server_url}:8080/member/logined`,
+        withCredentials: true,
+      });
+
+      console.log("서버 응답:", response);
+      setLoginUserId(response.data.userId);
+    } catch (error) {
+      console.error("로그인된 유저 정보 요청 중 오류 발생:", error);
+    }
+  };
 
   const getStarInfo = async () => {
     try {
@@ -86,6 +102,14 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
     } catch (error) {
       console.error("별 기록 요청 중 오류 발생:", error);
     }
+  };
+
+  const openMoreModal = () => {
+    setMoreModalVisible(true);
+  };
+
+  const closeMoreModal = () => {
+    setMoreModalVisible(false);
   };
 
   useEffect(() => {
@@ -161,16 +185,10 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
     }
   };
 
-  const handleMore = () => {
-    console.log("more 버튼을 클릭했어요.");
-    setMoreModalVisible(true);
-    // 모달에서 수정 클릭시 수정
-    // 모달에서 삭제 클릭시 '정말 삭제하시겠습니까?' 뜨고 예 누르면 삭제
-  };
-
   useEffect(() => {
     getStarInfo();
-  }, []);
+    getLoginUserId();
+  }, [moreModalVisible]);
 
   if (!starPage) return null;
 
@@ -213,11 +231,16 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
               {starPage.commentNumber}
             </CommentState>
             {/* 작성자와 로그인된 유저가 같을 때만 보여주기 코드 추가 필요 */}
-            <MoreButton onClick={() => handleMore()}>
-              <Image src={more} alt="more" />
-            </MoreButton>
+            {loginUserId === starPage.writer_id && (
+              <MoreButton onClick={openMoreModal}>
+                <Image src={more} alt="more" />
+              </MoreButton>
+            )}
             {moreModalVisible && (
-              <EditOrDeleteModal memoryId={starPage.memory_id} />
+              <EditOrDeleteModal
+                memoryId={starPage.memory_id}
+                onClose={closeMoreModal}
+              />
             )}
           </StateWrapper>
           <CommentSection>

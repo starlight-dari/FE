@@ -90,7 +90,7 @@ const PulsatingStars = () => {
 export default function Home() {
   return (
     <>
-      <Canvas style={{ background: "black", height: "100vh" }}>
+      <Canvas style={{ height: "100vh" }}>
         <ambientLight />
         <PulsatingStars />
         <Html
