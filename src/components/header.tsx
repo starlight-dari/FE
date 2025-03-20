@@ -54,7 +54,6 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   height: 90px;
-  box-shadow: 3px 8px 10px rgba(255, 255, 255, 0.2);
 `;
 
 const Button = styled.button`
