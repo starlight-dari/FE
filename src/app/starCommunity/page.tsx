@@ -63,7 +63,14 @@ const MemoryPage = () => {
                   key={index}
                   onClick={() => openStarInfoModal(item.memory_id)}
                 >
-                  <StarImage src={item.img_url} alt="memory star" />
+                  <StarImage
+                    src={item.img_url}
+                    width={450}
+                    height={450}
+                    alt="memory star"
+                  />
+                  <StarTitle>별 제목</StarTitle>
+                  <StarWriter>별 작성자</StarWriter>
                 </Star>
                 {selectedMemoryId === item.memory_id && (
                   <StarPage
@@ -90,14 +97,12 @@ const Body = styled.div`
   align-items: center;
   height: calc(100vh - 82px);
   color: #fff;
-  padding: 10px;
 `;
 
 const TitleWrapper = styled.div`
   display: flex;
-  width: 100%;
-  padding: 15px 0 25px 50px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  width: 68vw;
+  padding: 30px 0;
   align-items: end;
   gap: 15px;
 `;
@@ -112,30 +117,40 @@ const Subtitle = styled.div`
 `;
 
 const Container = styled.div`
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-  border-right: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
-  height: 100%;
-  width: 1350px;
+  height: 930px;
   position: relative;
 `;
 
 const MemoryStarList = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: 42px;
 `;
 
 const Star = styled.div`
   display: flex;
-  jusify-content: center;
-  align-items: center;
-  width: 450px;
-  height: 450px;
+  flex-direction: column;
+  width: 265px;
+  height: 325px;
+  background: #ecddd729;
+  gap: 18px;
+  border-radius: 10px;
+  cursor: pointer;
 `;
 
 const StarImage = styled(Image)`
-  width: 450px;
-  height: 450px;
+  width: 265px;
+  height: 265px;
+  border-radius: 10px;
+`;
+
+const StarTitle = styled.div`
+  padding-left: 23px;
+`;
+
+const StarWriter = styled.div`
+  padding-left: 23px;
+  color: #79747e;
 `;
 
 const NoMemoryStar = styled.div`

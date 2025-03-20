@@ -101,7 +101,7 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
             추억앨범
             <AlertBadge />
           </Menu>
-          <Menu onClick={() => router.push(`/community`)}>추억 저장소</Menu>
+          <Menu onClick={() => router.push(`/starCommunity`)}>추억 저장소</Menu>
           <Menu onClick={() => router.push(`/shareReview`)}>후기 나눔</Menu>
         </MenuBar>
       </Wrapper>
@@ -191,7 +191,7 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
           추억앨범
           <AlertBadge />
         </Menu>
-        <Menu onClick={() => router.push(`/community`)}>추억 저장소</Menu>
+        <Menu onClick={() => router.push(`/starCommunity`)}>추억 저장소</Menu>
         <Menu onClick={() => router.push(`/shareReview`)}>후기 나눔</Menu>
       </MenuBar>
     </Wrapper>
