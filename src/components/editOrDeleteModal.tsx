@@ -4,8 +4,34 @@ import styled from "styled-components";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from "axios";
 
-const EditOrDeleteModal = ({ memoryId }: { memoryId: number }) => {
+interface MoreModalProps {
+  onClose: () => void;
+  memoryId: number;
+}
+
+const EditOrDeleteModal: React.FC<MoreModalProps> = ({ onClose, memoryId }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
+
+  const handleEdit = async (memoryId: number) => {
+    console.log("수정할 memoryID: ", memoryId);
+  };
+
+  //   const handleEdit = async (memoryId: number) => {
+  //     try {
+  //       const response = await axios({
+  //         method: "PATCH",
+  //         url: `http://${server_url}:8080/memory-stars/${memoryId}`,
+  //         withCredentials: true,
+  //         data: {}
+  //       });
+
+  //       console.log("서버 응답:", response);
+  //       alert("별을 수정했습니다.");
+  //       onClose();
+  //     } catch (error) {
+  //       console.error("별 수정 중 오류 발생:", error);
+  //     }
+  //   };
 
   const handleDelete = async (memoryId: number) => {
     try {
@@ -17,6 +43,7 @@ const EditOrDeleteModal = ({ memoryId }: { memoryId: number }) => {
 
       console.log("서버 응답:", response);
       alert("별을 삭제했습니다.");
+      onClose();
     } catch (error) {
       console.error("별 삭제 중 오류 발생:", error);
     }
@@ -25,47 +52,28 @@ const EditOrDeleteModal = ({ memoryId }: { memoryId: number }) => {
   return (
     <>
       <ModalContent>
-        <ItemWrapper>
-          <Item>수정</Item>
-          <Item onClick={() => handleDelete(memoryId)}>삭제</Item>
-        </ItemWrapper>
+        <Item onClick={() => handleEdit(memoryId)}>수정</Item>
+        <Item onClick={() => handleDelete(memoryId)}>삭제</Item>
       </ModalContent>
     </>
   );
 };
 
-const ModalOverlay = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* 까만색 배경 필터 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const ModalContent = styled.div`
   display: flex;
-  position: relative;
+  flex-direction: column;
   background: #101827;
-  width: 995px;
-  height: 600px;
   border: 1px solid #fff;
   color: #fff;
   z-index: 1000;
-`;
-
-const ItemWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  position: absolute;
+  right: -80px;
+  top: 10px;
 `;
 
 const Item = styled.div`
-  display: flex;
-  flex-direction: column;
+  cursor: pointer;
+  padding: 10px 20px;
 
   &:hover {
     background-color: #ece6f0;

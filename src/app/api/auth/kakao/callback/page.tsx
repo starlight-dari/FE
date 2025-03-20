@@ -5,7 +5,7 @@ import styled, { keyframes } from "styled-components";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-export default function Page(props) {
+export default function Page() {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
 
   const router = useRouter();
