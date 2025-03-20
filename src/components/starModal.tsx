@@ -3,9 +3,11 @@ import styled from "styled-components";
 import comment from "/public/comment.svg";
 import heart from "/public/heart.svg";
 import heart_filled from "/public/heart_filled.svg";
+import more from "/public/more.svg";
 import X from "/public/X.svg";
 import Image from "next/image";
 import axios from "axios";
+import EditOrDeleteModal from "./editOrDeleteModal";
 
 interface StarPageData {
   memory_id: number;
@@ -68,6 +70,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
   const [comments, setComments] = useState<CommentData[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isVisible, setIsVisible] = useState(false);
+  const [moreModalVisible, setMoreModalVisible] = useState(false);
 
   const getStarInfo = async () => {
     try {
@@ -158,6 +161,13 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
     }
   };
 
+  const handleMore = () => {
+    console.log("more 버튼을 클릭했어요.");
+    setMoreModalVisible(true);
+    // 모달에서 수정 클릭시 수정
+    // 모달에서 삭제 클릭시 '정말 삭제하시겠습니까?' 뜨고 예 누르면 삭제
+  };
+
   useEffect(() => {
     getStarInfo();
   }, []);
@@ -202,6 +212,13 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
               <Image src={comment} alt="comment" />
               {starPage.commentNumber}
             </CommentState>
+            {/* 작성자와 로그인된 유저가 같을 때만 보여주기 코드 추가 필요 */}
+            <MoreButton onClick={() => handleMore()}>
+              <Image src={more} alt="more" />
+            </MoreButton>
+            {moreModalVisible && (
+              <EditOrDeleteModal memoryId={starPage.memory_id} />
+            )}
           </StateWrapper>
           <CommentSection>
             <CommentWrapper>
@@ -374,6 +391,7 @@ const StateWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
+  position: relative;
 `;
 
 const LikeState = styled.div`
@@ -394,6 +412,11 @@ const LikeButton = styled.button`
   border: none;
   cursor: pointer;
   background: none;
+`;
+
+const MoreButton = styled(LikeButton)`
+  position: absolute;
+  right: 7px;
 `;
 
 const XButton = styled(LikeButton)`
