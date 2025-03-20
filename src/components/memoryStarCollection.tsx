@@ -19,15 +19,18 @@ const MemoryStarCollection = () => {
 
   const [memoryStars, setMemoryStars] = useState<MemoryStar[]>([]);
   const [memoryNumber, setMemoryNumber] = useState<number>(0);
-  const [isStarInfoModalOpen, setIsStarInfoModalOpen] = useState(false);
+  const [selectedMemoryId, setSelectedMemoryId] = useState<number | null>(null);
+  // const [isStarInfoModalOpen, setIsStarInfoModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const openStarInfoModal = () => {
-    setIsStarInfoModalOpen(true);
+  const openStarInfoModal = (memoryId: number) => {
+    // setIsStarInfoModalOpen(true);
+    setSelectedMemoryId(memoryId);
   };
 
   const closeStarInfoModal = () => {
-    setIsStarInfoModalOpen(false);
+    // setIsStarInfoModalOpen(false);
+    setSelectedMemoryId(null);
   };
 
   useEffect(() => {
@@ -79,10 +82,10 @@ const MemoryStarCollection = () => {
       <MemoryStarList>
         {memoryStars?.map((item, index) => (
           <>
-            <Star key={index} onClick={openStarInfoModal}>
+            <Star key={index} onClick={() => openStarInfoModal(item.memory_id)}>
               <StarImage src={item.img_url} alt="memory star" />
             </Star>
-            {isStarInfoModalOpen && (
+            {selectedMemoryId === item.memory_id && (
               <StarPage
                 key={index}
                 memoryId={item.memory_id}
