@@ -99,7 +99,7 @@ const UserInfo = () => {
         <UserDetail>
           <User>
             <UserName>{userData.kk_nickname}</UserName>
-            <span>님</span>
+            <span style={{ fontSize: "20px" }}>님</span>
           </User>
           <UserEmail>{userData.email}</UserEmail>
         </UserDetail>
@@ -121,20 +121,21 @@ const UserInfo = () => {
           </UserNickName>
         )}
       </UserWrapper>
-      <MemoryStar>추억별 {userData.memory_num}</MemoryStar>
+      <MemoryStar>추억별{userData.memory_num}</MemoryStar>
     </Container>
   );
 };
 
 const Container = styled.div`
+  width: 910px;
+  height: 80px;
+  border-radius: 18px;
   display: flex;
-  width: 100%;
-  width: calc(100vw - 360px);
   align-items: center;
-  gap: 20px;
-  padding: 20px;
-  border-bottom: 1px solid #fff;
+  gap: 30px;
+  padding: 20px 40px;
   position: relative;
+  background: #d9d9d929;
 `;
 
 const UserImage = styled(Image)`
@@ -146,12 +147,12 @@ const UserImage = styled(Image)`
 const UserWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 7px;
+  gap: 10px;
 `;
 
 const UserDetail = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 20px;
   align-items: center;
 `;
 
@@ -164,18 +165,19 @@ const User = styled.div`
 
 const UserName = styled.span`
   font-weight: 900;
-  font-size: 17px;
+  font-size: 28px;
 `;
 
 const UserEmail = styled.div`
   color: #d9d9d9;
-  font-size: 12px;
+  font-size: 17px;
 `;
 
 const UserNickName = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+  font-size: 21px;
 `;
 
 const Input = styled.input`
@@ -200,7 +202,8 @@ const EditButton = styled.button`
 
 const MemoryStar = styled.div`
   position: absolute;
-  right: 100px;
+  right: 75px;
+  font-size: 27px;
 `;
 
 export default UserInfo;
