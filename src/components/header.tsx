@@ -6,10 +6,13 @@ import Logo from "/public/starlight-logo-horizontal.png";
 import Menu from "/public/menu.svg";
 import styled from "styled-components";
 import NavBar from "./navBar";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -29,7 +32,13 @@ const Header = () => {
 
   return (
     <Container>
-      <Image src={Logo} alt="별빛다리" width={170} />
+      <Image
+        src={Logo}
+        alt="별빛다리"
+        width={240}
+        style={{ cursor: "pointer" }}
+        onClick={() => router.push(`/mypage`)}
+      />
       <Button onClick={() => setIsOpen(!isOpen)}>
         <Image src={Menu} alt="메뉴" />
       </Button>
@@ -44,7 +53,7 @@ const Container = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  height: 65px;
+  height: 90px;
   box-shadow: 3px 8px 10px rgba(255, 255, 255, 0.2);
 `;
 
