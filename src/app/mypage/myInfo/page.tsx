@@ -2,9 +2,9 @@
 
 import React from "react";
 import styled from "styled-components";
-import Header from "../../components/header";
-import UserInfo from "../../components/userInfo";
-import MyStar from "../../components/myStar";
+import Header from "../../../components/header";
+import UserInfo from "../../../components/userInfo";
+import MyStar from "../../../components/myStar";
 
 export default function Page() {
   return (
@@ -22,7 +22,6 @@ const Body = styled.div`
   display: flex;
   flex-direction: column;
   width: 100vw;
-  height: calc(100vh - 30px);
   align-items: center;
   position: absolute;
   top: 90px;

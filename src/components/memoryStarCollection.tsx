@@ -15,12 +15,9 @@ interface MemoryStar {
 const MemoryStarCollection = () => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
 
-  const router = useRouter();
-
   const [memoryStars, setMemoryStars] = useState<MemoryStar[]>([]);
   const [memoryNumber, setMemoryNumber] = useState<number>(0);
   const [selectedMemoryId, setSelectedMemoryId] = useState<number | null>(null);
-  // const [isStarInfoModalOpen, setIsStarInfoModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const openStarInfoModal = (memoryId: number) => {
@@ -38,9 +35,6 @@ const MemoryStarCollection = () => {
           method: "GET",
           url: `http://${server_url}:8080/memory-stars`,
           withCredentials: true,
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
         });
 
         console.log("서버 응답:", response);
@@ -49,7 +43,7 @@ const MemoryStarCollection = () => {
         setMemoryNumber(response.data.memoryNumber);
         setLoading(false);
       } catch (error) {
-        console.error("반려동물 정보 요청 중 오류 발생:", error);
+        console.error("나의 추억별 정보 요청 중 오류 발생:", error);
         setLoading(false);
       }
     };
@@ -68,6 +62,7 @@ const MemoryStarCollection = () => {
   if (memoryStars.length === 0) {
     return (
       <Container>
+        <Title>나의 추억별</Title>
         <NoMemoryStar>
           <h3>새 별자리를 만들고 별에 추억을 기록해보세요.</h3>
         </NoMemoryStar>
@@ -77,6 +72,7 @@ const MemoryStarCollection = () => {
 
   return (
     <Container>
+      <Title>나의 추억별</Title>
       <MemoryStarList>
         {memoryStars?.map((item, index) => (
           <>
@@ -98,29 +94,37 @@ const MemoryStarCollection = () => {
 };
 
 const Container = styled.div`
-  border-left: 1px solid rgba(255, 255, 255, 0.3);
-  border-right: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
-  height: 100%;
+  width: 990px;
   position: relative;
+  gap: 30px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const Title = styled.div`
+  font-size: 25px;
+  font-weight: 900;
 `;
 
 const MemoryStarList = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  height: 740px;
+  overflow-y: auto;
 `;
 
 const Star = styled.div`
   display: flex;
   jusify-content: center;
   align-items: center;
-  width: 450px;
-  height: 450px;
+  width: 265px;
+  height: 325px;
 `;
 
 const StarImage = styled(Image)`
-  width: 450px;
-  height: 450px;
+  width: 265px;
+  height: 265px;
 `;
 
 const NoMemoryStar = styled.div`

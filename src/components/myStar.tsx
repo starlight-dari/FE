@@ -127,7 +127,7 @@ const Pet = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 25px;
-  padding: 5px;
+  padding: 20px;
   border-radius: 18px;
   background: #d9d9d929;
   width: 280px;
