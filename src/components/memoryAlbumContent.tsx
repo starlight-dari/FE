@@ -48,7 +48,7 @@ const AlbumContent: React.FC<PetAlbumContentProps> = ({ petId }) => {
     <>
       <Container>
         {petAlbumContent?.map((item, index) => (
-          <Letter key={index}>
+          <Letter key={index} isOpened={item.opened}>
             <LetterTitle>{item.title}</LetterTitle>
             <LetterContent>{item.content}</LetterContent>
           </Letter>
@@ -72,6 +72,18 @@ const Container = styled.div`
   width: calc(100vw - 400px);
 `;
 
-const Letter = styled.div``;
-const LetterTitle = styled.div``;
-const LetterContent = styled.div``;
+const Letter = styled.div<{ isOpened: boolean }>`
+  font-weight: ${({ isOpened }) => (isOpened ? 400 : 900)};
+`;
+
+const LetterTitle = styled.div`
+  font-size: 20px;
+`;
+
+const LetterContent = styled.div`
+  font-size: 15px;
+  width: 600px; // 임시 지정
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;

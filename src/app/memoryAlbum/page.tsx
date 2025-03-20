@@ -42,8 +42,8 @@ const Page: React.FC = () => {
           <AlbumContent petId={selectedPetId} />
         ) : (
           <h1>
-            왼쪽에서 반려동물을 선택해서 반려동물로부터 도착한 편지를
-            확인해보세요.
+            왼쪽에서 반려동물을 선택해서 <br />
+            반려동물로부터 도착한 편지를 확인해보세요.
           </h1>
         )}
       </Body>
@@ -59,4 +59,5 @@ const Body = styled.div`
   justify-content: center;
   position: absolute;
   top: 100px;
+  color: #fff;
 `;

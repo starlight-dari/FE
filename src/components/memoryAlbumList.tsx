@@ -41,7 +41,7 @@ const AlbumList: React.FC<AlbumListProps> = ({ onSelectPet }) => {
         {albumData?.map((item, index) => (
           <>
             <List key={index} onClick={() => onSelectPet(item.petId)}>
-              <Image src={item.imgUrl} alt="pet photo" />
+              <Image width={95} height={95} src={item.imgUrl} alt="pet photo" />
               {item.petName}
               {item.arrived && <AlertBadge>{item.arrivedCount}</AlertBadge>}
             </List>
@@ -81,7 +81,7 @@ const AlertBadge = styled.span`
 
 const Title = styled.div`
   font-weight: 900;
-  font-size: 20px;
+  font-size: 27px;
   margin-bottom: 30px;
 `;
 
