@@ -37,7 +37,7 @@ const Header = () => {
         alt="별빛다리"
         width={240}
         style={{ cursor: "pointer" }}
-        onClick={() => router.push(`/mypage`)}
+        onClick={() => router.push(`/mypage/myInfo`)}
       />
       <Button onClick={() => setIsOpen(!isOpen)}>
         <Image src={Menu} alt="메뉴" />
