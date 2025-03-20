@@ -24,12 +24,10 @@ const MemoryStarCollection = () => {
   const [loading, setLoading] = useState(true);
 
   const openStarInfoModal = (memoryId: number) => {
-    // setIsStarInfoModalOpen(true);
     setSelectedMemoryId(memoryId);
   };
 
   const closeStarInfoModal = () => {
-    // setIsStarInfoModalOpen(false);
     setSelectedMemoryId(null);
   };
 
