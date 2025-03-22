@@ -9,6 +9,8 @@ import StarPage from "./starModal";
 
 interface MemoryStar {
   memory_id: number;
+  name: string;
+  writer_name: string;
   img_url: string;
 }
 
@@ -78,8 +80,8 @@ const MemoryStarCollection = () => {
           <>
             <Star key={index} onClick={() => openStarInfoModal(item.memory_id)}>
               <StarImage src={item.img_url} alt="memory star" />
-              <StarTitle>별 제목</StarTitle>
-              <StarWriter>별 작성자</StarWriter>
+              <StarTitle>{item.name}</StarTitle>
+              <StarWriter>{item.writer_name}</StarWriter>
             </Star>
             {selectedMemoryId === item.memory_id && (
               <StarPage
@@ -120,7 +122,7 @@ const Star = styled.div`
   display: flex;
   flex-direction: column;
   width: 320px;
-  height: 370px;
+  height: 415px;
   background: #ecddd729;
   gap: 18px;
   border-radius: 10px;
@@ -129,17 +131,25 @@ const Star = styled.div`
 
 const StarImage = styled(Image)`
   width: 320px;
-  height: 420px;
+  height: 320px;
   border-radius: 10px;
 `;
 
 const StarTitle = styled.div`
   padding-left: 23px;
+  width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const StarWriter = styled.div`
   padding-left: 23px;
   color: #79747e;
+  width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const NoMemoryStar = styled.div`
