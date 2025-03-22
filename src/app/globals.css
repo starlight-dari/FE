@@ -1,10 +1,5 @@
 :root {
-  --background: radial-gradient(
-    circle,
-    rgba(44, 62, 80, 0.9) 10%,
-    /* 중심 - 약간 밝은 블루 */ rgba(22, 34, 51, 0.95) 40%,
-    /* 중간 - 딥 블루 */ rgba(12, 19, 34, 1) 80% /* 외곽 - 거의 블랙 */
-  );
+  --background: #101827;
   --foreground: #171717;
 }
 
@@ -13,6 +8,15 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+.radial-background {
+  --background: radial-gradient(
+    circle,
+    rgba(44, 62, 80, 0.9) 10%,
+    rgba(22, 34, 51, 0.95) 40%,
+    rgba(12, 19, 34, 1) 80%
+  );
 }
 
 body {
