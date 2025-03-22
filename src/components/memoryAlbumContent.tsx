@@ -161,7 +161,8 @@ const LetterContent = styled.div`
 const AlertBadge = styled.span`
   background: #f1683d;
   position: absolute;
-  right: 0;
+  right: 38px;
+  top: calc(50% - 10px);
   width: 20px;
   height: 20px;
   border-radius: 100px;
@@ -170,8 +171,10 @@ const AlertBadge = styled.span`
 const NoLetter = styled.div`
   color: #fff;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 50px 110px;
+  padding: 0 110px;
   height: calc(-105px + 100vh);
+  width: 1205px;
 `;
