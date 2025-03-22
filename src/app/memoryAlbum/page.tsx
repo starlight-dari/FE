@@ -39,4 +39,5 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   color: #fff;
+  width: 1425px;
 `;
