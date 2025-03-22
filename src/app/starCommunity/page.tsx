@@ -10,6 +10,8 @@ import Image from "next/image";
 
 interface MemoryStar {
   memory_id: number;
+  name: string;
+  writer_name: string;
   img_url: string;
 }
 
@@ -69,8 +71,8 @@ const MemoryPage = () => {
                     height={450}
                     alt="memory star"
                   />
-                  <StarTitle>별 제목</StarTitle>
-                  <StarWriter>별 작성자</StarWriter>
+                  <StarTitle>{item.name}</StarTitle>
+                  <StarWriter>{item.writer_name}</StarWriter>
                 </Star>
                 {selectedMemoryId === item.memory_id && (
                   <StarPage
@@ -131,7 +133,7 @@ const Star = styled.div`
   display: flex;
   flex-direction: column;
   width: 265px;
-  height: 325px;
+  height: 360px;
   background: #ecddd729;
   gap: 18px;
   border-radius: 10px;
@@ -146,11 +148,19 @@ const StarImage = styled(Image)`
 
 const StarTitle = styled.div`
   padding-left: 23px;
+  width: 220px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const StarWriter = styled.div`
   padding-left: 23px;
   color: #79747e;
+  width: 220px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const NoMemoryStar = styled.div`
