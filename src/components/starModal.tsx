@@ -248,7 +248,9 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
             <CommentWrapper>
               {comments.map((comment, index) => (
                 <Comment key={index}>
-                  <p>{comment.writer_name}</p>
+                  <p style={{ fontWeight: "600", color: "#adc3f3" }}>
+                    {comment.writer_name}
+                  </p>
                   <p>{comment.content}</p>
                 </Comment>
               ))}
@@ -364,12 +366,15 @@ const CommentWrapper = styled.div`
 
 // 댓글 목록 스타일
 const Comment = styled.div`
+  display: flex;
+  flex-direction: column;
   margin-bottom: 10px;
   font-size: 1rem;
   color: #dcdcdc;
-  padding: 10px;
+  padding: 15px 20px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 6px;
+  gap: 10px;
 `;
 
 // 댓글 입력창 스타일
