@@ -32,6 +32,7 @@ interface CommentData {
   memory_id: number;
   content: string;
   writer_id: number;
+  writer_name: string;
 }
 
 interface StarPageModalProps {
@@ -246,7 +247,10 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
           <CommentSection>
             <CommentWrapper>
               {comments.map((comment, index) => (
-                <Comment key={index}>{comment.content}</Comment>
+                <Comment key={index}>
+                  <p>{comment.writer_name}</p>
+                  <p>{comment.content}</p>
+                </Comment>
               ))}
             </CommentWrapper>
             <CommentInputContainer>
