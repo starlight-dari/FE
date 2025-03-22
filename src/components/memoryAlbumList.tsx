@@ -41,7 +41,12 @@ const AlbumList: React.FC<AlbumListProps> = ({ onSelectPet }) => {
         {albumData?.map((item, index) => (
           <>
             <List key={index} onClick={() => onSelectPet(item.petId)}>
-              <Image width={95} height={95} src={item.imgUrl} alt="pet photo" />
+              <PetImage
+                width={40}
+                height={40}
+                src={item.imgUrl}
+                alt="pet photo"
+              />
               {item.petName}
               {item.arrived && <AlertBadge>{item.arrivedCount}</AlertBadge>}
             </List>
@@ -59,15 +64,14 @@ const PetList = styled.ul`
   flex-direction: column;
   width: 300px;
   height: calc(-126px + 100vh);
-  padding: 10px 20px;
+  padding: 10px 0;
   color: #fff;
   gap: 10px;
-  border-right: 1px solid #fff;
 `;
 
 const AlertBadge = styled.span`
   color: white;
-  background: #ffcc00;
+  background: #f1683d;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,12 +86,20 @@ const AlertBadge = styled.span`
 const Title = styled.div`
   font-weight: 900;
   font-size: 27px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #fff;
+  padding-bottom: 10px;
+  padding-left: 30px;
 `;
 
 const List = styled.li`
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 20px;
   position: relative;
+  padding-left: 27px;
+`;
+
+const PetImage = styled(Image)`
+  border-radius: 100px;
 `;
