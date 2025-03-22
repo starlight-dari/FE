@@ -15,6 +15,7 @@ export interface PetFormData {
   birth_date: string;
   death_date: string;
   personality: string;
+  nickname: string;
   selected_x: number;
   selected_y: number;
 }
@@ -29,6 +30,7 @@ export default function Page() {
     birth_date: "",
     death_date: "",
     personality: "",
+    nickname: "",
     selected_x: 256,
     selected_y: 256,
   });
@@ -37,21 +39,24 @@ export default function Page() {
   return (
     <>
       <Header />
-      {step === 1 ? (
-        <NewPetInfo
-          formData={formData}
-          setFormData={setFormData}
-          setImage={setImage}
-          nextStep={() => setStep(2)}
-        />
-      ) : (
-        <PetCoordinatesInfo
-          formData={formData}
-          setFormData={setFormData}
-          petImage={image}
-          prevStep={() => setStep(1)}
-        />
-      )}
+      <Body>
+        <Title>새 별자리 만들기</Title>
+        {step === 1 ? (
+          <NewPetInfo
+            formData={formData}
+            setFormData={setFormData}
+            setImage={setImage}
+            nextStep={() => setStep(2)}
+          />
+        ) : (
+          <PetCoordinatesInfo
+            formData={formData}
+            setFormData={setFormData}
+            petImage={image}
+            prevStep={() => setStep(1)}
+          />
+        )}
+      </Body>
       <ProgressBarWrapper>
         <CompletedBar />
         {step === 1 ? <ProgressBar /> : <CompletedBar />}
@@ -59,6 +64,20 @@ export default function Page() {
     </>
   );
 }
+
+const Body = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: #fff;
+  padding: 50px;
+  gap: 30px;
+`;
+
+const Title = styled.div`
+  font-weight: 900;
+  font-size: 30px;
+`;
 
 const ProgressBarWrapper = styled.div`
   display: flex;
