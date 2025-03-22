@@ -10,7 +10,7 @@ interface PetAlbumContentProps {
   petId: number | null;
 }
 
-export interface PetAlbumContent {
+interface PetAlbumContent {
   letter_id: number;
   pet_id: number;
   title: string;
@@ -20,6 +20,8 @@ export interface PetAlbumContent {
 }
 
 const AlbumContent: React.FC<PetAlbumContentProps> = ({ petId }) => {
+  const router = useRouter();
+
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
   const [selectedPet, setSelectedPet] = useState<AlbumData | null>(null);
   const [petAlbumContent, setPetAlbumContent] = useState<
@@ -64,6 +66,10 @@ const AlbumContent: React.FC<PetAlbumContentProps> = ({ petId }) => {
     getPetAlbumContent();
   }, [petId]);
 
+  const handleLetterClick = (letterId: number) => {
+    router.push(`/memoryAlbum/${petId}/${letterId}`);
+  };
+
   if (!petId) return <h1>반려동물을 선택해주세요.</h1>;
 
   if (selectedPet && !selectedPet.albumStarted) {
@@ -86,7 +92,10 @@ const AlbumContent: React.FC<PetAlbumContentProps> = ({ petId }) => {
         <Title>도착한 편지들</Title>
         {petAlbumContent && petAlbumContent.length > 0 ? (
           petAlbumContent?.map((item, index) => (
-            <Letter key={index}>
+            <Letter
+              key={index}
+              onClick={() => handleLetterClick(item.letter_id)}
+            >
               <LetterTitle>{item.title}</LetterTitle>
               <LetterContent>{item.content}</LetterContent>
               {!item.opened && <AlertBadge />}
