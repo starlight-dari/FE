@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { AlbumData } from "../app/memoryAlbum/page";
 import Image from "next/image";
 
 interface PetAlbumContentProps {
@@ -24,7 +23,6 @@ export interface LetterDetail {
 
 const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
-  const [selectedPet, setSelectedPet] = useState<AlbumData | null>(null);
   const [letterDetail, setLetterDetail] = useState<LetterDetail | null>(null);
 
   useEffect(() => {
@@ -38,10 +36,6 @@ const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
           withCredentials: true,
         });
 
-        const petInfo = response.data.find(
-          (pet: AlbumData) => pet.petId === petId
-        );
-        setSelectedPet(petInfo);
         console.log("서버 응답:", response);
         setLetterDetail(response.data);
       } catch (error) {
