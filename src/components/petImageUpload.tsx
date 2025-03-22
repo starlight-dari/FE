@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import photoIcon from "/public/photo-icon.svg";
 import { PetFormData } from "../app/add_new_animal/page";
+import { resizeImage } from "./resizeImage";
 
 interface ImageUploadProps {
   formData: PetFormData;
@@ -15,19 +16,21 @@ const PetImageUpload: React.FC<ImageUploadProps> = ({
   setFormData,
   setImage,
 }) => {
-  // const [image, setImage] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
+      const resizedFile = await resizeImage(file);
       setImage(URL.createObjectURL(file));
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
         ...prev,
-        pet_img: file,
+        pet_img: resizedFile,
       }));
     }
   };
@@ -46,11 +49,12 @@ const PetImageUpload: React.FC<ImageUploadProps> = ({
     setDragging(false);
     const file = event.dataTransfer.files?.[0];
     if (file) {
+      const resizedFile = resizeImage(file);
       setImage(URL.createObjectURL(file));
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
         ...prev,
-        pet_img: file,
+        pet_img: resizedFile,
       }));
     }
   };
@@ -72,14 +76,14 @@ const PetImageUpload: React.FC<ImageUploadProps> = ({
         ) : (
           <Placeholder>
             <Image src={photoIcon} alt="photoIcon" />
-            <p style={{ fontWeight: "bold", fontSize: "20px" }}>
-              사진을 업로드해주세요.
+            <p style={{ fontSize: "20px", color: "#fff" }}>
+              반려동물의 사진을 올려주세요.
             </p>
-            <p style={{ color: "#3A578D" }}>
+            <p style={{ color: "#c0a9f8" }}>
               올려주신 반려동물의 사진을 바탕으로 별자리 모양이 생성돼요.
               <br />
-              또, 추억앨범에서 편지를 보내드릴 때<br />
-              AI 이미지 생성에도 이 사진이 사용될 거에요.
+              별자리가 생성된 뒤에는 사진을 수정할 수 없으니 신중하게
+              골라주세요!
             </p>
           </Placeholder>
         )}
@@ -92,7 +96,9 @@ const PetImageUpload: React.FC<ImageUploadProps> = ({
           }}
         />
       </DropZone>
-      <Button onClick={handleButtonClick}>컴퓨터에서 선택하기</Button>
+      <Button onClick={handleButtonClick} photoUploaded={imagePreview !== null}>
+        컴퓨터에서 선택하기
+      </Button>
     </Container>
   );
 };
@@ -104,25 +110,21 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 460px;
-  height: 535px;
-  background-color: #ece6f0;
-  color: black;
-  border: 1px dashed #65558f;
+  width: 512px;
+  height: 512px;
+  background-color: #d9d9d91a;
+  color: #fff;
   gap: 10px;
   position: relative;
-  margin-left: 100px;
 `;
 
 const DropZone = styled.div<{ dragging: boolean }>`
   width: 100%;
-  height: 400px;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: black;
-  padding: 20px;
   text-align: center;
   cursor: pointer;
 `;
@@ -131,24 +133,26 @@ const Placeholder = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 20px;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ photoUploaded: boolean }>`
   border: none;
-  background: #22225e;
+  background: #d9d9d91a;
+  background: ${({ photoUploaded }) =>
+    photoUploaded ? "#374151" : "rgba(170, 200, 255, 0.15)"};
   cursor: pointer;
   padding: 10px 30px;
-  color: #fff;
+  color: #adc3f3;
   border-radius: 5px;
   position: absolute;
   bottom: 10px;
 `;
 
 const Preview = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `;
 
 const Input = styled.input`

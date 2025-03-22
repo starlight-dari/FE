@@ -13,13 +13,28 @@ interface NewPetInfoFormProps {
   nextStep: () => void;
 }
 
+const GENDER_OPTIONS = [
+  { label: "여성", value: "FEMALE" },
+  { label: "남성", value: "MALE" },
+  { label: "모르겠어요", value: "NONE" },
+];
+
+const PERSONALITY_OPTIONS = [
+  "애교가 많아요",
+  "혼자서도 잘 놀아요",
+  "호기심이 많아요",
+  "얌전해요",
+  "자기주장이 강해요",
+  "감수성이 풍부해요",
+];
+
 const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
   formData,
   setFormData,
   setImage,
   nextStep,
 }) => {
-  const [genderSelected, setGenderSelected] = useState("");
+  const [genderSelected, setGenderSelected] = useState<string>("");
 
   const handleGenderSelect = (e: any) => {
     setGenderSelected(e.target.value);
@@ -29,8 +44,8 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
     }));
   };
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [personalitySelected, setPersonalitySelected] = useState("성격");
+  const [personalitySelected, setPersonalitySelected] =
+    useState<string>("성격");
 
   const handlePersonalitySelect = (option: string) => {
     const PersonalityMap: Record<string, string> = {
@@ -43,7 +58,6 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
     };
 
     setPersonalitySelected(option);
-    setIsOpen(false);
 
     setFormData((prev: PetFormData) => ({
       ...prev,
@@ -77,154 +91,109 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
           setFormData={setFormData}
           setImage={setImage}
         />
-        <ItemWrapper>
-          <Title>새 별자리 만들기</Title>
-          <Item>
-            <Label style={{ paddingRight: "24px" }}>이름</Label>
-            <Input
-              placeholder="반려동물의 이름으로 별자리가 만들어질 거에요."
-              value={formData.pet_name}
-              onChange={(e) =>
-                setFormData((prev: PetFormData) => ({
-                  ...prev,
-                  pet_name: e.target.value,
-                }))
-              }
-            />
-          </Item>
-          <Item>
-            <Label style={{ paddingRight: "38px" }}>종</Label>
-            <Input
-              placeholder="종을 적어주세요. (예: 강아지, 고양이)"
-              value={formData.species}
-              onChange={(e) =>
-                setFormData((prev: PetFormData) => ({
-                  ...prev,
-                  species: e.target.value,
-                }))
-              }
-            />
-          </Item>
-          <Item>
-            <Label style={{ paddingRight: "24px" }}>성별</Label>
-            <GenderButton>
-              <input
-                type="radio"
-                id="MALE"
-                name="gender"
-                value="MALE"
-                checked={genderSelected === "MALE"}
+        <FormContainer>
+          <Label>이름</Label>
+          <Input
+            type="text"
+            placeholder="반려동물의 이름으로 별자리가 만들어질 거에요."
+            value={formData.pet_name}
+            onChange={(e) =>
+              setFormData((prev: PetFormData) => ({
+                ...prev,
+                pet_name: e.target.value,
+              }))
+            }
+          />
+
+          <Label>종</Label>
+          <Input
+            type="text"
+            placeholder="종을 적어주세요. (예: 강아지, 고양이)"
+            value={formData.species}
+            onChange={(e) =>
+              setFormData((prev: PetFormData) => ({
+                ...prev,
+                species: e.target.value,
+              }))
+            }
+          />
+
+          <Label>호칭</Label>
+          <Input
+            type="text"
+            placeholder="반려동물에게 당신은 어떤 역할을 맡고 있나요? (예: 엄마)"
+            value={formData.nickname}
+            onChange={(e) =>
+              setFormData((prev: PetFormData) => ({
+                ...prev,
+                nickname: e.target.value,
+              }))
+            }
+          />
+
+          <Label>성별</Label>
+          <GenderOptions>
+            {GENDER_OPTIONS.map(({ label, value }) => (
+              <GenderButton
+                key={value}
+                isSelected={genderSelected === value}
                 onChange={(e) => {
                   handleGenderSelect(e);
                 }}
-              />
-              <label
-                htmlFor="MALE"
-                className={genderSelected === "MALE" ? "selected" : ""}
               >
-                남자
-              </label>
-              <input
-                type="radio"
-                id="FEMALE"
-                name="gender"
-                value="FEMALE"
-                checked={genderSelected === "FEMALE"}
-                onChange={(e) => {
-                  handleGenderSelect(e);
-                }}
-              />
-              <label
-                htmlFor="FEMALE"
-                className={genderSelected === "FEMALE" ? "selected" : ""}
-              >
-                여자
-              </label>
-              <input
-                type="radio"
-                id="NONE"
-                name="gender"
-                value="NONE"
-                checked={genderSelected === "NONE"}
-                onChange={(e) => {
-                  handleGenderSelect(e);
-                }}
-              />
-              <label
-                htmlFor="NONE"
-                className={genderSelected === "NONE" ? "selected" : ""}
-              >
-                모르겠어요
-              </label>
-            </GenderButton>
-          </Item>
-          <Item>
-            <Label style={{ paddingRight: "30px" }}>태어난 날</Label>
-            <DateInput
-              type="date"
-              value={formData.birth_date}
-              max={today}
-              onChange={(e) =>
-                setFormData((prev: any) => ({
-                  ...prev,
-                  birth_date: e.target.value,
-                }))
-              }
-            />
-          </Item>
-          <Item>
-            <Label style={{ paddingRight: "26px" }}>별이 된 날</Label>
-            <DateInput
-              type="date"
-              value={formData.death_date}
-              max={today}
-              onChange={(e) =>
-                setFormData((prev: any) => ({
-                  ...prev,
-                  death_date: e.target.value,
-                }))
-              }
-            />
-          </Item>
-          <Item>
-            <Label style={{ paddingRight: "62px" }}>성격</Label>
-            <SelectWrapper>
-              <SelectedOption onClick={() => setIsOpen(!isOpen)}>
-                {personalitySelected}
-              </SelectedOption>
-              <OptionsList isOpen={isOpen}>
-                <OptionItem
-                  onClick={() => handlePersonalitySelect("애교가 많아요")}
-                >
-                  애교가 많아요
-                </OptionItem>
-                <OptionItem
-                  onClick={() => handlePersonalitySelect("혼자서도 잘 놀아요")}
-                >
-                  혼자서도 잘 놀아요
-                </OptionItem>
-                <OptionItem
-                  onClick={() => handlePersonalitySelect("호기심이 많아요")}
-                >
-                  호기심이 많아요
-                </OptionItem>
-                <OptionItem onClick={() => handlePersonalitySelect("얌전해요")}>
-                  얌전해요
-                </OptionItem>
-                <OptionItem
-                  onClick={() => handlePersonalitySelect("자기주장이 강해요")}
-                >
-                  자기주장이 강해요
-                </OptionItem>
-                <OptionItem
-                  onClick={() => handlePersonalitySelect("감수성이 풍부해요")}
-                >
-                  감수성이 풍부해요
-                </OptionItem>
-              </OptionsList>
-            </SelectWrapper>
-          </Item>
-        </ItemWrapper>
+                <input
+                  type="radio"
+                  name="gender"
+                  value={value}
+                  checked={genderSelected === value}
+                  onChange={(e) => {
+                    handleGenderSelect(e);
+                  }}
+                />
+                {label}
+              </GenderButton>
+            ))}
+          </GenderOptions>
+
+          <Label>태어난 날</Label>
+          <Input
+            type="date"
+            value={formData.birth_date}
+            max={today}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                birth_date: e.target.value,
+              }))
+            }
+          />
+
+          <Label>별이 된 날</Label>
+          <Input
+            type="date"
+            value={formData.death_date}
+            max={today}
+            onChange={(e) =>
+              setFormData((prev: any) => ({
+                ...prev,
+                death_date: e.target.value,
+              }))
+            }
+          />
+
+          <Label>성격</Label>
+          <Select
+            value={personalitySelected}
+            onChange={(e) => handlePersonalitySelect(e.target.value)}
+          >
+            <option>성격 선택</option>
+            {PERSONALITY_OPTIONS.map((personality) => (
+              <option key={personality} value={personality}>
+                {personality}
+              </option>
+            ))}
+          </Select>
+        </FormContainer>
         <Button
           onClick={() => {
             nextStep();
@@ -241,118 +210,84 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
 
 const Body = styled.div`
   display: flex;
-  padding: 30px;
-  color: white;
+  padding: 50px;
+  color: #fff;
   position: relative;
   align-items: center;
-  gap: 150px;
+  gap: 35px;
+  background: linear-gradient(to bottom, #d9d9d91a 0%, #7373731a 100%);
+  border-radius: 10px;
 `;
 
-const ItemWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  justify-content: center;
-`;
-
-const Item = styled.div`
-  display: flex;
+const FormContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
   align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 495px;
 `;
 
-const Title = styled.span`
-  font-weight: 900;
-  font-size: 20px;
-  margin-bottom: 30px;
+const Label = styled.label`
+  color: white;
+  font-size: 14px;
 `;
 
-const Label = styled.span``;
+const GenderOptions = styled.div`
+  display: flex;
+  gap: 10px;
+`;
 
-const GenderButton = styled.span`
-  input[type="radio"] {
-    display: none;
+const GenderButton = styled.label<{ isSelected: boolean }>`
+  padding: 10px;
+  background: ${({ isSelected }) => (isSelected ? "#4b5563" : "#374151")};
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+  width: 100px;
+
+  &:hover {
+    background: #4b5563;
   }
 
-  // input[type="radio"]:checked + label {
-  //   background-color: #22225e;
-  //   color: #fff;
-  // }
-
-  label {
-    display: inline-block;
-    padding: 10px 20px;
-    border: 1px solid gray;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #ece6f0;
-      color: black;
-    }
-
-    &.selected {
-      background-color: #22225e;
-      color: #fff;
-    }
+  input {
+    display: none;
   }
 `;
 
 const Input = styled.input`
-  width: 350px;
   padding: 10px;
-  border: 1px solid gray;
-  outline: none;
+  border: 1px solid #374151;
+  border-radius: 5px;
+  background: #1f2937;
+  color: white;
+  font-size: 14px;
+  width: 100%;
 `;
 
-const DateInput = styled.input`
+const Select = styled.select`
   padding: 10px;
-  border: 1px solid gray;
-  cursor: pointer;
-`;
-
-const SelectWrapper = styled.div`
-  position: relative;
-  width: 190px;
-`;
-
-const SelectedOption = styled.div`
-  padding: 10px;
-  border: 1px solid gray;
-  background-color: #fff;
-  color: black;
-  cursor: pointer;
-`;
-
-const OptionsList = styled.ul<{ isOpen: boolean }>`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 190px;
-  border: 1px solid gray;
-  background-color: #fff;
-  color: black;
-  list-style: none;
-  padding: 0;
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
-  height: 100px;
-  overflow-y: auto;
-`;
-
-const OptionItem = styled.li`
-  padding: 10px;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #ece6f0;
-  }
+  border: 1px solid #374151;
+  border-radius: 5px;
+  background: #1f2937;
+  color: white;
+  font-size: 14px;
+  width: 100%;
 `;
 
 const Button = styled.button<{ disabled: boolean }>`
   width: 146px;
   height: 40px;
-  border: none;
+  border: ${({ disabled }) => (disabled ? "1px solid #767D8B" : "none")};
   border-radius: 5px;
-  background: ${({ disabled }) => (disabled ? "#d9d9d98c" : "#22225e")};
-  color: #fff;
+  background: ${({ disabled }) =>
+    disabled ? "transparent" : "rgba(170, 200, 255, 0.15)"};
+  color: ${({ disabled }) => (disabled ? "#767D8B" : "#adc3f3")};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   position: absolute;
   bottom: 25px;

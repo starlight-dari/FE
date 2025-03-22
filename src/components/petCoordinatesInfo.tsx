@@ -43,7 +43,6 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
       const data = new FormData();
 
       // 파일 및 데이터 추가
-      // data.append("pet_img", formData.pet_img); // 파일 객체로 추가
       if (formData.pet_img) {
         data.append("pet_img", formData.pet_img);
       }
@@ -85,20 +84,42 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
           setFormData={setFormData}
         />
         <ItemWrapper>
-          <TitleWrapper>
-            <Title>새 별자리 만들기</Title>
-            <TransparentButton onClick={openModal}>
-              <Image src={help} alt="" />
-            </TransparentButton>
-          </TitleWrapper>
-          <div>
-            {formData.pet_name}의 몸 위에 점을 위치시켜 주세요. <br />
-            올려주신 {formData.pet_name}의 사진을 바탕으로 별자리 모양이 생성될
-            거에요.
-          </div>
-          <TransparentButton onClick={prevStep}>
+          <GoBackButton onClick={prevStep}>
             <Image src={goBack} alt="" />
-          </TransparentButton>
+          </GoBackButton>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+              fontSize: "22px",
+            }}
+          >
+            <p>
+              <span
+                style={{
+                  color: "#adc3f3",
+                }}
+              >
+                {formData.pet_name}
+              </span>
+              의 몸 위에 점을 위치시켜 주세요.
+            </p>
+            <p>
+              올려주신{" "}
+              <span
+                style={{
+                  color: "#adc3f3",
+                }}
+              >
+                {formData.pet_name}
+              </span>
+              의 사진을 바탕으로 별자리 모양이 생성될 거에요.
+            </p>
+            <HelpButton onClick={openModal}>
+              <Image src={help} alt="" />
+            </HelpButton>
+          </div>
         </ItemWrapper>
         <Button onClick={() => postNewPetInfo(setLoading)}>
           새 별자리 만들기
@@ -111,26 +132,24 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
 };
 
 const Body = styled.div`
+  width: 1122px;
+  height: 552px;
   display: flex;
   padding: 30px;
-  color: white;
+  color: #fff;
   position: relative;
   align-items: center;
-  gap: 150px;
+  gap: 100px;
+  background: linear-gradient(to bottom, #d9d9d91a 0%, #7373731a 100%);
+  border-radius: 10px;
 `;
 
 const ItemWrapper = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 140px;
-  justify-content: center;
-`;
-
-const TitleWrapper = styled.div`
-  display: flex;
-  display: flex;
+  height: 100%;
   align-items: center;
-  gap: 3px;
+  justify-content: center;
+  position: relative;
 `;
 
 const TransparentButton = styled.button`
@@ -141,21 +160,24 @@ const TransparentButton = styled.button`
   cursor: pointer;
 `;
 
-const Title = styled.span`
-  font-weight: 900;
-  font-size: 20px;
+const GoBackButton = styled(TransparentButton)`
+  position: absolute;
+  left: -26px;
+  top: 26px;
 `;
+
+const HelpButton = styled(TransparentButton)``;
 
 const Button = styled.button`
   width: 146px;
   height: 40px;
   border: none;
   border-radius: 5px;
-  background: #22225e;
-  color: #fff;
+  background: rgba(170, 200, 255, 0.15);
+  color: #adc3f3;
   cursor: pointer;
   position: absolute;
-  bottom: 25px;
+  bottom: 50px;
   right: 70px;
 `;
 
