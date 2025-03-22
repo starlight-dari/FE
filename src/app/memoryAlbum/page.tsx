@@ -41,10 +41,12 @@ const Page: React.FC = () => {
         {selectedPetId ? (
           <AlbumContent petId={selectedPetId} />
         ) : (
-          <h1>
-            왼쪽에서 반려동물을 선택해서 <br />
-            반려동물로부터 도착한 편지를 확인해보세요.
-          </h1>
+          <Container>
+            <h1>
+              왼쪽에서 반려동물을 선택해서 <br />
+              반려동물로부터 도착한 편지를 확인해보세요.
+            </h1>
+          </Container>
         )}
       </Body>
     </>
@@ -55,9 +57,17 @@ export default Page;
 
 const Body = styled.div`
   display: flex;
-  height: calc(100vh - 65px);
+  height: calc(-105px + 100vh);
   justify-content: center;
   position: absolute;
   top: 100px;
+  color: #fff;
+`;
+
+const Container = styled.div`
+  display: flex;
+  height: calc(-105px + 100vh);
+  align-items: center;
+  justify-content: center;
   color: #fff;
 `;
