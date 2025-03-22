@@ -283,10 +283,11 @@ const Select = styled.select`
 const Button = styled.button<{ disabled: boolean }>`
   width: 146px;
   height: 40px;
-  border: none;
+  border: ${({ disabled }) => (disabled ? "1px solid #767D8B" : "none")};
   border-radius: 5px;
-  background: ${({ disabled }) => (disabled ? "#d9d9d98c" : "#22225e")};
-  color: #fff;
+  background: ${({ disabled }) =>
+    disabled ? "transparent" : "rgba(170, 200, 255, 0.15)"};
+  color: ${({ disabled }) => (disabled ? "#767D8B" : "#adc3f3")};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   position: absolute;
   bottom: 25px;

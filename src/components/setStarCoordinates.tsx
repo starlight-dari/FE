@@ -50,8 +50,6 @@ const ImageResizer: React.FC<{
 
       // 캔버스 초기화 후 흰색 배경 채우기
       ctx.clearRect(0, 0, 512, 512);
-      ctx.fillStyle = "white";
-      ctx.fillRect(0, 0, 512, 512);
 
       // 중앙 정렬된 위치 계산
       const offsetX = (512 - newWidth) / 2;
@@ -75,13 +73,7 @@ const ImageResizer: React.FC<{
   };
 
   return (
-    <canvas
-      ref={canvasRef}
-      width={512}
-      height={512}
-      style={{ border: "1px solid black" }}
-      onClick={handleClick}
-    />
+    <canvas ref={canvasRef} width={512} height={512} onClick={handleClick} />
   );
 };
 
@@ -122,18 +114,11 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  // width: 550px;
-  // height: 550px;
-  // background-color: #ece6f0;
+  width: 512px;
+  height: 512px;
+  background: #d9d9d91a;
   position: relative;
-  margin-left: 100px;
 `;
-
-// const PetImage = styled(Image)`
-//   width: 512px;
-//   height: auto;
-//   // cursor: move;
-// `;
 
 const Dot = styled.div<{ x: number; y: number }>`
   position: absolute;
@@ -141,9 +126,13 @@ const Dot = styled.div<{ x: number; y: number }>`
   left: ${({ x }) => x - 5}px;
   width: 10px;
   height: 10px;
-  background-color: #d793ff;
-  border: 1px solid #ad40ec;
+  box-shadow: 0px 0px 10px 5px #b7be17;
   border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 200, 1) 0%,
+    rgba(255, 223, 128, 0.5) 100%
+  );
   cursor: move;
 `;
 

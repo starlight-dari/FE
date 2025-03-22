@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import photoIcon from "/public/photo-icon.svg";
 import { PetFormData } from "../app/add_new_animal/page";
+import { resizeImage } from "./resizeImage";
 
 interface ImageUploadProps {
   formData: PetFormData;
@@ -19,14 +20,17 @@ const PetImageUpload: React.FC<ImageUploadProps> = ({
   const [dragging, setDragging] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
+      const resizedFile = await resizeImage(file);
       setImage(URL.createObjectURL(file));
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
         ...prev,
-        pet_img: file,
+        pet_img: resizedFile,
       }));
     }
   };
@@ -45,11 +49,12 @@ const PetImageUpload: React.FC<ImageUploadProps> = ({
     setDragging(false);
     const file = event.dataTransfer.files?.[0];
     if (file) {
+      const resizedFile = resizeImage(file);
       setImage(URL.createObjectURL(file));
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
         ...prev,
-        pet_img: file,
+        pet_img: resizedFile,
       }));
     }
   };
@@ -135,10 +140,10 @@ const Button = styled.button<{ photoUploaded: boolean }>`
   border: none;
   background: #d9d9d91a;
   background: ${({ photoUploaded }) =>
-    photoUploaded ? "#374151" : "#d9d9d91a"};
+    photoUploaded ? "#374151" : "rgba(170, 200, 255, 0.15)"};
   cursor: pointer;
   padding: 10px 30px;
-  color: #fff;
+  color: #adc3f3;
   border-radius: 5px;
   position: absolute;
   bottom: 10px;
