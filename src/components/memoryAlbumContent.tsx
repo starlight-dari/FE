@@ -80,11 +80,13 @@ const AlbumContent: React.FC<PetAlbumContentProps> = ({ petId }) => {
   return (
     <>
       <Container>
+        <Title>도착한 편지들</Title>
         {petAlbumContent && petAlbumContent.length > 0 ? (
           petAlbumContent?.map((item, index) => (
-            <Letter key={index} isOpened={item.opened}>
+            <Letter key={index}>
               <LetterTitle>{item.title}</LetterTitle>
               <LetterContent>{item.content}</LetterContent>
+              {item.opened && <AlertBadge />}
             </Letter>
           ))
         ) : (
@@ -102,25 +104,50 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  padding: 40px 30px;
-  gap: 25px;
-  flex-grow: 1;
-  height: calc(-185px + 100vh);
-  width: calc(100vw - 400px);
+  padding: 50px 110px;
+  gap: 6px;
+  height: calc(-200px + 100vh);
+  overflow-y: auto;
 `;
 
-const Letter = styled.div<{ isOpened: boolean }>`
-  font-weight: ${({ isOpened }) => (isOpened ? 400 : 900)};
+const Title = styled.div`
+  font-size: 25px;
+  padding-bottom: 20px;
+`;
+
+const Letter = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: 400;
+  background: linear-gradient(to bottom, #d9d9d91a 0%, #7373731a 100%);
+  border-radius: 10px;
+  padding: 30px;
+  width: 1180px;
+  position: relative;
 `;
 
 const LetterTitle = styled.div`
-  font-size: 20px;
-`;
-
-const LetterContent = styled.div`
-  font-size: 15px;
-  width: 600px; // 임시 지정
+  font-size: 22px;
+  width: 1145px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+`;
+
+const LetterContent = styled.div`
+  font-size: 18px;
+  width: 1145px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`;
+
+const AlertBadge = styled.span`
+  background: #f1683d;
+  position: absolute;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 100px;
 `;
