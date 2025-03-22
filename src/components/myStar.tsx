@@ -6,16 +6,10 @@ import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-interface PetData {
-  member_id: number;
+interface MyPetData {
   pet_id: number;
-  pet_img: string;
+  pet_svg: string;
   pet_name: string;
-  species: string;
-  gender: string;
-  birth_date: string;
-  death_date: string;
-  personality: string;
 }
 
 const MyStar = () => {
@@ -23,7 +17,7 @@ const MyStar = () => {
 
   const router = useRouter();
 
-  const [petDatas, setPetDatas] = useState<PetData[] | null>([]);
+  const [petDatas, setPetDatas] = useState<MyPetData[] | null>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,9 +27,6 @@ const MyStar = () => {
           method: "GET",
           url: `http://${server_url}:8080/pets`,
           withCredentials: true,
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-          },
         });
 
         console.log("서버 응답:", response);
@@ -79,7 +70,7 @@ const MyStar = () => {
       <PetList>
         {petDatas?.map((item, index) => (
           <Pet key={index}>
-            <PetImage src={item.pet_img} alt="pet photo" />
+            <PetImage src={item.pet_svg} alt="pet photo" />
             <PetName>{item.pet_name}자리</PetName>
             <ButtonWrapper>
               <PetButton onClick={() => router.push(`/main/${item.pet_id}`)}>

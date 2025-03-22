@@ -7,7 +7,6 @@ import { useRouter } from "next/navigation";
 
 export default function Page() {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
-  const [isLoading, setIsLoading] = useState(true);
 
   const router = useRouter();
   const hasRun = useRef(false);
@@ -22,7 +21,6 @@ export default function Page() {
           const code = new URL(window.location.href).searchParams.get("code");
           if (!code) {
             console.error("인가 코드가 없습니다.");
-            setIsLoading(false);
             return;
           }
 
@@ -39,7 +37,6 @@ export default function Page() {
           router.push("/mypage/myInfo");
         } catch (error) {
           console.error("카카오 로그인 요청 중 오류 발생:", error);
-          setIsLoading(false);
         }
       };
 
@@ -47,16 +44,10 @@ export default function Page() {
     }
   }, []);
 
-  if (isLoading) {
+  return (
     <Body>
       <Spinner />
       <h1>로그인 중입니다...</h1>
-    </Body>;
-  }
-
-  return (
-    <Body>
-      <h1>로그인에 실패했습니다. 다시 시도해주세요.</h1>
     </Body>
   );
 }
