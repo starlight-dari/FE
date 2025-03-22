@@ -2,6 +2,7 @@ import GlobalStyle from "./styles/globalStyles";
 import "./globals.css";
 import NightSky from "../components/nightsky";
 import { Metadata } from "next";
+import DynamicBackground from "./background";
 
 export const metadata: Metadata = {
   title: "별빛다리",
@@ -35,6 +36,7 @@ export default function RootLayout({
       <body>
         <GlobalStyle />
         <NightSky />
+        <DynamicBackground />
         {children}
       </body>
     </html>
