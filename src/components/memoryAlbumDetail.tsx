@@ -22,8 +22,11 @@ export interface LetterDetail {
 }
 
 const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
+  const router = useRouter();
+
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
   const [letterDetail, setLetterDetail] = useState<LetterDetail | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     if (!petId) return;
@@ -48,38 +51,90 @@ const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
 
   if (!letterDetail) return null;
 
+  const totalImages = letterDetail.images.length;
+
+  const prevImage = () => {
+    setCurrentIndex((prev) => (prev === 0 ? totalImages - 1 : prev - 1));
+  };
+
+  const nextImage = () => {
+    setCurrentIndex((prev) => (prev === totalImages - 1 ? 0 : prev + 1));
+  };
+  const handleLetterClick = () => {
+    router.push(`/memoryAlbum/${petId}`);
+  };
+
   return (
-    <>
+    <Body>
+      <Button onClick={() => handleLetterClick()}>목록</Button>
       <Container>
-        <Image src={letterDetail.images[0]} alt="" />
+        <CarouselWrapper>
+          <ArrowButton onClick={prevImage}>{"<"}</ArrowButton>
+          <Image
+            src={letterDetail.images[currentIndex]}
+            alt=""
+            width={200}
+            height={200}
+          />
+          <ArrowButton onClick={nextImage}>{">"}</ArrowButton>
+        </CarouselWrapper>
         <Wrapper>
-          <div style={{ display: "flex" }}>
+          <LetterHeader>
             <Title>{letterDetail.title}</Title>
             <Date>{letterDetail.createdAt}</Date>
-          </div>
+          </LetterHeader>
           <Content>{letterDetail.content}</Content>
         </Wrapper>
       </Container>
-      <Button>목록</Button>
-    </>
+    </Body>
   );
 };
 
 export default LetterDetail;
 
+const Body = styled.div`
+  display: flex;
+  height: calc(-105px + 100vh);
+  align-items: center;
+  justify-content: center;
+  width: 1425px;
+`;
+
 const Container = styled.div`
   color: #fff;
   display: flex;
   padding: 50px 30px;
-  width: 1200px;
+  width: 1100px;
   height: calc(-200px + 100vh);
+  height: 630px;
+  background: linear-gradient(to bottom, #d9d9d91a 0%, #7373731a 100%);
+  border-radius: 10px;
 `;
 
-const Letter = styled.div``;
+const CarouselWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const ArrowButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 5px;
+`;
+
+const LetterHeader = styled.div`
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+`;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 30px;
 `;
 
 const Title = styled.div`

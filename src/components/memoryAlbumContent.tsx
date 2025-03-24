@@ -140,6 +140,7 @@ const Letter = styled.div`
   padding: 30px;
   width: 1140px;
   position: relative;
+  cursor: pointer;
 `;
 
 const LetterTitle = styled.div`
