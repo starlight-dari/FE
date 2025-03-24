@@ -6,6 +6,7 @@ import {
   useState,
   useEffect,
   ReactNode,
+  useCallback,
 } from "react";
 import axios from "axios";
 
@@ -59,21 +60,26 @@ export const AlbumProvider: React.FC<{ children: ReactNode }> = ({
   >(null);
   const [letterDetail, setLetterDetail] = useState<LetterDetail | null>(null);
 
-  const fetchPetList = async (petId: number | null) => {
-    try {
-      const response = await axios.get(
-        `http://${server_url}:8080/memory-album/status`,
-        { withCredentials: true }
-      );
-      setAlbumData(response.data);
-      const petInfo = response.data.find(
-        (pet: AlbumData) => pet.petId === petId
-      );
-      setSelectedPet(petInfo);
-    } catch (error) {
-      console.error("앨범 데이터 가져오기 실패:", error);
-    }
-  };
+  const fetchPetList = useCallback(
+    async (petId: number | null) => {
+      try {
+        const response = await axios.get(
+          `http://${server_url}:8080/memory-album/status`,
+          { withCredentials: true }
+        );
+        setAlbumData(response.data);
+        if (petId !== null) {
+          const petInfo = response.data.find(
+            (pet: AlbumData) => pet.petId === petId
+          );
+          setSelectedPet(petInfo || null);
+        }
+      } catch (error) {
+        console.error("앨범 데이터 가져오기 실패:", error);
+      }
+    },
+    [server_url]
+  );
 
   const fetchPetAlbum = async (petId: number) => {
     try {
@@ -104,7 +110,13 @@ export const AlbumProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     fetchPetList(null);
-  }, []);
+  }, [fetchPetList]);
+
+  useEffect(() => {
+    if (selectedPet) {
+      fetchPetList(selectedPet.petId);
+    }
+  }, [selectedPet, fetchPetList]);
 
   return (
     <AlbumContext.Provider
