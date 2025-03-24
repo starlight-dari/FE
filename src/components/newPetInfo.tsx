@@ -243,7 +243,7 @@ const GenderOptions = styled.div`
 const GenderButton = styled.label<{ isSelected: boolean }>`
   padding: 10px;
   background: ${({ isSelected }) => (isSelected ? "#4b5563" : "#374151")};
-  color: white;
+  color: ${({ isSelected }) => (isSelected ? "#ADC3F3" : "#fff")};
   border: none;
   border-radius: 5px;
   cursor: pointer;
