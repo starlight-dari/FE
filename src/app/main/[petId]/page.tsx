@@ -24,6 +24,8 @@ export default function Page() {
 
   const [selectedStarId, setSelectedStarId] = useState<number | null>(null);
   const [selectedMemoryId, setSelectedMemoryId] = useState<number | null>(null);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+
   const [isAddStarModalOpen, setIsAddStarModalOpen] = useState(false);
   const [isStarInfoModalOpen, setIsStarInfoModalOpen] = useState(false);
   const [messageVisible, setMessageVisible] = useState(false);
@@ -123,14 +125,16 @@ export default function Page() {
           selectedStarId={selectedStarId}
           onStarClick={handleStarClick}
         />
-        <ConstellationName>{petData.petName}</ConstellationName>
+        <ConstellationName>{petData.petName}자리</ConstellationName>
         <BottomMessage
           ref={messageRef}
           show={messageVisible}
           onAddClick={() => handleAddStar(selectedStarId)}
         />
       </Body>
-      <ChatbotModal />
+      {isChatbotOpen && (
+        <ChatbotModal onClose={() => setIsChatbotOpen(false)} />
+      )}
       {isAddStarModalOpen && (
         <AddStarModal starId={selectedStarId} onClose={closeAddStarModal} />
       )}
