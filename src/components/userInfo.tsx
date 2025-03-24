@@ -85,7 +85,7 @@ const UserInfo = () => {
   };
 
   if (loading) {
-    return <h1>로그인 중입니다...</h1>;
+    return <SkeletonUI />;
   }
 
   if (!userData) {
@@ -204,6 +204,26 @@ const MemoryStar = styled.div`
   position: absolute;
   right: 75px;
   font-size: 27px;
+`;
+
+const SkeletonUI = styled.div`
+  width: 990px;
+  height: 120px;
+  border-radius: 18px;
+  background: #d9d9d929;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  animation: pulse 1.7s infinite ease-in-out;
+  @keyframes pulse {
+    0% {
+      background: rgba(200, 200, 200, 0.9);
+    }
+    50% {
+      background: rgba(200, 200, 200, 0.5);
+    }
+    100% {
+      background: rgba(200, 200, 200, 0.9);
+    }
+  }
 `;
 
 export default UserInfo;

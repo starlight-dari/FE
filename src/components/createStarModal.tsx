@@ -16,14 +16,14 @@ const CreateStarModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   return (
     <ModalOverlay>
       <ModalContent onClick={(e) => e.stopPropagation()}>
-        <ModalTitle>
-          올려주신 반려동물의 사진을 바탕으로 별자리 모양이 생성될 거에요.
-          반려동물 위에 점을 찍어주세요.
-        </ModalTitle>
         <ModalBody>
+          <p>
+            올려주신 반려동물의 사진을 바탕으로 별자리 모양이 생성될 거에요.
+          </p>
+          <p>반려동물 위에 점을 찍어주세요.</p>
           <ImageWrapper>
             <Image src={petImage} alt="pet image" />
-            <Arrow src={arrow} alt="" />
+            <Image src={arrow} alt="" />
             <Image
               src={constellation}
               alt="constellation example"
@@ -70,60 +70,40 @@ const ModalOverlay = styled.div`
 `;
 
 const ModalContent = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
   position: relative;
-  background: #101827;
-  width: 995px;
-  height: 500px;
+  background: linear-gradient(to bottom, #23242b 0%, #0c172a 100%);
+  width: 1160px;
+  height: 565px;
   padding: 40px 0;
-  border: 1px solid #fff;
-`;
-
-const ModalTitle = styled.div`
-  color: #fff;
-  border-top: 1px solid #fff;
-  padding-top: 20px;
-  text-align: center;
-  font-weight: 900;
-  font-size: 18px;
+  border-radius: 10px;
 `;
 
 const ModalBody = styled.div`
   display: flex;
   flex-direction: column;
   padding: 20px;
-  gap: 10px;
+  color: #fff;
+  align-items: center;
+  gap: 15px;
 `;
 
 const ImageWrapper = styled.div`
   display: flex;
-  justify-content: space-evenly;
   align-items: center;
-`;
-
-const Arrow = styled(Image)`
-  animation: moveLeftRight 0.8s infinite alternate;
-
-  @keyframes moveLeftRight {
-    0% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(15px);
-    }
-    100% {
-      transform: translateX(0);
-    }
-  }
+  gap: 27px;
+  padding-left: 78px;
 `;
 
 const Info = styled.div`
   padding: 10px 0;
-  border: 1px solid #fff;
+  width: 740px;
   color: #fff;
 `;
 
 const Tip = styled.div`
-  font-weight: 900;
   font-size: 20px;
   padding-left: 10px;
 `;
@@ -134,17 +114,14 @@ const List = styled.ul`
 `;
 
 const Highlight = styled.span`
-  color: #d793ff;
+  color: #adc3f3;
 `;
 
 const Button = styled.button`
   border-radius: 5px;
-  background: #d793ff;
+  background: #adc3f3;
   border: none;
   color: #fff;
   padding: 10px 30px;
-  position: absolute;
-  bottom: 7px;
-  right: 20px;
   cursor: pointer;
 `;
