@@ -48,7 +48,7 @@ const ImageResizer: React.FC<{
         newWidth = (originalWidth / originalHeight) * 512;
       }
 
-      // 캔버스 초기화 후 흰색 배경 채우기
+      // 캔버스 초기화
       ctx.clearRect(0, 0, 512, 512);
 
       // 중앙 정렬된 위치 계산
@@ -67,9 +67,10 @@ const ImageResizer: React.FC<{
 
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const flippedY = 512 - y; // Y축 반전 적용
+    // const flippedY = 512 - y; // Y축 반전 적용
 
-    onClick(x, flippedY);
+    // onClick(x, flippedY);
+    onClick(x, y);
   };
 
   return (
@@ -95,7 +96,8 @@ const StarCoordinates: React.FC<StarCoordinatesProps> = ({
       selected_y: y,
     }));
 
-    console.log(`Flipped x, y: ${x}, ${y}`);
+    // console.log(`Flipped x, y: ${x}, ${y}`);
+    console.log(`x, y: ${x}, ${y}`);
   };
 
   return (
