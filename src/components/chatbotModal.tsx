@@ -50,7 +50,7 @@ interface ChatMessageSet {
   memberId: number;
 }
 
-const ChatbotModal = () => {
+const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
   const [question, setQuestion] = useState<string>("");
   const [category, setCategory] = useState<number | null>(null);
@@ -118,13 +118,13 @@ const ChatbotModal = () => {
         { withCredentials: true }
       );
       console.log("전송한 내용:", question);
-      setQuestion("");
-      console.log("답변 내용:", response.data.answer);
 
       setChatMessages((prevMessages) => [
         ...prevMessages,
         { question, response: response.data.answer },
       ]);
+      setQuestion("");
+      console.log("답변 내용:", response.data.answer);
     } catch (error) {
       console.error("메시지 전송 중 오류 발생:", error);
     }
@@ -135,7 +135,7 @@ const ChatbotModal = () => {
       <ModalContainer>
         <Header>
           <Title>AI 별빛 *</Title>
-          <CloseButton onClick={() => alert("창 닫힘을 실행했습니다.")}>
+          <CloseButton onClick={onClose}>
             <Image src={close} alt="close" />
           </CloseButton>
         </Header>
