@@ -3,67 +3,20 @@
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { AlbumData } from "../app/memoryAlbum/page";
+import { useAlbum } from "../context/AlbumContext";
 
 interface PetAlbumContentProps {
   petId: number | null;
 }
 
-interface PetAlbumContent {
-  letter_id: number;
-  pet_id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  opened: boolean;
-}
-
 const AlbumContent: React.FC<PetAlbumContentProps> = ({ petId }) => {
   const router = useRouter();
-
-  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
-  const [selectedPet, setSelectedPet] = useState<AlbumData | null>(null);
-  const [petAlbumContent, setPetAlbumContent] = useState<
-    PetAlbumContent[] | null
-  >(null);
+  const { petAlbumContent, selectedPet, fetchPetList } = useAlbum();
 
   useEffect(() => {
-    if (!petId) return;
-
-    const fetchSelectedPet = async () => {
-      try {
-        const response = await axios({
-          method: "GET",
-          url: `http://${server_url}:8080/memory-album/status`,
-          withCredentials: true,
-        });
-
-        const petInfo = response.data.find(
-          (pet: AlbumData) => pet.petId === petId
-        );
-        setSelectedPet(petInfo);
-      } catch (error) {
-        console.error("반려동물 정보 가져오기 중 오류 발생:", error);
-      }
-    };
-
-    const getPetAlbumContent = async () => {
-      try {
-        const response = await axios({
-          method: "GET",
-          url: `http://${server_url}:8080/memory-album/pet/${petId}`,
-          withCredentials: true,
-        });
-
-        console.log("서버 응답:", response);
-        setPetAlbumContent(response.data);
-      } catch (error) {
-        console.error("추억 앨범 요청 중 오류 발생:", error);
-      }
-    };
-    fetchSelectedPet();
-    getPetAlbumContent();
+    if (!petId) {
+      fetchPetList(petId);
+    }
   }, [petId]);
 
   const handleLetterClick = (letterId: number) => {
