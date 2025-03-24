@@ -58,32 +58,36 @@ const MemoryPage = () => {
           <Subtitle>다른 별빛들의 추억들을 둘러보세요.</Subtitle>
         </TitleWrapper>
         <Container>
-          <MemoryStarList>
-            {memoryStars?.map((item, index) => (
-              <>
-                <Star
-                  key={index}
-                  onClick={() => openStarInfoModal(item.memory_id)}
-                >
-                  <StarImage
-                    src={item.img_url}
-                    width={450}
-                    height={450}
-                    alt="memory star"
-                  />
-                  <StarTitle>{item.name}</StarTitle>
-                  <StarWriter>{item.writer_name}</StarWriter>
-                </Star>
-                {selectedMemoryId === item.memory_id && (
-                  <StarPage
+          {memoryStars.length == 0 ? (
+            <p>아직 공개된 추억들이 없어요.</p>
+          ) : (
+            <MemoryStarList>
+              {memoryStars?.map((item, index) => (
+                <>
+                  <Star
                     key={index}
-                    memoryId={item.memory_id}
-                    onClose={closeStarInfoModal}
-                  />
-                )}
-              </>
-            ))}
-          </MemoryStarList>
+                    onClick={() => openStarInfoModal(item.memory_id)}
+                  >
+                    <StarImage
+                      src={item.img_url}
+                      width={450}
+                      height={450}
+                      alt="memory star"
+                    />
+                    <StarTitle>{item.name}</StarTitle>
+                    <StarWriter>{item.writer_name}</StarWriter>
+                  </Star>
+                  {selectedMemoryId === item.memory_id && (
+                    <StarPage
+                      key={index}
+                      memoryId={item.memory_id}
+                      onClose={closeStarInfoModal}
+                    />
+                  )}
+                </>
+              ))}
+            </MemoryStarList>
+          )}
         </Container>
       </Body>
     </>
@@ -120,6 +124,7 @@ const Subtitle = styled.div`
 
 const Container = styled.div`
   height: 930px;
+  width: 880px;
   position: relative;
 `;
 

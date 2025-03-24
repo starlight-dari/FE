@@ -62,20 +62,22 @@ const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
     <Body>
       <Button onClick={() => handleLetterClick()}>목록</Button>
       <Container>
-        <CarouselWrapper>
-          <ArrowButton onClick={prevImage}>
-            <Image src={left} alt="left" />
-          </ArrowButton>
-          <Image
-            src={letterDetail.images[currentIndex]}
-            alt=""
-            width={400}
-            height={400}
-          />
-          <ArrowButton onClick={nextImage}>
-            <Image src={right} alt="right" />
-          </ArrowButton>
-        </CarouselWrapper>
+        {letterDetail.images && (
+          <CarouselWrapper>
+            <ArrowButton onClick={prevImage}>
+              <Image src={left} alt="left" />
+            </ArrowButton>
+            <Image
+              src={letterDetail.images[currentIndex]}
+              alt=""
+              width={400}
+              height={400}
+            />
+            <ArrowButton onClick={nextImage}>
+              <Image src={right} alt="right" />
+            </ArrowButton>
+          </CarouselWrapper>
+        )}
         <Wrapper>
           <LetterHeader>
             <Title>{letterDetail.title}</Title>
