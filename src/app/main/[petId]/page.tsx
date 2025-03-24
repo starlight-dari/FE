@@ -126,6 +126,7 @@ export default function Page() {
           onStarClick={handleStarClick}
         />
         <ConstellationName>{petData.petName}자리</ConstellationName>
+        <div onClick={() => setIsChatbotOpen(true)}>AI 별빛 *</div>
         <BottomMessage
           ref={messageRef}
           show={messageVisible}
