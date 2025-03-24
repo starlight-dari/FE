@@ -108,9 +108,6 @@ const ChatbotModal = () => {
   const handleSendMessage = async () => {
     if (!category || !question.trim()) return;
 
-    console.log("전송한 내용:", question);
-    setQuestion("");
-
     try {
       const response = await axios.post(
         `http://${server_url}:8080/chat`,
@@ -120,6 +117,8 @@ const ChatbotModal = () => {
         },
         { withCredentials: true }
       );
+      console.log("전송한 내용:", question);
+      setQuestion("");
       console.log("답변 내용:", response.data.answer);
 
       setChatMessages((prevMessages) => [
