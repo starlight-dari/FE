@@ -107,7 +107,7 @@ const StarCoordinates: React.FC<StarCoordinatesProps> = ({
       ) : (
         <p>이미지가 없습니다.</p>
       )}
-      <Dot x={coordinates.x} y={coordinates.y} />
+      <Dot x={coordinates.x} y={512 - coordinates.y} />
     </Container>
   );
 };
