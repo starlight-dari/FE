@@ -3,24 +3,6 @@
 import styled from "styled-components";
 import React from "react";
 
-export interface AlbumData {
-  petId: number;
-  petName: string;
-  imgUrl: string;
-  albumStarted: boolean;
-  arrived: boolean;
-  arrivedCount: number;
-}
-
-export interface PetAlbumContent {
-  letter_id: number;
-  pet_id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  opened: boolean;
-}
-
 const Page: React.FC = () => {
   return (
     <>

@@ -2,11 +2,11 @@
 
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import Image from "next/image";
 import left from "/public/carousel_left.svg";
 import right from "/public/carousel_right.svg";
+import { useAlbum } from "../context/AlbumContext";
 
 interface PetAlbumContentProps {
   petId: number | null;
@@ -26,30 +26,9 @@ export interface LetterDetail {
 const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
   const router = useRouter();
 
-  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
-  const [letterDetail, setLetterDetail] = useState<LetterDetail | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    if (!petId) return;
-
-    const fetchPetAlbumLetterDetail = async () => {
-      try {
-        const response = await axios({
-          method: "GET",
-          url: `http://${server_url}:8080/memory-album/letter/${letterId}`,
-          withCredentials: true,
-        });
-
-        console.log("서버 응답:", response);
-        setLetterDetail(response.data);
-      } catch (error) {
-        console.error("반려동물 앨범 내용 가져오기 중 오류 발생:", error);
-      }
-    };
-
-    fetchPetAlbumLetterDetail();
-  }, [petId, letterId]);
+  const { letterDetail } = useAlbum();
 
   if (!letterDetail) return null;
 

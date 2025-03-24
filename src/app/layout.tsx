@@ -3,6 +3,7 @@ import "./globals.css";
 import NightSky from "../components/nightsky";
 import { Metadata } from "next";
 import DynamicBackground from "./background";
+import { AlbumProvider } from "../context/AlbumContext";
 
 export const metadata: Metadata = {
   title: "별빛다리",
@@ -37,7 +38,7 @@ export default function RootLayout({
         <GlobalStyle />
         <NightSky />
         <DynamicBackground />
-        {children}
+        <AlbumProvider>{children}</AlbumProvider>
       </body>
     </html>
   );

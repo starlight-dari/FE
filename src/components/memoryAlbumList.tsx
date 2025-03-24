@@ -2,35 +2,15 @@
 
 import Image from "next/image";
 import styled from "styled-components";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { AlbumData } from "../app/memoryAlbum/page";
+import React from "react";
+import { useAlbum } from "../context/AlbumContext";
 
 interface AlbumListProps {
   onSelectPet: (petId: number) => void;
 }
 
 const AlbumList: React.FC<AlbumListProps> = ({ onSelectPet }) => {
-  const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
-  const [albumData, setAlbumData] = useState<AlbumData[] | null>(null);
-
-  useEffect(() => {
-    const getAlbumDataInfo = async () => {
-      try {
-        const response = await axios({
-          method: "GET",
-          url: `http://${server_url}:8080/memory-album/status`,
-          withCredentials: true,
-        });
-
-        console.log("서버 응답:", response);
-        setAlbumData(response.data);
-      } catch (error) {
-        console.error("추억 앨범리스트 요청 중 오류 발생:", error);
-      }
-    };
-    getAlbumDataInfo();
-  }, []);
+  const { albumData } = useAlbum();
 
   if (!albumData) return null;
 
@@ -39,18 +19,16 @@ const AlbumList: React.FC<AlbumListProps> = ({ onSelectPet }) => {
       <PetList>
         <Title>추억앨범</Title>
         {albumData?.map((item, index) => (
-          <>
-            <List key={index} onClick={() => onSelectPet(item.petId)}>
-              <PetImage
-                width={40}
-                height={40}
-                src={item.imgUrl}
-                alt="pet photo"
-              />
-              {item.petName}
-              {item.arrived && <AlertBadge>{item.arrivedCount}</AlertBadge>}
-            </List>
-          </>
+          <List key={index} onClick={() => onSelectPet(item.petId)}>
+            <PetImage
+              width={40}
+              height={40}
+              src={item.imgUrl}
+              alt="pet photo"
+            />
+            {item.petName}
+            {item.arrived && <AlertBadge>{item.arrivedCount}</AlertBadge>}
+          </List>
         ))}
       </PetList>
     </>
