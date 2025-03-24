@@ -111,14 +111,6 @@ const ChatbotModal = () => {
     console.log("전송한 내용:", question);
     setQuestion("");
 
-    setChatMessages((prevMessages) => {
-      const updatedMessages = [
-        ...prevMessages,
-        { question, response: "로딩 중..." },
-      ];
-      return updatedMessages;
-    });
-
     try {
       const response = await axios.post(
         `http://${server_url}:8080/chat`,
@@ -130,13 +122,10 @@ const ChatbotModal = () => {
       );
       console.log("답변 내용:", response.data.answer);
 
-      setChatMessages((prevMessages) =>
-        prevMessages.map((msg, index) =>
-          index === prevMessages.length - 1 // 마지막 요소만 업데이트
-            ? { ...msg, response: response.data.answer }
-            : msg
-        )
-      );
+      setChatMessages((prevMessages) => [
+        ...prevMessages,
+        { question, response: response.data.answer },
+      ]);
     } catch (error) {
       console.error("메시지 전송 중 오류 발생:", error);
     }
