@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
+import left from "/public/carousel_left.svg";
+import right from "/public/carousel_right.svg";
 
 interface PetAlbumContentProps {
   petId: number | null;
@@ -69,14 +71,18 @@ const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
       <Button onClick={() => handleLetterClick()}>목록</Button>
       <Container>
         <CarouselWrapper>
-          <ArrowButton onClick={prevImage}>{"<"}</ArrowButton>
+          <ArrowButton onClick={prevImage}>
+            <Image src={left} alt="left" />
+          </ArrowButton>
           <Image
             src={letterDetail.images[currentIndex]}
             alt=""
-            width={200}
-            height={200}
+            width={400}
+            height={400}
           />
-          <ArrowButton onClick={nextImage}>{">"}</ArrowButton>
+          <ArrowButton onClick={nextImage}>
+            <Image src={right} alt="right" />
+          </ArrowButton>
         </CarouselWrapper>
         <Wrapper>
           <LetterHeader>
@@ -98,6 +104,8 @@ const Body = styled.div`
   align-items: center;
   justify-content: center;
   width: 1425px;
+  flex-direction: column;
+  position: relative;
 `;
 
 const Container = styled.div`
@@ -109,12 +117,16 @@ const Container = styled.div`
   height: 630px;
   background: linear-gradient(to bottom, #d9d9d91a 0%, #7373731a 100%);
   border-radius: 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
 `;
 
 const CarouselWrapper = styled.div`
   position: relative;
   display: flex;
   align-items: center;
+  gap: 5px;
 `;
 
 const ArrowButton = styled.button`
@@ -143,10 +155,12 @@ const Title = styled.div`
 
 const Date = styled.div`
   font-size: 20px;
+  color: #d9d9d93d;
 `;
 
 const Content = styled.div`
   width: 550px;
+  font-size: 22px;
 `;
 
 const Button = styled.button`
@@ -158,6 +172,6 @@ const Button = styled.button`
   color: #adc3f3;
   cursor: pointer;
   position: absolute;
-  bottom: 50px;
-  right: 70px;
+  top: 85px;
+  right: 132px;
 `;
