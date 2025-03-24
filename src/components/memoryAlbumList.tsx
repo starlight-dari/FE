@@ -98,6 +98,7 @@ const List = styled.li`
   gap: 20px;
   position: relative;
   padding-left: 27px;
+  cursor: pointer;
 `;
 
 const PetImage = styled(Image)`
