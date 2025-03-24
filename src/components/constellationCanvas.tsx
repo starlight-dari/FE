@@ -49,7 +49,7 @@ const ConstellationCanvas: React.FC<{
     image.src = petData.svgPath;
 
     image.onload = () => {
-      const CANVAS_SIZE = 700;
+      const CANVAS_SIZE = 1000;
       canvas.width = CANVAS_SIZE;
       canvas.height = CANVAS_SIZE;
 
@@ -95,8 +95,8 @@ const ConstellationCanvas: React.FC<{
           {petData.starList.map((star: Star) => (
             <StarDiv
               key={star.star_id}
-              x={star.x_star * (700 / 512) - 5} // x 좌표
-              y={star.y_star * (700 / 512) - 4.5} // y 좌표
+              x={star.x_star * (1000 / 512) - 5} // x 좌표
+              y={star.y_star * (1000 / 512) - 4.5} // y 좌표
               selected={selectedStarId === star.star_id}
               written={star.written}
               onClick={() => handleStarClick(star)}
@@ -110,8 +110,8 @@ const ConstellationCanvas: React.FC<{
 
 const Container = styled.div`
   position: relative;
-  width: 700px;
-  height: 700px;
+  width: 1000px;
+  height: 1000px;
 `;
 
 const Canvas = styled.canvas`
