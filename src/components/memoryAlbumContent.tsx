@@ -14,7 +14,7 @@ const AlbumContent: React.FC<PetAlbumContentProps> = ({ petId }) => {
   const { petAlbumContent, selectedPet, fetchPetList } = useAlbum();
 
   useEffect(() => {
-    if (!petId) {
+    if (petId) {
       fetchPetList(petId);
     }
   }, [petId]);
