@@ -12,6 +12,7 @@ import ConstellationCanvas, {
   Star,
 } from "../../../components/constellationCanvas";
 import StarPage from "../../../components/starModal";
+import ChatbotModal from "../../../components/chatbotModal";
 
 export default function Page() {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -122,14 +123,14 @@ export default function Page() {
           selectedStarId={selectedStarId}
           onStarClick={handleStarClick}
         />
-        {/* 반려동물 이름 */}
-        {/* <ConstellationName>{petData.petId}</ConstellationName> */}
+        <ConstellationName>{petData.petName}</ConstellationName>
         <BottomMessage
           ref={messageRef}
           show={messageVisible}
           onAddClick={() => handleAddStar(selectedStarId)}
         />
       </Body>
+      <ChatbotModal />
       {isAddStarModalOpen && (
         <AddStarModal starId={selectedStarId} onClose={closeAddStarModal} />
       )}

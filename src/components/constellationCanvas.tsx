@@ -19,6 +19,7 @@ export interface Edge {
 
 export interface PetData {
   petId: number;
+  petName: string;
   svgPath: string;
   starList: Star[];
   edges: Edge[];
