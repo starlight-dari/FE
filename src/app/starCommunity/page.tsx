@@ -59,7 +59,9 @@ const MemoryPage = () => {
         </TitleWrapper>
         <Container>
           {memoryStars.length == 0 ? (
-            <p>아직 공개된 추억들이 없어요.</p>
+            <p style={{ position: "absolute", left: "41%", top: "50%" }}>
+              아직 공개된 추억들이 없어요.
+            </p>
           ) : (
             <MemoryStarList>
               {memoryStars?.map((item, index) => (
