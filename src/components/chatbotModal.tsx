@@ -13,19 +13,19 @@ interface QuestionData {
 
 const questions: QuestionData[] = [
   {
-    id: 1,
+    id: 0,
     category: "장례식장 정보",
     question: "어느 지역의 장례식장을 찾아볼까요?",
   },
   {
-    id: 2,
+    id: 1,
     category: "펫로스증후군 극복 프로그램",
     question: `다음은 펫로스 증후군 극복 프로그램 링크 목록입니다.\n
 마인드카페 센터: https://center.mindcafe.co.kr/program_petloss\n
 마음치유모임 with 펫로스: https://www.gangnam.go.kr/contents/mind_healing/1/view.do?mid=ID04_04075401`,
   },
   {
-    id: 3,
+    id: 2,
     category: "펫 보험",
     question: `삼성화재, 메리츠화재, 한화보험의 펫보험을 비교하여 회원님께 가장 적합한 보험을 추천해드릴게요!\n
 반려동물 정보를 알려주시면 맞춤형 펫보험을 찾아드릴게요.\n
@@ -33,7 +33,7 @@ const questions: QuestionData[] = [
 `,
   },
   {
-    id: 4,
+    id: 3,
     category: "노령견/노묘 전문 정보",
     question: `노령견/노묘 관련 전문 헬스케어 정보를 알려드릴게요. 현재 반려동물의 상태와 궁금하신 점을 알려주세요.\n
 예) 13살 고양이를 키우고 있는데, 요즘 식욕이 줄고 체중이 감소하는 것 같아요. 노묘의 건강을 유지하기 위한 식단 관리나 필요한 영양제가 있을까요?
@@ -107,6 +107,12 @@ const ChatbotModal = () => {
 
   const handleSendMessage = async () => {
     if (!category || !question.trim()) return;
+    console.log("전송한 내용:", question);
+    setQuestion("");
+    setChatMessages((prevMessages) => [
+      ...prevMessages,
+      { question, response: "로딩 중..." },
+    ]);
 
     try {
       const response = await axios.post(
@@ -118,14 +124,11 @@ const ChatbotModal = () => {
         { withCredentials: true }
       );
 
-      console.log("전송한 내용:", question);
-
       setChatMessages((prevMessages) => [
         ...prevMessages,
         { question, response: response.data.answer },
       ]);
-
-      setQuestion("");
+      console.log("답변 내용:", response.data.answer);
     } catch (error) {
       console.error("메시지 전송 중 오류 발생:", error);
     }
@@ -159,10 +162,10 @@ const ChatbotModal = () => {
             </CategoryButton>
           ))}
           {chatMessages.map((chat, index) => (
-            <div key={index}>
+            <ChatBubbleContainer key={index}>
               <ChatBubble isUser={true}>{chat.question}</ChatBubble>
               <ChatBubble isUser={false}>{chat.response}</ChatBubble>
-            </div>
+            </ChatBubbleContainer>
           ))}
         </ChatWindow>
         <InputContainer>
@@ -232,7 +235,7 @@ const ChatWindow = styled.div`
   height: 463px;
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 18px;
+  padding: 16px;
   width: 400px;
 `;
 
@@ -263,6 +266,12 @@ const CategoryButton = styled.button`
   }
 `;
 
+const ChatBubbleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
 const ChatBubble = styled.div<{ isUser: boolean }>`
   background: ${(props) =>
     props.isUser
@@ -271,7 +280,9 @@ const ChatBubble = styled.div<{ isUser: boolean }>`
   color: ${(props) => (props.isUser ? "#3F4A61" : "#fff")};
   padding: 14px;
   border-radius: 5px;
-  text-align: ${(props) => (props.isUser ? "right" : "left")};
+  margin-left: ${(props) => (props.isUser ? "90px" : "0")};
+  width: 282px;
+  padding: 14px;
 `;
 
 const InputContainer = styled.div`
@@ -279,7 +290,8 @@ const InputContainer = styled.div`
   width: 400px;
   position: absolute;
   bottom: 0;
-  padding: 18px;
+  padding: 16px;
+  background: #242b39;
 `;
 
 const ChatInput = styled.input`
