@@ -10,7 +10,7 @@ interface AlbumListProps {
 }
 
 const AlbumList: React.FC<AlbumListProps> = ({ onSelectPet }) => {
-  const { albumData } = useAlbum();
+  const { albumData, selectedPet } = useAlbum();
 
   if (!albumData) return null;
 
@@ -19,7 +19,11 @@ const AlbumList: React.FC<AlbumListProps> = ({ onSelectPet }) => {
       <PetList>
         <Title>추억앨범</Title>
         {albumData?.map((item, index) => (
-          <List key={index} onClick={() => onSelectPet(item.petId)}>
+          <List
+            key={index}
+            onClick={() => onSelectPet(item.petId)}
+            selected={selectedPet?.petId === item.petId}
+          >
             <PetImage
               width={40}
               height={40}
@@ -54,7 +58,7 @@ const AlertBadge = styled.span`
   align-items: center;
   justify-content: center;
   position: absolute;
-  right: 0;
+  right: 17px;
   width: 25px;
   height: 25px;
   border-radius: 100px;
@@ -70,13 +74,18 @@ const Title = styled.div`
   padding-left: 30px;
 `;
 
-const List = styled.li`
+const List = styled.li<{ selected: boolean }>`
   display: flex;
   align-items: center;
   gap: 20px;
   position: relative;
-  padding-left: 27px;
   cursor: pointer;
+  padding: 10px 0 10px 27px;
+  background: ${({ selected }) =>
+    selected
+      ? "linear-gradient(to bottom, #d9d9d91a 0%, #7373731a 100%)"
+      : "none"};
+  border-radius: 5px;
 `;
 
 const PetImage = styled(Image)`

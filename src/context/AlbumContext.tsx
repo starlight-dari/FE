@@ -103,6 +103,7 @@ export const AlbumProvider: React.FC<{ children: ReactNode }> = ({
         { withCredentials: true }
       );
       setLetterDetail(response.data);
+      fetchPetList(null);
     } catch (error) {
       console.error("편지 상세 정보 가져오기 실패:", error);
     }
