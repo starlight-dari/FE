@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import left from "/public/carousel_left.svg";
 import right from "/public/carousel_right.svg";
@@ -13,22 +13,35 @@ interface PetAlbumContentProps {
   letterId: number;
 }
 
-export interface LetterDetail {
-  letter_id: number;
-  pet_id: number;
-  title: string;
-  content: string;
-  createdAt: string;
-  opened: boolean;
-  images: string[];
-}
-
 const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
   const router = useRouter();
+  const {
+    petAlbumContent,
+    selectedPet,
+    fetchPetList,
+    letterDetail,
+    fetchLetterDetail,
+  } = useAlbum();
+
+  // petId가 변경될 때마다 데이터를 새로 가져오기
+  useEffect(() => {
+    if (petId) {
+      fetchPetList(petId); // Context에서 데이터를 갱신
+    }
+  }, [petId, fetchPetList]);
+
+  // letterId에 해당하는 편지 정보 찾기
+  useEffect(() => {
+    if (petAlbumContent && letterId) {
+      const letter = petAlbumContent.find(
+        (item) => item.letter_id === letterId
+      );
+      if (!letter) return;
+      fetchLetterDetail(letter.letter_id);
+    }
+  }, [petAlbumContent, letterId]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-
-  const { letterDetail } = useAlbum();
 
   if (!letterDetail) return null;
 
