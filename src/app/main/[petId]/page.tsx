@@ -23,7 +23,7 @@ export default function Page() {
   const [loading, setLoading] = useState(true);
 
   const [selectedStarId, setSelectedStarId] = useState<number | null>(null);
-  const [selectedMemoryId, setSelectedMemoryId] = useState<number | null>(null);
+  const [selectedMemoryId, setSelectedMemoryId] = useState<number>(0); // 임의 지정
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
 
   const [isAddStarModalOpen, setIsAddStarModalOpen] = useState(false);

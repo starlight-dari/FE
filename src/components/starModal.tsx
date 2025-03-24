@@ -37,7 +37,7 @@ interface CommentData {
 
 interface StarPageModalProps {
   onClose: () => void;
-  memoryId: number | null;
+  memoryId: number;
 }
 
 const ActivityMap: Record<string, string> = {
@@ -173,9 +173,39 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
       });
 
       console.log("서버 응답:", response);
-      getStarInfo();
+      fetchComments(memoryId);
     } catch (error) {
       console.error("댓글 작성 중 오류 발생:", error);
+    }
+  };
+
+  const fetchComments = async (memoryId: number) => {
+    try {
+      const response = await axios({
+        method: "GET",
+        url: `http://${server_url}:8080/memory-stars/${memoryId}/comments`,
+        withCredentials: true,
+      });
+      console.log("서버 응답:", response);
+      setComments(response.data);
+    } catch (error) {
+      console.error("댓글 조회 중 오류 발생:", error);
+    }
+  };
+
+  const deleteComment = async (commentId: number) => {
+    try {
+      const response = await axios({
+        method: "DELETE",
+        url: `http://${server_url}:8080/memory-stars/comment/${commentId}`,
+        withCredentials: true,
+      });
+
+      console.log("서버 응답:", response);
+      alert("댓글이 삭제되었습니다.");
+      fetchComments(memoryId);
+    } catch (error) {
+      console.error("댓글 삭제 중 오류 발생:", error);
     }
   };
 
@@ -231,7 +261,6 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
               <Image src={comment} alt="comment" />
               {starPage.commentNumber}
             </CommentState>
-            {/* 작성자와 로그인된 유저가 같을 때만 보여주기 코드 추가 필요 */}
             {loginUserId === starPage.writer_id && (
               <MoreButton onClick={openMoreModal}>
                 <Image src={more} alt="more" />
@@ -252,6 +281,18 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
                     {comment.writer_name}
                   </p>
                   <p>{comment.content}</p>
+                  {loginUserId === comment.writer_id && (
+                    <>
+                      <EditButton onClick={() => alert("댓글을 수정할게요.")}>
+                        수정
+                      </EditButton>
+                      <DeleteButton
+                        onClick={() => deleteComment(comment.comment_id)}
+                      >
+                        삭제
+                      </DeleteButton>
+                    </>
+                  )}
                 </Comment>
               ))}
             </CommentWrapper>
@@ -375,6 +416,7 @@ const Comment = styled.div`
   background: rgba(255, 255, 255, 0.1);
   border-radius: 6px;
   gap: 10px;
+  position: relative;
 `;
 
 // 댓글 입력창 스타일
@@ -449,6 +491,16 @@ const LikeButton = styled.button`
 const MoreButton = styled(LikeButton)`
   position: absolute;
   right: 7px;
+`;
+
+const DeleteButton = styled(LikeButton)`
+  position: absolute;
+  right: 7px;
+`;
+
+const EditButton = styled(LikeButton)`
+  position: absolute;
+  right: 18px;
 `;
 
 const XButton = styled(LikeButton)`
