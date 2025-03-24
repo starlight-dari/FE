@@ -62,7 +62,7 @@ const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
     <Body>
       <Button onClick={() => handleLetterClick()}>목록</Button>
       <Container>
-        {letterDetail.images && (
+        {letterDetail.images.length > 0 && (
           <CarouselWrapper>
             <ArrowButton onClick={prevImage}>
               <Image src={left} alt="left" />
