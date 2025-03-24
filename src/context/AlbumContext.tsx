@@ -114,7 +114,7 @@ export const AlbumProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     if (selectedPet) {
-      fetchPetList(selectedPet.petId);
+      fetchPetAlbum(selectedPet.petId);
     }
   }, [selectedPet, fetchPetList]);
 
