@@ -83,7 +83,8 @@ const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
             <Title>{letterDetail.title}</Title>
             <Date>{letterDetail.createdAt}</Date>
           </LetterHeader>
-          <Content>{letterDetail.content}</Content>
+          {/* <Content>{letterDetail.content}</Content> */}
+          <TypingEffect text={letterDetail.content} speed={100} />
         </Wrapper>
       </Container>
     </Body>
@@ -91,6 +92,32 @@ const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
 };
 
 export default LetterDetail;
+
+const TypingEffect = ({
+  text,
+  speed = 100,
+}: {
+  text: string;
+  speed: number;
+}) => {
+  const [displayedText, setDisplayedText] = useState("");
+
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < text.length) {
+        setDisplayedText((prev) => prev + text[i]);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed]);
+
+  return <Content>{displayedText}</Content>;
+};
 
 const Body = styled.div`
   display: flex;
