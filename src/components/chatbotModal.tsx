@@ -107,6 +107,10 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
 
   const handleSendMessage = async () => {
     console.log("버튼 클릭");
+    console.log("category: ", category);
+    console.log("question: ", question);
+    console.log("question.trim(): ", question.trim());
+
     if (!category || !question.trim()) return;
 
     try {
