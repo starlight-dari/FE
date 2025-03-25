@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  compiler: {
+    styledComponents: true, // styled-components 활성화
+  },
+
   images: {
     remotePatterns: [
       {
