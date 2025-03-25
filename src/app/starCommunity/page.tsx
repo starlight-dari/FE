@@ -69,6 +69,9 @@ const MemoryPage = () => {
               <SkeletonUI />
               <SkeletonUI />
               <SkeletonUI />
+              <SkeletonUI />
+              <SkeletonUI />
+              <SkeletonUI />
             </MemoryStarList>
           </Container>
         </Body>
@@ -130,7 +133,7 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: calc(100vh - 82px);
+  height: calc(100vh - 90px);
   color: #fff;
 `;
 
@@ -152,15 +155,17 @@ const Subtitle = styled.div`
 `;
 
 const Container = styled.div`
-  height: 930px;
-  width: 880px;
+  height: 926px;
+  width: 1189px;
   position: relative;
+  overflow-y: auto;
 `;
 
 const MemoryStarList = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 42px;
+  margin-bottom: 10px;
 `;
 
 const Star = styled.div`
