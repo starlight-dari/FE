@@ -84,7 +84,7 @@ const ProgressBarWrapper = styled.div`
   gap: 13px;
   position: absolute;
   bottom: 10px;
-  right: 36%;
+  right: 38%;
 `;
 
 const ProgressBar = styled.div`
