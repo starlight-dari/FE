@@ -345,7 +345,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
                       <p style={{ fontWeight: "600", color: "#adc3f3" }}>
                         {comment.writer_name}
                       </p>
-                      <p>{comment.content}</p>
+                      <p style={{ padding: "4.4px 0" }}>{comment.content}</p>
                       {loginUserId === comment.writer_id && (
                         <>
                           <EditButton
@@ -583,8 +583,8 @@ const XButton = styled(LikeButton)`
 `;
 
 const EdittingCommentInput = styled.input`
-  width: 600px;
-  padding: 10px;
+  width: 588px;
+  padding: 6px 10px;
   border: none;
   background: rgba(255, 255, 255, 0.1);
   color: white;
