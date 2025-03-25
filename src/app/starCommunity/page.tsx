@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useRouter } from "next/navigation";
 import Header from "../../components/header";
 import axios from "axios";
 import StarPage from "../../components/starModal";
@@ -20,8 +19,7 @@ const MemoryPage = () => {
 
   const [memoryStars, setMemoryStars] = useState<MemoryStar[]>([]);
   const [selectedMemoryId, setSelectedMemoryId] = useState<number | null>(null);
-
-  const router = useRouter();
+  const [loading, setLoading] = useState(true);
 
   const openStarInfoModal = (memoryId: number) => {
     setSelectedMemoryId(memoryId);
@@ -42,12 +40,41 @@ const MemoryPage = () => {
 
         console.log("서버 응답:", response);
         setMemoryStars(response.data);
+        setLoading(false);
       } catch (error) {
         console.error("추억저장소 데이터 요청 중 오류 발생:", error);
+        setLoading(false);
       }
     };
     getStarArchiveData();
   }, []);
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <Body>
+          <TitleWrapper>
+            <Title>별빛 저장소</Title>
+            <Subtitle>다른 별빛들의 추억들을 둘러보세요.</Subtitle>
+          </TitleWrapper>
+          <Container>
+            <MemoryStarList>
+              <SkeletonUI />
+              <SkeletonUI />
+              <SkeletonUI />
+              <SkeletonUI />
+              <SkeletonUI />
+              <SkeletonUI />
+              <SkeletonUI />
+              <SkeletonUI />
+              <SkeletonUI />
+            </MemoryStarList>
+          </Container>
+        </Body>
+      </>
+    );
+  }
 
   return (
     <>
@@ -175,4 +202,24 @@ const NoMemoryStar = styled.div`
   height: 300px;
   align-items: center;
   justify-content: center;
+`;
+
+const SkeletonUI = styled.div`
+  width: 265px;
+  height: 360px;
+  border-radius: 18px;
+  background: #d9d9d929;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  animation: pulse 1.7s infinite ease-in-out;
+  @keyframes pulse {
+    0% {
+      background: rgba(200, 200, 200, 0.9);
+    }
+    50% {
+      background: rgba(200, 200, 200, 0.5);
+    }
+    100% {
+      background: rgba(200, 200, 200, 0.9);
+    }
+  }
 `;
