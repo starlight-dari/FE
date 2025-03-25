@@ -182,7 +182,7 @@ const ConstellationName = styled.div`
 
 const ChatbotTab = styled.div`
   display: flex;
-  justify-content: center;
+  align-items: center;
   gap: 5px;
   position: absolute;
   bottom: 6px;

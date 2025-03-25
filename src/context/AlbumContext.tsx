@@ -111,6 +111,10 @@ export const AlbumProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     fetchPetList(null);
+  }, []);
+
+  useEffect(() => {
+    fetchPetList(null);
   }, [fetchPetList]);
 
   useEffect(() => {

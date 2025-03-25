@@ -43,11 +43,36 @@ const MyStar = () => {
   }, []);
 
   if (loading) {
-    return <h1>로딩 중입니다...</h1>;
+    return (
+      <Container>
+        <Title>나의 별자리</Title>
+        <PetList>
+          <SkeletonUI />
+          <SkeletonUI />
+          <SkeletonUI />
+          <SkeletonUI />
+          <SkeletonUI />
+          <SkeletonUI />
+        </PetList>
+        <Button onClick={() => router.push("/add_new_animal")}>
+          별자리 추가하기
+        </Button>
+      </Container>
+    );
   }
 
   if (!petDatas) {
-    return <h1>반려동물 정보가 존재하지 않습니다.</h1>;
+    return (
+      <Container>
+        <Title>나의 별자리</Title>
+        <NoPet>
+          <h3>반려동물 정보가 존재하지 않습니다.</h3>
+        </NoPet>
+        <Button onClick={() => router.push("/add_new_animal")}>
+          별자리 추가하기
+        </Button>
+      </Container>
+    );
   }
 
   if (petDatas.length == 0) {
@@ -144,18 +169,18 @@ const PetButton = styled.button`
   width: 120px;
   height: 56px;
   border: none;
-  background: #101827;
+  background: rgba(170, 200, 255, 0.15);
   cursor: pointer;
-  color: #fff;
+  color: #adc3f3;
   border-radius: 16px;
 `;
 
 const Button = styled.button`
   border: none;
-  background: #22225e;
+  background: rgba(170, 200, 255, 0.15);
   cursor: pointer;
   padding: 10px 50px;
-  color: #fff;
+  color: #adc3f3;
   border-radius: 13px;
   position: absolute;
   top: 0;
@@ -167,6 +192,26 @@ const NoPet = styled.div`
   height: 300px;
   align-items: center;
   justify-content: center;
+`;
+
+const SkeletonUI = styled.div`
+  width: 320px;
+  height: 430px;
+  border-radius: 18px;
+  background: #d9d9d929;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  animation: pulse 1.7s infinite ease-in-out;
+  @keyframes pulse {
+    0% {
+      background: rgba(200, 200, 200, 0.9);
+    }
+    50% {
+      background: rgba(200, 200, 200, 0.5);
+    }
+    100% {
+      background: rgba(200, 200, 200, 0.9);
+    }
+  }
 `;
 
 export default MyStar;
