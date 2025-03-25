@@ -14,7 +14,23 @@ export interface EditingPetFormData {
   birth_date: string;
   death_date: string;
   personality: string;
+  nickname: string;
 }
+
+const GENDER_OPTIONS = [
+  { label: "여성", value: "FEMALE" },
+  { label: "남성", value: "MALE" },
+  { label: "모르겠어요", value: "NONE" },
+];
+
+const PERSONALITY_OPTIONS = [
+  "애교가 많아요",
+  "혼자서도 잘 놀아요",
+  "호기심이 많아요",
+  "얌전해요",
+  "자기주장이 강해요",
+  "감수성이 풍부해요",
+];
 
 interface EditingAnimalInfoProps extends EditingPetFormData {
   isEditing: boolean;
@@ -29,6 +45,7 @@ const EditingAnimalInfo: React.FC<EditingAnimalInfoProps> = ({
   birth_date,
   death_date,
   personality,
+  nickname,
   isEditing,
   setIsEditing,
 }) => {
@@ -41,6 +58,7 @@ const EditingAnimalInfo: React.FC<EditingAnimalInfoProps> = ({
     birth_date,
     death_date,
     personality,
+    nickname,
   });
 
   const [genderSelected, setGenderSelected] = useState("");
@@ -102,37 +120,47 @@ const EditingAnimalInfo: React.FC<EditingAnimalInfoProps> = ({
 
   return (
     <>
-      <ItemWrapper>
-        <Title>동물 정보 수정하기</Title>
-        <Item>
-          <Label style={{ paddingRight: "62px" }}>이름</Label>
-          <Input
-            placeholder="반려동물의 이름으로 별자리가 만들어질 거에요."
-            value={editedPet.pet_name}
-            onChange={(e) =>
-              setEditedPet((prev: any) => ({
-                ...prev,
-                pet_name: e.target.value,
-              }))
-            }
-          />
-        </Item>
-        <Item>
-          <Label style={{ paddingRight: "75px" }}>종</Label>
-          <Input
-            placeholder="종을 적어주세요. (예: 강아지, 고양이)"
-            value={editedPet.species}
-            onChange={(e) =>
-              setEditedPet((prev: any) => ({
-                ...prev,
-                species: e.target.value,
-              }))
-            }
-          />
-        </Item>
-        <Item>
-          <Label style={{ paddingRight: "62px" }}>성별</Label>
-          <GenderButton>
+      <Title>동물 정보 수정하기</Title>
+      <FormContainer>
+        <Label>이름</Label>
+        <Input
+          placeholder="반려동물의 이름으로 별자리가 만들어질 거에요."
+          value={editedPet.pet_name}
+          onChange={(e) =>
+            setEditedPet((prev: any) => ({
+              ...prev,
+              pet_name: e.target.value,
+            }))
+          }
+        />
+
+        <Label>종</Label>
+        <Input
+          placeholder="종을 적어주세요. (예: 강아지, 고양이)"
+          value={editedPet.species}
+          onChange={(e) =>
+            setEditedPet((prev: any) => ({
+              ...prev,
+              species: e.target.value,
+            }))
+          }
+        />
+
+        <Label>호칭</Label>
+        <Input
+          type="text"
+          placeholder="반려동물에게 당신은 어떤 역할을 맡고 있나요? (예: 엄마)"
+          value={editedPet.nickname}
+          onChange={(e) =>
+            setEditedPet((prev: any) => ({
+              ...prev,
+              nickname: e.target.value,
+            }))
+          }
+        />
+
+        <Label>성별</Label>
+        {/* <GenderButton>
             <input
               type="radio"
               id="MALE"
@@ -181,39 +209,58 @@ const EditingAnimalInfo: React.FC<EditingAnimalInfoProps> = ({
             >
               모르겠어요
             </label>
-          </GenderButton>
-        </Item>
-        <Item>
-          <Label style={{ paddingRight: "30px" }}>태어난 날</Label>
-          <DateInput
-            type="date"
-            value={editedPet.birth_date}
-            max={today}
-            onChange={(e) =>
-              setEditedPet((prev: any) => ({
-                ...prev,
-                birth_date: e.target.value,
-              }))
-            }
-          />
-        </Item>
-        <Item>
-          <Label style={{ paddingRight: "26px" }}>별이 된 날</Label>
-          <DateInput
-            type="date"
-            value={editedPet.death_date}
-            max={today}
-            onChange={(e) =>
-              setEditedPet((prev: any) => ({
-                ...prev,
-                death_date: e.target.value,
-              }))
-            }
-          />
-        </Item>
-        <Item>
-          <Label style={{ paddingRight: "62px" }}>성격</Label>
-          <SelectWrapper>
+          </GenderButton> */}
+        <GenderOptions>
+          {GENDER_OPTIONS.map(({ label, value }) => (
+            <GenderButton
+              key={value}
+              isSelected={genderSelected === value}
+              onChange={(e) => {
+                handleGenderSelect(e);
+              }}
+            >
+              <input
+                type="radio"
+                name="gender"
+                value={value}
+                checked={genderSelected === value}
+                onChange={(e) => {
+                  handleGenderSelect(e);
+                }}
+              />
+              {label}
+            </GenderButton>
+          ))}
+        </GenderOptions>
+
+        <Label>태어난 날</Label>
+        <Input
+          type="date"
+          value={editedPet.birth_date}
+          max={today}
+          onChange={(e) =>
+            setEditedPet((prev: any) => ({
+              ...prev,
+              birth_date: e.target.value,
+            }))
+          }
+        />
+
+        <Label>별이 된 날</Label>
+        <Input
+          type="date"
+          value={editedPet.death_date}
+          max={today}
+          onChange={(e) =>
+            setEditedPet((prev: any) => ({
+              ...prev,
+              death_date: e.target.value,
+            }))
+          }
+        />
+
+        <Label>성격</Label>
+        {/* <SelectWrapper>
             <SelectedOption onClick={() => setIsOpen(!isOpen)}>
               {personalitySelected}
             </SelectedOption>
@@ -247,25 +294,23 @@ const EditingAnimalInfo: React.FC<EditingAnimalInfoProps> = ({
                 감수성이 풍부해요
               </OptionItem>
             </OptionsList>
-          </SelectWrapper>
-        </Item>
-      </ItemWrapper>
+          </SelectWrapper> */}
+        <Select
+          value={personalitySelected}
+          onChange={(e) => handlePersonalitySelect(e.target.value)}
+        >
+          <option>성격 선택</option>
+          {PERSONALITY_OPTIONS.map((personality) => (
+            <option key={personality} value={personality}>
+              {personality}
+            </option>
+          ))}
+        </Select>
+      </FormContainer>
       <Button onClick={handleSave}>수정하기</Button>
     </>
   );
 };
-
-const ItemWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  justify-content: center;
-`;
-
-const Item = styled.div`
-  display: flex;
-  align-items: center;
-`;
 
 const Title = styled.span`
   font-weight: 900;
@@ -273,48 +318,40 @@ const Title = styled.span`
   margin-bottom: 30px;
 `;
 
-const Label = styled.span``;
+// const GenderButton = styled.span`
+//   input[type="radio"] {
+//     display: none;
+//   }
 
-const GenderButton = styled.span`
-  input[type="radio"] {
-    display: none;
-  }
+//   // input[type="radio"]:checked + label {
+//   //   background-color: #22225e;
+//   //   color: #fff;
+//   // }
 
-  // input[type="radio"]:checked + label {
-  //   background-color: #22225e;
-  //   color: #fff;
-  // }
+//   label {
+//     display: inline-block;
+//     padding: 10px 20px;
+//     border: 1px solid gray;
+//     cursor: pointer;
 
-  label {
-    display: inline-block;
-    padding: 10px 20px;
-    border: 1px solid gray;
-    cursor: pointer;
+//     &:hover {
+//       background-color: #ece6f0;
+//       color: black;
+//     }
 
-    &:hover {
-      background-color: #ece6f0;
-      color: black;
-    }
+//     &.selected {
+//       background-color: #22225e;
+//       color: #fff;
+//     }
+//   }
+// `;
 
-    &.selected {
-      background-color: #22225e;
-      color: #fff;
-    }
-  }
-`;
-
-const Input = styled.input`
-  width: 350px;
-  padding: 10px;
-  border: 1px solid gray;
-  outline: none;
-`;
-
-const DateInput = styled.input`
-  padding: 10px;
-  border: 1px solid gray;
-  cursor: pointer;
-`;
+// const Input = styled.input`
+//   width: 350px;
+//   padding: 10px;
+//   border: 1px solid gray;
+//   outline: none;
+// `;
 
 const SelectWrapper = styled.div`
   position: relative;
@@ -353,13 +390,87 @@ const OptionItem = styled.li`
   }
 `;
 
+// const Button = styled.button`
+//   width: 146px;
+//   height: 40px;
+//   border: none;
+//   border-radius: 5px;
+//   background: #22225e;
+//   color: #fff;
+//   cursor: pointer;
+//   position: absolute;
+//   bottom: 25px;
+//   right: 70px;
+// `;
+
+const FormContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 495px;
+`;
+
+const Label = styled.label`
+  color: white;
+  font-size: 14px;
+`;
+
+const GenderOptions = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const GenderButton = styled.label<{ isSelected: boolean }>`
+  padding: 10px;
+  background: ${({ isSelected }) => (isSelected ? "#4b5563" : "#374151")};
+  color: ${({ isSelected }) => (isSelected ? "#ADC3F3" : "#fff")};
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: center;
+  width: 100px;
+
+  &:hover {
+    background: #4b5563;
+  }
+
+  input {
+    display: none;
+  }
+`;
+
+const Input = styled.input`
+  padding: 10px;
+  border: 1px solid #374151;
+  border-radius: 5px;
+  background: #1f2937;
+  color: white;
+  font-size: 14px;
+  width: 100%;
+`;
+
+const Select = styled.select`
+  padding: 10px;
+  border: 1px solid #374151;
+  border-radius: 5px;
+  background: #1f2937;
+  color: white;
+  font-size: 14px;
+  width: 100%;
+`;
+
 const Button = styled.button`
   width: 146px;
   height: 40px;
   border: none;
   border-radius: 5px;
-  background: #22225e;
-  color: #fff;
+  background: rgba(170, 200, 255, 0.15);
+  color: #adc3f3;
   cursor: pointer;
   position: absolute;
   bottom: 25px;

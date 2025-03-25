@@ -83,8 +83,8 @@ const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
             <Title>{letterDetail.title}</Title>
             <Date>{letterDetail.createdAt}</Date>
           </LetterHeader>
-          {/* <Content>{letterDetail.content}</Content> */}
-          <TypingEffect text={letterDetail.content} speed={100} />
+          <Content>{letterDetail.content}</Content>
+          {/* <TypingEffect text={letterDetail.content} speed={100} /> */}
         </Wrapper>
       </Container>
     </Body>
