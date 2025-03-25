@@ -2,7 +2,7 @@ import axios from "axios";
 import Image from "next/image";
 import send from "/public/send.svg";
 import close from "/public/close.svg";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 interface QuestionData {
@@ -58,6 +58,15 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
     { question: string; response: string }[]
   >([]);
 
+  const chatWindowRef = useRef<HTMLDivElement>(null);
+  const lastMessageRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (lastMessageRef.current) {
+      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [chatMessages]);
+
   //
   const handleCategorySelect = (id: number) => {
     setCategory(id);
@@ -103,7 +112,7 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
             <Image src={close} alt="close" />
           </CloseButton>
         </Header>
-        <ChatWindow>
+        <ChatWindow ref={chatWindowRef}>
           <IntroText>
             안녕하세요! 별빛다리 AI챗봇입니다.
             <br />
@@ -122,7 +131,10 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
             </CategoryButton>
           ))}
           {chatMessages.map((chat, index) => (
-            <ChatBubbleContainer key={index}>
+            <ChatBubbleContainer
+              key={index}
+              ref={index === chatMessages.length - 1 ? lastMessageRef : null}
+            >
               <ChatBubble isUser={true}>{chat.question}</ChatBubble>
               <ChatBubble isUser={false}>{chat.response}</ChatBubble>
             </ChatBubbleContainer>
