@@ -71,6 +71,10 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
   const [starPage, setStarPage] = useState<StarPageData | null>(null);
   const [comments, setComments] = useState<CommentData[]>([]);
   const [newComment, setNewComment] = useState("");
+  const [isCommentEditing, setIsCommentEditing] = useState<
+    Record<number, boolean>
+  >({});
+  const [editText, setEditText] = useState<Record<number, string>>({});
   const [isVisible, setIsVisible] = useState(false);
   const [moreModalVisible, setMoreModalVisible] = useState(false);
 
@@ -193,6 +197,32 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
     }
   };
 
+  const editComment = (commentId: number, content: string) => {
+    setIsCommentEditing((prev) => ({ ...prev, [commentId]: true }));
+    setEditText((prev) => ({ ...prev, [commentId]: content })); // 기존 댓글 내용 세팅
+  };
+
+  const saveComment = async (commentId: number) => {
+    try {
+      const response = await axios({
+        method: "PUT",
+        url: `http://${server_url}:8080/memory-stars/comment`,
+        withCredentials: true,
+        data: {
+          content: editText[commentId],
+          comment_id: commentId,
+        },
+      });
+
+      console.log("서버 응답:", response);
+      alert("댓글이 수정되었습니다.");
+      setIsCommentEditing((prev) => ({ ...prev, [commentId]: false }));
+      fetchComments(memoryId);
+    } catch (error) {
+      console.error("댓글 수정 중 오류 발생:", error);
+    }
+  };
+
   const deleteComment = async (commentId: number) => {
     try {
       const response = await axios({
@@ -275,22 +305,60 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
           </StateWrapper>
           <CommentSection>
             <CommentWrapper>
-              {comments.map((comment, index) => (
-                <Comment key={index}>
-                  <p style={{ fontWeight: "600", color: "#adc3f3" }}>
-                    {comment.writer_name}
-                  </p>
-                  <p>{comment.content}</p>
-                  {loginUserId === comment.writer_id && (
+              {comments.map((comment) => (
+                <Comment key={comment.comment_id}>
+                  {isCommentEditing[comment.comment_id] ? (
                     <>
-                      <EditButton onClick={() => alert("댓글을 수정할게요.")}>
-                        수정
-                      </EditButton>
-                      <DeleteButton
-                        onClick={() => deleteComment(comment.comment_id)}
+                      <input
+                        type="text"
+                        value={editText[comment.comment_id] || ""}
+                        onChange={(e) =>
+                          setEditText((prev) => ({
+                            ...prev,
+                            [comment.comment_id]: e.target.value,
+                          }))
+                        }
+                      />
+                      <button
+                        onClick={() => {
+                          saveComment(comment.comment_id);
+                        }}
                       >
-                        삭제
-                      </DeleteButton>
+                        수정 확인
+                      </button>
+                      <button
+                        onClick={() =>
+                          setIsCommentEditing((prev) => ({
+                            ...prev,
+                            [comment.comment_id]: false,
+                          }))
+                        }
+                      >
+                        취소
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <p style={{ fontWeight: "600", color: "#adc3f3" }}>
+                        {comment.writer_name}
+                      </p>
+                      <p>{comment.content}</p>
+                      {loginUserId === comment.writer_id && (
+                        <>
+                          <EditButton
+                            onClick={() =>
+                              editComment(comment.comment_id, comment.content)
+                            }
+                          >
+                            수정
+                          </EditButton>
+                          <DeleteButton
+                            onClick={() => deleteComment(comment.comment_id)}
+                          >
+                            삭제
+                          </DeleteButton>
+                        </>
+                      )}
                     </>
                   )}
                 </Comment>
@@ -495,12 +563,14 @@ const MoreButton = styled(LikeButton)`
 
 const DeleteButton = styled(LikeButton)`
   position: absolute;
-  right: 7px;
+  right: 18px;
+  color: #fff;
 `;
 
 const EditButton = styled(LikeButton)`
   position: absolute;
-  right: 18px;
+  right: 57px;
+  color: #fff;
 `;
 
 const XButton = styled(LikeButton)`
