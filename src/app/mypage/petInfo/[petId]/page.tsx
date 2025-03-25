@@ -165,18 +165,23 @@ const Body = styled.div`
   justify-content: center;
   align-items: center;
   height: calc(100vh - 90px);
+  flex-direction: column;
+  color: #fff;
+  gap: 20px;
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 1100px;
+  height: 600px;
   padding: 30px;
   color: white;
   position: relative;
   align-items: center;
   background: linear-gradient(to bottom, #d9d9d91a 0%, #7373731a 100%);
   border-radius: 10px;
+  justify-content: center;
 `;
 
 const ImageContainer = styled.div`
@@ -208,8 +213,7 @@ const Label = styled.label`
 
 const Title = styled.span`
   font-weight: 900;
-  font-size: 20px;
-  margin-bottom: 30px;
+  font-size: 35px;
 `;
 
 const Button = styled.button`
@@ -222,5 +226,5 @@ const Button = styled.button`
   cursor: pointer;
   position: absolute;
   bottom: 25px;
-  right: 70px;
+  right: 32px;
 `;

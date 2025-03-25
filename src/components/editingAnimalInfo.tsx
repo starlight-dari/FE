@@ -120,7 +120,6 @@ const EditingAnimalInfo: React.FC<EditingAnimalInfoProps> = ({
 
   return (
     <>
-      <Title>동물 정보 수정하기</Title>
       <FormContainer>
         <Label>이름</Label>
         <Input
@@ -160,56 +159,6 @@ const EditingAnimalInfo: React.FC<EditingAnimalInfoProps> = ({
         />
 
         <Label>성별</Label>
-        {/* <GenderButton>
-            <input
-              type="radio"
-              id="MALE"
-              name="gender"
-              value="MALE"
-              checked={genderSelected === "MALE"}
-              onChange={(e) => {
-                handleGenderSelect(e);
-              }}
-            />
-            <label
-              htmlFor="MALE"
-              className={genderSelected === "MALE" ? "selected" : ""}
-            >
-              남자
-            </label>
-            <input
-              type="radio"
-              id="FEMALE"
-              name="gender"
-              value="FEMALE"
-              checked={genderSelected === "FEMALE"}
-              onChange={(e) => {
-                handleGenderSelect(e);
-              }}
-            />
-            <label
-              htmlFor="FEMALE"
-              className={genderSelected === "FEMALE" ? "selected" : ""}
-            >
-              여자
-            </label>
-            <input
-              type="radio"
-              id="NONE"
-              name="gender"
-              value="NONE"
-              checked={genderSelected === "NONE"}
-              onChange={(e) => {
-                handleGenderSelect(e);
-              }}
-            />
-            <label
-              htmlFor="NONE"
-              className={genderSelected === "NONE" ? "selected" : ""}
-            >
-              모르겠어요
-            </label>
-          </GenderButton> */}
         <GenderOptions>
           {GENDER_OPTIONS.map(({ label, value }) => (
             <GenderButton
@@ -260,41 +209,6 @@ const EditingAnimalInfo: React.FC<EditingAnimalInfoProps> = ({
         />
 
         <Label>성격</Label>
-        {/* <SelectWrapper>
-            <SelectedOption onClick={() => setIsOpen(!isOpen)}>
-              {personalitySelected}
-            </SelectedOption>
-            <OptionsList isOpen={isOpen}>
-              <OptionItem
-                onClick={() => handlePersonalitySelect("애교가 많아요")}
-              >
-                애교가 많아요
-              </OptionItem>
-              <OptionItem
-                onClick={() => handlePersonalitySelect("혼자서도 잘 놀아요")}
-              >
-                혼자서도 잘 놀아요
-              </OptionItem>
-              <OptionItem
-                onClick={() => handlePersonalitySelect("호기심이 많아요")}
-              >
-                호기심이 많아요
-              </OptionItem>
-              <OptionItem onClick={() => handlePersonalitySelect("얌전해요")}>
-                얌전해요
-              </OptionItem>
-              <OptionItem
-                onClick={() => handlePersonalitySelect("자기주장이 강해요")}
-              >
-                자기주장이 강해요
-              </OptionItem>
-              <OptionItem
-                onClick={() => handlePersonalitySelect("감수성이 풍부해요")}
-              >
-                감수성이 풍부해요
-              </OptionItem>
-            </OptionsList>
-          </SelectWrapper> */}
         <Select
           value={personalitySelected}
           onChange={(e) => handlePersonalitySelect(e.target.value)}
@@ -474,7 +388,7 @@ const Button = styled.button`
   cursor: pointer;
   position: absolute;
   bottom: 25px;
-  right: 70px;
+  right: 32px;
 `;
 
 export default EditingAnimalInfo;
