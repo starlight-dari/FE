@@ -15,6 +15,7 @@ const nextConfig = {
         port: "",
       },
       { protocol: "http", hostname: "img1.kakaocdn.net" },
+      { protocol: "http", hostname: "k.kakaocdn.net" },
     ],
   },
 };
