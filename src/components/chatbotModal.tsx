@@ -64,54 +64,13 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
     console.log(`${id}번 카테고리 선택`);
   };
 
-  // const handleSendMessage = async () => {
-  //   if (!category || !question.trim()) return;
-
-  //   const sendMessage = async () => {
-  //     try {
-  //       const response = await axios({
-  //         method: "POST",
-  //         url: `http://${server_url}:8080/chat`,
-  //         withCredentials: true,
-  //         data: {
-  //           category: category,
-  //           question: question,
-  //         },
-  //       });
-  //       console.log("전송한 내용:", question);
-  //       setQuestion("");
-  //       setResponse(response.data.answer);
-  //     } catch (error) {
-  //       console.error("메시지 전송 중 오류 발생:", error);
-  //     }
-  //   };
-
-  //   // const getMessage = async () => {
-  //   //   try {
-  //   //     const response = await axios({
-  //   //       method: "GET",
-  //   //       url: `http://${server_url}:8080/chat/all`,
-  //   //       withCredentials: true,
-  //   //     });
-
-  //   //     console.log("서버 응답:", response);
-  //   //     setChatMessages(response.data);
-  //   //     setQuestion("");
-  //   //   } catch (error) {
-  //   //     console.error("챗봇 답변 요청 중 오류 발생:", error);
-  //   //   }
-  //   // };
-  //   sendMessage();
-  //   // getMessage();
-  // };
-
   const handleSendMessage = async () => {
     console.log("버튼 클릭");
     console.log("category: ", category);
     console.log("question: ", question);
     console.log("question.trim(): ", question.trim());
 
-    if (!category || !question.trim()) return;
+    if (category === null || !question.trim()) return;
 
     try {
       const response = await axios.post(
@@ -248,6 +207,8 @@ const IntroText = styled.p`
   padding: 14px;
   border-radius: 5px;
   text-align: left;
+  line-height: 1.5;
+  letter-spacing: 1.2px;
 `;
 
 const CategoryButton = styled.button`
@@ -261,6 +222,8 @@ const CategoryButton = styled.button`
   border-radius: 5px;
   text-align: left;
   border: none;
+  line-height: 1.5;
+  letter-spacing: 1.2px;
 
   &:hover {
     background: #4c566b;
@@ -271,6 +234,7 @@ const ChatBubbleContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  padding-bottom: 7px;
 `;
 
 const ChatBubble = styled.div<{ isUser: boolean }>`
@@ -284,6 +248,8 @@ const ChatBubble = styled.div<{ isUser: boolean }>`
   margin-left: ${(props) => (props.isUser ? "90px" : "0")};
   width: 282px;
   padding: 14px;
+  line-height: 1.5;
+  letter-spacing: 1.2px;
 `;
 
 const InputContainer = styled.div`
