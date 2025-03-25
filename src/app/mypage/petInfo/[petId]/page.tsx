@@ -106,6 +106,7 @@ export default function Page() {
       <Body>
         {selectedPet ? (
           <>
+            <Title>동물 정보</Title>
             <ImageContainer>
               <Image src={selectedPet.pet_img} alt="pet image" />
             </ImageContainer>
@@ -123,33 +124,20 @@ export default function Page() {
               />
             ) : (
               <>
-                <ItemWrapper>
-                  <Title>동물 정보</Title>
-                  <Item>
-                    <Label style={{ paddingRight: "62px" }}>이름</Label>
-                    <Label>{selectedPet.pet_name}</Label>
-                  </Item>
-                  <Item>
-                    <Label style={{ paddingRight: "75px" }}>종</Label>
-                    <Label>{selectedPet.species}</Label>
-                  </Item>
-                  <Item>
-                    <Label style={{ paddingRight: "62px" }}>성별</Label>
-                    <Label>{GenderMap[selectedPet.gender]}</Label>
-                  </Item>
-                  <Item>
-                    <Label style={{ paddingRight: "30px" }}>태어난 날</Label>
-                    <Label>{selectedPet.birth_date}</Label>
-                  </Item>
-                  <Item>
-                    <Label style={{ paddingRight: "26px" }}>별이 된 날</Label>
-                    <Label>{selectedPet.death_date}</Label>
-                  </Item>
-                  <Item>
-                    <Label style={{ paddingRight: "62px" }}>성격</Label>
-                    <Label>{PersonalityMap[selectedPet.personality]}</Label>
-                  </Item>
-                </ItemWrapper>
+                <FormContainer>
+                  <Label>이름</Label>
+                  <Label>{selectedPet.pet_name}</Label>
+                  <Label>종</Label>
+                  <Label>{selectedPet.species}</Label>
+                  <Label>성별</Label>
+                  <Label>{GenderMap[selectedPet.gender]}</Label>
+                  <Label>태어난 날</Label>
+                  <Label>{selectedPet.birth_date}</Label>
+                  <Label>별이 된 날</Label>
+                  <Label>{selectedPet.death_date}</Label>
+                  <Label>성격</Label>
+                  <Label>{PersonalityMap[selectedPet.personality]}</Label>
+                </FormContainer>
                 <Button onClick={handleEdit}>수정하기</Button>
               </>
             )}
@@ -168,6 +156,8 @@ const Body = styled.div`
   color: white;
   position: relative;
   align-items: center;
+  background: linear-gradient(to bottom, #d9d9d91a 0%, #7373731a 100%);
+  border-radius: 10px;
   gap: 150px;
 `;
 
@@ -176,27 +166,39 @@ const ImageContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 460px;
-  height: 535px;
+  width: 512px;
+  height: 512px;
   background-color: #ece6f0;
-  color: black;
-  border: 1px dashed #65558f;
-  gap: 10px;
   position: relative;
-  margin-left: 100px;
 `;
 
-const ItemWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  justify-content: center;
-`;
-
-const Item = styled.div`
-  display: flex;
+const FormContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 12px;
   align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 495px;
 `;
+
+const Label = styled.label`
+  color: white;
+  font-size: 14px;
+`;
+
+// const ItemWrapper = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 15px;
+//   justify-content: center;
+// `;
+
+// const Item = styled.div`
+//   display: flex;
+//   align-items: center;
+// `;
 
 const Title = styled.span`
   font-weight: 900;
@@ -204,15 +206,13 @@ const Title = styled.span`
   margin-bottom: 30px;
 `;
 
-const Label = styled.span``;
-
 const Button = styled.button`
   width: 146px;
   height: 40px;
   border: none;
   border-radius: 5px;
-  background: #22225e;
-  color: #fff;
+  background: rgba(170, 200, 255, 0.15);
+  color: #adc3f3;
   cursor: pointer;
   position: absolute;
   bottom: 25px;
