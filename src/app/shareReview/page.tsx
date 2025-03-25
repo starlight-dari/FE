@@ -31,6 +31,13 @@ const ShareReviewPage = () => {
               <SelectWrapper>
                 <SelectedOption onClick={() => setIsOpen(!isOpen)}>
                   {categorySelected}
+                  <img 
+                    src="https://img.icons8.com/ios-filled/50/ffffff/expand-arrow.png" 
+                    alt="Dropdown Icon" 
+                    width="20" 
+                    height="20"
+                    style={{ marginLeft: '10px' }}
+                    />
                 </SelectedOption>
                 <OptionsList isOpen={isOpen}>
                   <OptionItem onClick={() => handleCategorySelect("전체")}>
@@ -64,33 +71,50 @@ const ShareReviewPage = () => {
         <Container>
           <ContentWrapper>
             <ContentArea>
-              <ContentTitle>글제목</ContentTitle>
-              <p>글내용입니다글내용입니다</p>
+                <ContentBox>
+                  <ContentCategory>장례 서비스</ContentCategory>
+                  <ContentTitle>0000 장례 서비스 후기</ContentTitle>
+                </ContentBox>
+                <ContentText>글내용입니다글내용입니다글내용입니다글내용입니다</ContentText>
             </ContentArea>
             <ContentArea>
-              <ContentTitle>글제목</ContentTitle>
-              <p>글내용입니다글내용입니다</p>
+                <ContentBox>
+                  <ContentCategory>장례 서비스</ContentCategory>
+                  <ContentTitle>0000 장례 서비스 후기</ContentTitle>
+                </ContentBox>
+                <ContentText>글내용입니다글내용입니다글내용입니다글내용입니다</ContentText>
             </ContentArea>
             <ContentArea>
-              <ContentTitle>글제목</ContentTitle>
-              <p>글내용입니다글내용입니다</p>
+                <ContentBox>
+                  <ContentCategory>장례 서비스</ContentCategory>
+                  <ContentTitle>0000 장례 서비스 후기</ContentTitle>
+                </ContentBox>
+                <ContentText>글내용입니다글내용입니다글내용입니다글내용입니다</ContentText>
             </ContentArea>
             <ContentArea>
-              <ContentTitle>글제목</ContentTitle>
-              <p>글내용입니다글내용입니다</p>
+                <ContentBox>
+                  <ContentCategory>장례 서비스</ContentCategory>
+                  <ContentTitle>0000 장례 서비스 후기</ContentTitle>
+                </ContentBox>
+                <ContentText>글내용입니다글내용입니다글내용입니다글내용입니다</ContentText>
             </ContentArea>
             <ContentArea>
-              <ContentTitle>글제목</ContentTitle>
-              <p>글내용입니다글내용입니다</p>
-            </ContentArea>
-            <ContentArea>
-              <ContentTitle>글제목</ContentTitle>
-              <p>글내용입니다글내용입니다</p>
+                <ContentBox>
+                  <ContentCategory>장례 서비스</ContentCategory>
+                  <ContentTitle>0000 장례 서비스 후기</ContentTitle>
+                </ContentBox>
+                <ContentText>글내용입니다글내용입니다글내용입니다글내용입니다</ContentText>
             </ContentArea>
           </ContentWrapper>
           {/* 페이지네이션 추가 필요 */}
           <ButtonWrapper>
-            <Button>글쓰기</Button>
+            <Button>
+              <img src="https://img.icons8.com/?size=100&id=11737&format=png&color=ADC3F3"
+                  width="15" 
+                  height="15"
+                  style={{ marginRight: '5px' }}/>
+              글쓰기
+              </Button>
           </ButtonWrapper>
         </Container>
       </Body>
@@ -138,7 +162,6 @@ const Item = styled.div`
 const Title = styled.span`
   font-weight: 900;
   font-size: 30px;
-  margin-bottom: 30px;
 `;
 
 const Label = styled.span``;
@@ -146,12 +169,17 @@ const Label = styled.span``;
 const SelectWrapper = styled.div`
   position: relative;
   width: 200px;
+  z-index: 10;
 `;
 
 const SelectedOption = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 10px;
   border-bottom: 1px solid #fff;
   cursor: pointer;
+  pointer-events: auto; 
 `;
 
 const OptionsList = styled.ul<{ isOpen: boolean }>`
@@ -180,14 +208,18 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding-top: 10px;
+  padding-right: 15px;
 `;
 
 const Button = styled.button`
-  padding: 5px 30px;
+  display: flex;
+  justify-content: center;
+  align-times: center;
+  padding: 12px 30px;
   height: 40px;
   border: none;
-  background: #3a578d;
-  color: #fff;
+  background-color: rgb(170,200,255,0.15);
+  color: #ADC3F3;
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.2s ease;
@@ -203,14 +235,43 @@ const ContentWrapper = styled.div`
 
 const ContentArea = styled.div`
   padding: 5px;
-  height : 70px;
+  height : 95px;
+  align-itmes: center;
+  justify-content: center;
   background-color: rgba(217, 217, 217, 0.1);
   border-radius: 10px;
   margin: 10px 0;
+  gap: 10px;
+`;
+
+const ContentBox = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  padding: 5px;
+  padding-left: 10px;
 `;
 
 const ContentTitle = styled.div`
-  font-weight: 900;
-  font-size: 15px;
-  margin-bottom: 5px;
+  font-weight: 200;
+  margin-top : 5px;
+  margin-bottom : 10px;
+  font-size: 20px;
+`;
+
+const ContentCategory = styled.div`
+  background-color: rgba(170, 200, 255, 0.5);
+  height : 35px;
+  width : 150px;
+  border-radius: 5px;
+  display : flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const ContentText = styled.div`
+  padding-left: 10px;
+  font-size: 16px;
+  margin-top: 10px;
 `;
