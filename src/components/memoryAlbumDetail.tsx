@@ -2,7 +2,7 @@
 
 import styled from "styled-components";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import left from "/public/carousel_left.svg";
 import right from "/public/carousel_right.svg";
@@ -101,13 +101,16 @@ const TypingEffect = ({
   speed: number;
 }) => {
   const [displayedText, setDisplayedText] = useState("");
+  const indexRef = useRef(0); // 현재 글자 위치를 useRef로 관리
 
   useEffect(() => {
-    let i = 0;
+    setDisplayedText(""); // 새로운 text가 들어오면 초기화
+    indexRef.current = 0; // 인덱스 초기화
+
     const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayedText((prev) => prev + text[i]);
-        i++;
+      if (indexRef.current < text.length) {
+        setDisplayedText((prev) => prev + text[indexRef.current]);
+        indexRef.current += 1;
       } else {
         clearInterval(interval);
       }
