@@ -103,43 +103,50 @@ export default function Page() {
         {petData ? (
           <>
             <Title>동물 정보</Title>
-            <ImageContainer>
-              <Image src={petData.pet_img} alt="pet image" />
-            </ImageContainer>
-            {isEditing ? (
-              <EditingAnimalInfo
-                isEditing={isEditing}
-                setIsEditing={setIsEditing}
-                pet_id={petData.pet_id}
-                pet_name={petData.pet_name}
-                species={petData.species}
-                gender={petData.gender}
-                birth_date={petData.birth_date}
-                death_date={petData.death_date}
-                personality={petData.personality}
-                nickname={petData.nickname}
-              />
-            ) : (
-              <>
-                <FormContainer>
-                  <Label>이름</Label>
-                  <Label>{petData.pet_name}</Label>
-                  <Label>종</Label>
-                  <Label>{petData.species}</Label>
-                  <Label>호칭</Label>
-                  <Label>{petData.nickname}</Label>
-                  <Label>성별</Label>
-                  <Label>{GenderMap[petData.gender]}</Label>
-                  <Label>태어난 날</Label>
-                  <Label>{petData.birth_date}</Label>
-                  <Label>별이 된 날</Label>
-                  <Label>{petData.death_date}</Label>
-                  <Label>성격</Label>
-                  <Label>{PersonalityMap[petData.personality]}</Label>
-                </FormContainer>
-                <Button onClick={handleEdit}>수정하기</Button>
-              </>
-            )}
+            <div style={{ display: "flex" }}>
+              <ImageContainer>
+                <Image
+                  src={petData.pet_img}
+                  alt="pet image"
+                  width={512}
+                  height={512}
+                />
+              </ImageContainer>
+              {isEditing ? (
+                <EditingAnimalInfo
+                  isEditing={isEditing}
+                  setIsEditing={setIsEditing}
+                  pet_id={petData.pet_id}
+                  pet_name={petData.pet_name}
+                  species={petData.species}
+                  gender={petData.gender}
+                  birth_date={petData.birth_date}
+                  death_date={petData.death_date}
+                  personality={petData.personality}
+                  nickname={petData.nickname}
+                />
+              ) : (
+                <>
+                  <FormContainer>
+                    <Label>이름</Label>
+                    <Label>{petData.pet_name}</Label>
+                    <Label>종</Label>
+                    <Label>{petData.species}</Label>
+                    <Label>호칭</Label>
+                    <Label>{petData.nickname}</Label>
+                    <Label>성별</Label>
+                    <Label>{GenderMap[petData.gender]}</Label>
+                    <Label>태어난 날</Label>
+                    <Label>{petData.birth_date}</Label>
+                    <Label>별이 된 날</Label>
+                    <Label>{petData.death_date}</Label>
+                    <Label>성격</Label>
+                    <Label>{PersonalityMap[petData.personality]}</Label>
+                  </FormContainer>
+                  <Button onClick={handleEdit}>수정하기</Button>
+                </>
+              )}
+            </div>
           </>
         ) : (
           <p>해당 반려동물을 찾을 수 없습니다.</p>
@@ -151,13 +158,13 @@ export default function Page() {
 
 const Body = styled.div`
   display: flex;
+  flex-direction: column;
   padding: 30px;
   color: white;
   position: relative;
   align-items: center;
   background: linear-gradient(to bottom, #d9d9d91a 0%, #7373731a 100%);
   border-radius: 10px;
-  gap: 150px;
 `;
 
 const ImageContainer = styled.div`
