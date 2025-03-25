@@ -178,6 +178,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
 
       console.log("서버 응답:", response);
       fetchComments(memoryId);
+      getStarInfo();
     } catch (error) {
       console.error("댓글 작성 중 오류 발생:", error);
     }
@@ -234,6 +235,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
       console.log("서버 응답:", response);
       alert("댓글이 삭제되었습니다.");
       fetchComments(memoryId);
+      getStarInfo();
     } catch (error) {
       console.error("댓글 삭제 중 오류 발생:", error);
     }
@@ -259,8 +261,13 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
         <Image src={X} alt="X" />
       </XButton>
       <ModalContent>
-        <div>
-          <PostImage src={starPage.img_url} alt="Post Image" />
+        <div style={{ width: "600px" }}>
+          <PostImage
+            src={starPage.img_url}
+            alt="Post Image"
+            width={600}
+            height={600}
+          />
           <Title>{starPage.name}</Title>
           <InfoContainer>
             <div style={{ display: "flex", gap: "10px" }}>
@@ -275,7 +282,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
           <Content>{starPage.content}</Content>
           <AuthorName>{starPage.writer_name}</AuthorName>
         </div>
-        <div style={{ paddingLeft: "40px", width: "650px" }}>
+        <div style={{ paddingLeft: "40px", width: "560px" }}>
           <StateWrapper>
             <LikeState>
               <LikeButton onClick={() => handleLike(starPage.isLiked)}>
@@ -427,12 +434,9 @@ const AuthorName = styled.div`
   margin-bottom: 15px;
 `;
 
-// 이미지 스타일
-const PostImage = styled.img`
-  width: 512px;
-  max-height: 512px;
+const PostImage = styled(Image)`
   object-fit: cover;
-  margin: 20px 0;
+  margin-bottom: 20px;
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
 `;
 
@@ -460,6 +464,8 @@ const Content = styled.p`
   line-height: 1.6;
   margin: 20px 0;
   color: #c0c0c0;
+  height: 85px;
+  overflow-y: auto;
 `;
 
 // 댓글 섹션 스타일
@@ -492,7 +498,7 @@ const Comment = styled.div`
 
 // 댓글 입력창 스타일
 const CommentInputContainer = styled.div`
-  width: 650px;
+  width: 560px;
   display: flex;
   align-items: center;
   margin-top: 10px;
