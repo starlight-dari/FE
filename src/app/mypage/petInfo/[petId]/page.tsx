@@ -101,7 +101,7 @@ export default function Page() {
       <Header />
       <Body>
         {petData ? (
-          <>
+          <Container>
             <Title>동물 정보</Title>
             <div style={{ display: "flex" }}>
               <ImageContainer>
@@ -147,7 +147,7 @@ export default function Page() {
                 </>
               )}
             </div>
-          </>
+          </Container>
         ) : (
           <p>해당 반려동물을 찾을 수 없습니다.</p>
         )}
@@ -158,7 +158,14 @@ export default function Page() {
 
 const Body = styled.div`
   display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Container = styled.div`
+  display: flex;
   flex-direction: column;
+  width: 1100px;
   padding: 30px;
   color: white;
   position: relative;
