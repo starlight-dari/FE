@@ -277,10 +277,12 @@ const Item = styled.div`
   align-items: center;
   gap: 15px;
   padding: 10px;
+  cursor: pointer;
 `;
 
 const PetItem = styled(Item)`
   background-color: #162132;
+  cursor: pointer;
 `;
 
 const ToggleButton = styled.button`
