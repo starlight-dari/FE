@@ -13,6 +13,9 @@ import ConstellationCanvas, {
 } from "../../../components/constellationCanvas";
 import StarPage from "../../../components/starModal";
 import ChatbotModal from "../../../components/chatbotModal";
+import Image from "next/image";
+import chatbot_logo_white from "/public/chatbot_logo_white.svg";
+import chatbot_logo_colored from "/public/chatbot_logo_colored.svg";
 
 export default function Page() {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -25,6 +28,7 @@ export default function Page() {
   const [selectedStarId, setSelectedStarId] = useState<number | null>(null);
   const [selectedMemoryId, setSelectedMemoryId] = useState<number>(0); // 임의 지정
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const [isChatbotTabHovered, setIsChatbotTabHovered] = useState(false);
 
   const [isAddStarModalOpen, setIsAddStarModalOpen] = useState(false);
   const [isStarInfoModalOpen, setIsStarInfoModalOpen] = useState(false);
@@ -126,7 +130,19 @@ export default function Page() {
           onStarClick={handleStarClick}
         />
         <ConstellationName>{petData.petName}자리</ConstellationName>
-        <div onClick={() => setIsChatbotOpen(true)}>AI 별빛 *</div>
+        <ChatbotTab
+          onClick={() => setIsChatbotOpen(true)}
+          onMouseEnter={() => setIsChatbotTabHovered(true)}
+          onMouseLeave={() => setIsChatbotTabHovered(false)}
+        >
+          <Image
+            src={
+              isChatbotTabHovered ? chatbot_logo_colored : chatbot_logo_white
+            }
+            alt="chatbot"
+          />
+          AI 별빛 *
+        </ChatbotTab>
         <BottomMessage
           ref={messageRef}
           show={messageVisible}
@@ -155,10 +171,27 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: calc(100vh - 82px);
+  height: calc(100vh - 90px);
   color: #fff;
+  position: relative;
 `;
 
 const ConstellationName = styled.div`
   font-size: 35px;
+`;
+
+const ChatbotTab = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  position: absolute;
+  bottom: 6px;
+  left: 15px;
+  font-size: 25px;
+  color: #fff;
+  cursor: pointer;
+
+  &:hover {
+    color: #adc3f3;
+  }
 `;
