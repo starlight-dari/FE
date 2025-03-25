@@ -309,7 +309,10 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
                 <Comment key={comment.comment_id}>
                   {isCommentEditing[comment.comment_id] ? (
                     <>
-                      <input
+                      <p style={{ fontWeight: "600", color: "#adc3f3" }}>
+                        {comment.writer_name}
+                      </p>
+                      <EdittingCommentInput
                         type="text"
                         value={editText[comment.comment_id] || ""}
                         onChange={(e) =>
@@ -319,14 +322,14 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
                           }))
                         }
                       />
-                      <button
+                      <EditButton
                         onClick={() => {
                           saveComment(comment.comment_id);
                         }}
                       >
                         수정 확인
-                      </button>
-                      <button
+                      </EditButton>
+                      <DeleteButton
                         onClick={() =>
                           setIsCommentEditing((prev) => ({
                             ...prev,
@@ -335,7 +338,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
                         }
                       >
                         취소
-                      </button>
+                      </DeleteButton>
                     </>
                   ) : (
                     <>
@@ -577,6 +580,20 @@ const XButton = styled(LikeButton)`
   position: fixed;
   top: 10px;
   right: 10px;
+`;
+
+const EdittingCommentInput = styled.input`
+  width: 600px;
+  padding: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline: none;
+
+  &::placeholder {
+    color: #ccc;
+    font-family: "Pretendard-Regular", sans-serif;
+  }
 `;
 
 export default StarPage;
