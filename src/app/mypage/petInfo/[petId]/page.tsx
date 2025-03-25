@@ -19,6 +19,7 @@ export interface PetInfoData {
   death_date: string;
   personality: string;
   member_id: number;
+  nickname: string;
 }
 
 const GenderMap: Record<string, string> = {
@@ -42,7 +43,7 @@ export default function Page() {
   const params = useParams();
   const petId = Number(params.petId);
 
-  const [petDatas, setPetDatas] = useState<PetInfoData[] | null>([]);
+  const [petData, setPetData] = useState<PetInfoData | null>(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -50,16 +51,13 @@ export default function Page() {
     try {
       const response = await axios({
         method: "GET",
-        url: `http://${server_url}:8080/pets`,
+        url: `http://${server_url}:8080/pets/${petId}`,
         withCredentials: true,
-        headers: {
-          "Content-Type": "application/json;charset=utf-8",
-        },
       });
 
       console.log("서버 응답:", response);
 
-      setPetDatas(response.data);
+      setPetData(response.data);
       setLoading(false);
     } catch (error) {
       console.error("반려동물 정보 요청 중 오류 발생:", error);
@@ -87,7 +85,7 @@ export default function Page() {
     );
   }
 
-  if (!petDatas) {
+  if (!petData) {
     return (
       <>
         <Header />
@@ -98,45 +96,46 @@ export default function Page() {
     );
   }
 
-  const selectedPet = petDatas.find((pet) => pet.pet_id === petId);
-
   return (
     <>
       <Header />
       <Body>
-        {selectedPet ? (
+        {petData ? (
           <>
             <Title>동물 정보</Title>
             <ImageContainer>
-              <Image src={selectedPet.pet_img} alt="pet image" />
+              <Image src={petData.pet_img} alt="pet image" />
             </ImageContainer>
             {isEditing ? (
               <EditingAnimalInfo
                 isEditing={isEditing}
                 setIsEditing={setIsEditing}
-                pet_id={selectedPet.pet_id}
-                pet_name={selectedPet.pet_name}
-                species={selectedPet.species}
-                gender={selectedPet.gender}
-                birth_date={selectedPet.birth_date}
-                death_date={selectedPet.death_date}
-                personality={selectedPet.personality}
+                pet_id={petData.pet_id}
+                pet_name={petData.pet_name}
+                species={petData.species}
+                gender={petData.gender}
+                birth_date={petData.birth_date}
+                death_date={petData.death_date}
+                personality={petData.personality}
+                nickname={petData.nickname}
               />
             ) : (
               <>
                 <FormContainer>
                   <Label>이름</Label>
-                  <Label>{selectedPet.pet_name}</Label>
+                  <Label>{petData.pet_name}</Label>
                   <Label>종</Label>
-                  <Label>{selectedPet.species}</Label>
+                  <Label>{petData.species}</Label>
+                  <Label>호칭</Label>
+                  <Label>{petData.nickname}</Label>
                   <Label>성별</Label>
-                  <Label>{GenderMap[selectedPet.gender]}</Label>
+                  <Label>{GenderMap[petData.gender]}</Label>
                   <Label>태어난 날</Label>
-                  <Label>{selectedPet.birth_date}</Label>
+                  <Label>{petData.birth_date}</Label>
                   <Label>별이 된 날</Label>
-                  <Label>{selectedPet.death_date}</Label>
+                  <Label>{petData.death_date}</Label>
                   <Label>성격</Label>
-                  <Label>{PersonalityMap[selectedPet.personality]}</Label>
+                  <Label>{PersonalityMap[petData.personality]}</Label>
                 </FormContainer>
                 <Button onClick={handleEdit}>수정하기</Button>
               </>
@@ -187,18 +186,6 @@ const Label = styled.label`
   color: white;
   font-size: 14px;
 `;
-
-// const ItemWrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   gap: 15px;
-//   justify-content: center;
-// `;
-
-// const Item = styled.div`
-//   display: flex;
-//   align-items: center;
-// `;
 
 const Title = styled.span`
   font-weight: 900;
