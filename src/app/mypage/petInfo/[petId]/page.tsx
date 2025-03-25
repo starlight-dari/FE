@@ -100,10 +100,14 @@ export default function Page() {
     <>
       <Header />
       <Body>
+        {isEditing ? (
+          <Title>동물 정보 수정하기</Title>
+        ) : (
+          <Title>동물 정보</Title>
+        )}
         {petData ? (
           <Container>
-            <Title>동물 정보</Title>
-            <div style={{ display: "flex" }}>
+            <div style={{ display: "flex", gap: "90px" }}>
               <ImageContainer>
                 <Image
                   src={petData.pet_img}
@@ -160,6 +164,7 @@ const Body = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: calc(100vh - 90px);
 `;
 
 const Container = styled.div`
