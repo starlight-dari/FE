@@ -1,11 +1,11 @@
-export const resizeImage = (file: File): Promise<File> => {
+export const resizeImage = (file: File, size: number): Promise<File> => {
   return new Promise<File>((resolve, reject) => {
     const img = new Image();
     const objectURL = URL.createObjectURL(file);
     img.src = objectURL;
 
     img.onload = () => {
-      const size = 512;
+      // const size = 512;
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
       if (!ctx) return reject("Canvas context not available");

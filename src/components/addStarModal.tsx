@@ -24,27 +24,27 @@ interface AddStarModalProps {
 }
 
 const ACTIVIY_OPTIONS = [
-  "WALK",
-  "PLAY",
-  "TRAINING",
-  "FOOD",
-  "HOSPITAL",
-  "GROOMING",
-  "TRAVEL",
-  "ANNIVERSARY",
-  "RELAX",
+  "산책",
+  "놀이",
+  "훈련",
+  "먹이/간식",
+  "병원",
+  "목욕/미용",
+  "여행",
+  "기념일",
+  "쉬는 시간",
 ];
 
 const EMOTION_OPTIONS = [
-  "HAPPY",
-  "TOUCHED",
-  "PEACEFUL",
-  "SAD",
-  "GRATEFUL",
-  "SURPRISED",
-  "REGRET",
-  "LOVE",
-  "EXPECTATION",
+  "행복",
+  "감동",
+  "안정/평화",
+  "슬픔",
+  "감사",
+  "놀람",
+  "아쉬움",
+  "사랑",
+  "기대감",
 ];
 
 const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
@@ -67,10 +67,8 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
   });
   const [image, setImage] = useState<string | null>(null);
 
-  // const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [activitySelected, setActivitySelected] = useState("상황");
 
-  // const [isEmotionOpen, setIsEmotionOpen] = useState(false);
   const [emotionSelected, setEmotionSelected] = useState("감정");
 
   const handleActivitySelect = (option: string) => {
@@ -86,7 +84,6 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
       "쉬는 시간": "RELAX",
     };
     setActivitySelected(option);
-    // setIsActivityOpen(false);
 
     setFormData((prev: StarFormData) => ({
       ...prev,
@@ -107,7 +104,6 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
       기대감: "EXPECTATION",
     };
     setEmotionSelected(option);
-    // setIsEmotionOpen(false);
 
     setFormData((prev: StarFormData) => ({
       ...prev,
@@ -131,9 +127,7 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
       formData.name?.trim() !== "" &&
       formData.activityCtg?.trim() !== "" &&
       formData.emotionCtg?.trim() !== "" &&
-      formData.content?.trim() !== "" &&
-      formData.isAnimal?.toString().trim() !== "" &&
-      formData.shared?.toString().trim() !== ""
+      formData.content?.trim() !== ""
     );
   }, [formData]); // formData가 변경될 때마다 isFormValid 함수가 새로 생성됨
 
@@ -402,7 +396,6 @@ const ModalContent = styled.div`
   display: flex;
   position: relative;
   background: linear-gradient(to bottom, #23242b 0%, #0c172a 100%);
-  width: 995px;
   height: 600px;
   padding: 40px 30px;
   color: #fff;
@@ -600,9 +593,9 @@ const RadioButton = styled.input`
   cursor: pointer;
 
   &:checked {
-    background-color: #65558f; /*체크 시 내부 원 색상*/
+    background-color: #adc3f3; /*체크 시 내부 원 색상*/
     border: 3px solid #fff; /*라인이 아닌, 라인과 원 사이 색상*/
-    box-shadow: 0 0 0 1px #65558f; /*라인*/
+    box-shadow: 0 0 0 1px #adc3f3; /*라인*/
   }
 `;
 
@@ -611,11 +604,8 @@ const RadioButtonWrapper = styled.label`
   align-items: center;
   gap: 9px;
   padding: 5px 10px;
-  border: 1px solid #65558f;
-  border-radius: 5px;
 
   &:hover {
-    // background-color: #ece6f0;
     color: #adc3f3;
     cursor: pointer;
   }
