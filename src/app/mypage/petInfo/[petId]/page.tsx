@@ -74,26 +74,22 @@ export default function Page() {
     setIsEditing(true);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (
       confirm(
         "동물 정보를 삭제하시면 별자리와 추억글이 모두 사라질 거에요. 정말 삭제하시겠어요?"
       )
     ) {
-      async () => {
-        try {
-          await axios({
-            method: "DELETE",
-            url: `http://${server_url}:8080/pets/${petId}`,
-            withCredentials: true,
-          });
+      try {
+        await axios.delete(`http://${server_url}:8080/pets/${petId}`, {
+          withCredentials: true,
+        });
 
-          alert("반려동물이 삭제되었어요.");
-          router.push(`/mypage/myInfo`);
-        } catch (error) {
-          console.error("동물 정보 삭제 중 오류 발생:", error);
-        }
-      };
+        alert("반려동물이 삭제되었어요.");
+        router.push(`/mypage/myInfo`);
+      } catch (error) {
+        console.error("동물 정보 삭제 중 오류 발생:", error);
+      }
     } else {
       console.log("동물 정보 삭제 취소");
     }
