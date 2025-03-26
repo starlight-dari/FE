@@ -69,7 +69,10 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
 
   useEffect(() => {
     if (lastMessageRef.current) {
-      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
+      lastMessageRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
     }
   }, [chatMessages]);
 
@@ -84,12 +87,15 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
       {
         question: String(id),
         response: selectedQuestion,
+        extraMessage:
+          "다른 카테고리가 궁금하시다면 돌아가기 버튼을 눌러주세요.",
+        showBackButton: true,
       },
     ]);
   };
 
   const handleGoBack = () => {
-    setCategory(null); // 선택된 카테고리 초기화
+    setCategory(null);
     setChatMessages((prevMessages) => [
       ...prevMessages,
       {
