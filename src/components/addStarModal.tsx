@@ -141,6 +141,16 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
     console.log(formData);
   }, [formData, isFormValid]); // formData가 변경될 때마다 유효성 검사 실행
 
+  const handleCancel = () => {
+    if (
+      confirm("이대로 취소하면 적으신 내용은 저장되지 않아요. 취소하시겠어요?")
+    ) {
+      onClose();
+    } else {
+      console.log("그대로 작성 유지");
+    }
+  };
+
   const handleSubmit = async () => {
     try {
       const data = new FormData();
@@ -290,7 +300,7 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
               </ToggleWrapper>
             </ItemWrapper>
           </ModalBody>
-          <Button onClick={onClose}>별 생성 취소하기</Button>
+          <Button onClick={handleCancel}>별 생성 취소하기</Button>
           <SubmitButton onClick={handleSubmit} disabled={!isFormValid}>
             새로운 별 생성하기
           </SubmitButton>
