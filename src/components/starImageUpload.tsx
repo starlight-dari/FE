@@ -79,7 +79,7 @@ const StarImageUpload: React.FC<ImageUploadProps> = ({
             <p style={{ fontWeight: "bold", fontSize: "20px" }}>
               사진을 올려주세요.
             </p>
-            <p style={{ color: "#3A578D" }}>
+            <p style={{ color: "#ADC3F3" }}>
               추억앨범에서 편지를 보내드릴 때
               <br />
               올려주신 반려동물의 사진을 바탕으로

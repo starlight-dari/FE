@@ -79,7 +79,7 @@ const PetImageUpload: React.FC<ImageUploadProps> = ({
             <p style={{ fontSize: "20px", color: "#fff" }}>
               반려동물의 사진을 올려주세요.
             </p>
-            <p style={{ color: "#c0a9f8" }}>
+            <p style={{ color: "#ADC3F3" }}>
               올려주신 반려동물의 사진을 바탕으로 별자리 모양이 생성돼요.
               <br />
               별자리가 생성된 뒤에는 사진을 수정할 수 없으니 신중하게
