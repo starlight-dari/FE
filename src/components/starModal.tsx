@@ -251,7 +251,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
   useEffect(() => {
     getStarInfo();
     getLoginUserId();
-  }, [moreModalVisible]);
+  }, []);
 
   if (!starPage) return null;
 
