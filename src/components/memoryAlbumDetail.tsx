@@ -60,8 +60,8 @@ const LetterDetail: React.FC<PetAlbumContentProps> = ({ petId, letterId }) => {
 
   return (
     <Body>
-      <Button onClick={() => handleLetterClick()}>목록</Button>
       <Container>
+        <Button onClick={() => handleLetterClick()}>목록</Button>
         {letterDetail.images.length > 0 && (
           <CarouselWrapper>
             <ArrowButton onClick={prevImage}>
@@ -196,6 +196,6 @@ const Button = styled.button`
   color: #adc3f3;
   cursor: pointer;
   position: absolute;
-  top: 85px;
-  right: 132px;
+  top: 50px;
+  right: 30px;
 `;
