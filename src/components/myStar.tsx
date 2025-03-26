@@ -118,7 +118,8 @@ const MyStar = () => {
 };
 
 const Container = styled.div`
-  width: 990px;
+  // width: 990px;
+  width: 1010px;
   position: relative;
   gap: 30px;
   display: flex;
