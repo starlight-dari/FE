@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../../../components/header";
 import Image from "next/image";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import EditingAnimalInfo from "../../../../components/editingAnimalInfo";
 
 export interface PetInfoData {
@@ -39,7 +39,7 @@ const PersonalityMap: Record<string, string> = {
 
 export default function Page() {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
-
+  const router = useRouter();
   const params = useParams();
   const petId = Number(params.petId);
 
@@ -72,6 +72,31 @@ export default function Page() {
   // 수정 버튼 클릭 시
   const handleEdit = () => {
     setIsEditing(true);
+  };
+
+  const handleDelete = () => {
+    if (
+      confirm(
+        "동물 정보를 삭제하시면 별자리와 추억글이 모두 사라질 거에요. 정말 삭제하시겠어요?"
+      )
+    ) {
+      async () => {
+        try {
+          await axios({
+            method: "DELETE",
+            url: `http://${server_url}:8080/pets/${petId}`,
+            withCredentials: true,
+          });
+
+          alert("반려동물이 삭제되었어요.");
+          router.push(`/mypage/myInfo`);
+        } catch (error) {
+          console.error("동물 정보 삭제 중 오류 발생:", error);
+        }
+      };
+    } else {
+      console.log("동물 정보 삭제 취소");
+    }
   };
 
   if (loading) {
@@ -147,7 +172,10 @@ export default function Page() {
                     <Label>성격</Label>
                     <Label>{PersonalityMap[petData.personality]}</Label>
                   </FormContainer>
-                  <Button onClick={handleEdit}>수정하기</Button>
+                  <Button onClick={handleEdit}>수정</Button>
+                  <Button style={{ right: "32px" }} onClick={handleDelete}>
+                    삭제
+                  </Button>
                 </>
               )}
             </div>
@@ -217,7 +245,7 @@ const Title = styled.span`
 `;
 
 const Button = styled.button`
-  width: 146px;
+  width: 100px;
   height: 40px;
   border: none;
   border-radius: 5px;
@@ -226,5 +254,5 @@ const Button = styled.button`
   cursor: pointer;
   position: absolute;
   bottom: 25px;
-  right: 32px;
+  right: 144px;
 `;
