@@ -102,7 +102,6 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
             <AlertBadge />
           </Menu>
           <Menu onClick={() => router.push(`/starCommunity`)}>별빛 저장소</Menu>
-          <Menu onClick={() => router.push(`/shareReview`)}>후기 나눔</Menu>
         </MenuBar>
       </Wrapper>
     );
@@ -192,7 +191,6 @@ const NavBar = ({ isOpen, navRef }: NavBarProps) => {
           <AlertBadge />
         </Menu>
         <Menu onClick={() => router.push(`/starCommunity`)}>별빛 저장소</Menu>
-        <Menu onClick={() => router.push(`/shareReview`)}>후기 나눔</Menu>
       </MenuBar>
     </Wrapper>
   );
