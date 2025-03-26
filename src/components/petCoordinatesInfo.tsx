@@ -70,6 +70,9 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
       router.push(`/main/${response.data.petId}`);
     } catch (error) {
       console.error("신규 반려동물 정보 추가 중 오류 발생:", error);
+      alert(
+        "별자리 생성에 실패했어요. 점을 다른 곳에 위치하거나 다른 사진을 이용해주세요."
+      );
     } finally {
       setLoading(false);
     }
