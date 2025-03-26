@@ -4,6 +4,7 @@ import send from "/public/send.svg";
 import close from "/public/close.svg";
 import React, { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import ReactMarkdown from "react-markdown";
 
 interface QuestionData {
   id: number;
@@ -176,7 +177,9 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
               ref={index === chatMessages.length - 1 ? lastMessageRef : null}
             >
               <ChatBubble isUser={true}>{chat.question}</ChatBubble>
-              <ChatBubble isUser={false}>{chat.response}</ChatBubble>
+              <ChatBubble isUser={false}>
+                <ReactMarkdown>{chat.response}</ReactMarkdown>
+              </ChatBubble>
               {chat.extraMessage && (
                 <ChatBubble isUser={false}>{chat.extraMessage}</ChatBubble>
               )}
