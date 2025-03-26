@@ -67,10 +67,16 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
     }
   }, [chatMessages]);
 
-  //
   const handleCategorySelect = (id: number) => {
     setCategory(id);
     console.log(`${id}번 카테고리 선택`);
+
+    const selectedQuestion = questions.find((q) => q.id === id)?.question || "";
+
+    setChatMessages((prevMessages) => [
+      ...prevMessages,
+      { question: String(id), response: selectedQuestion },
+    ]);
   };
 
   const handleSendMessage = async () => {
