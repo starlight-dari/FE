@@ -164,7 +164,7 @@ const Container = styled.div`
 const MemoryStarList = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 42px;
+  gap: 37px;
   margin-bottom: 10px;
 `;
 
