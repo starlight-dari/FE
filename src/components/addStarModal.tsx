@@ -1,7 +1,13 @@
 "use client";
 
 import styled from "styled-components";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import StarImageUpload from "./starImageUpload";
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -121,7 +127,7 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
     }
   }, [starId]);
 
-  const isFormValid = useCallback((): boolean => {
+  const isFormValid = useMemo((): boolean => {
     return (
       formData.img_url !== null &&
       formData.name?.trim() !== "" &&
