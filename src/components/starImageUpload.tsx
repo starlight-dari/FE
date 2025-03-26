@@ -3,6 +3,7 @@ import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import photoIcon from "/public/photo-icon.svg";
 import { StarFormData } from "./addStarModal";
+import { resizeImage } from "./resizeImage";
 
 interface ImageUploadProps {
   formData: StarFormData;
@@ -15,19 +16,21 @@ const StarImageUpload: React.FC<ImageUploadProps> = ({
   setFormData,
   setImage,
 }) => {
-  // const [image, setImage] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [dragging, setDragging] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = event.target.files?.[0];
     if (file) {
+      const resizedFile = await resizeImage(file, 256);
       setImage(URL.createObjectURL(file));
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
         ...prev,
-        img_url: file,
+        img_url: resizedFile,
       }));
     }
   };
@@ -46,11 +49,12 @@ const StarImageUpload: React.FC<ImageUploadProps> = ({
     setDragging(false);
     const file = event.dataTransfer.files?.[0];
     if (file) {
+      const resizedFile = resizeImage(file, 256);
       setImage(URL.createObjectURL(file));
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
         ...prev,
-        img_url: file,
+        img_url: resizedFile,
       }));
     }
   };
@@ -93,7 +97,9 @@ const StarImageUpload: React.FC<ImageUploadProps> = ({
           }}
         />
       </DropZone>
-      <Button onClick={handleButtonClick}>컴퓨터에서 선택하기</Button>
+      <Button onClick={handleButtonClick} photoUploaded={imagePreview !== null}>
+        컴퓨터에서 선택하기
+      </Button>
     </Container>
   );
 };
@@ -132,9 +138,10 @@ const Placeholder = styled.div`
   color: #fff;
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ photoUploaded: boolean }>`
   border: none;
-  background: rgba(170, 200, 255, 0.15);
+  background: ${({ photoUploaded }) =>
+    photoUploaded ? "#374151" : "rgba(170, 200, 255, 0.15)"};
   cursor: pointer;
   padding: 10px 30px;
   color: #adc3f3;

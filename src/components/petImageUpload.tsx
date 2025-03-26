@@ -25,7 +25,7 @@ const PetImageUpload: React.FC<ImageUploadProps> = ({
   ) => {
     const file = event.target.files?.[0];
     if (file) {
-      const resizedFile = await resizeImage(file);
+      const resizedFile = await resizeImage(file, 512);
       setImage(URL.createObjectURL(file));
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
@@ -49,7 +49,7 @@ const PetImageUpload: React.FC<ImageUploadProps> = ({
     setDragging(false);
     const file = event.dataTransfer.files?.[0];
     if (file) {
-      const resizedFile = resizeImage(file);
+      const resizedFile = resizeImage(file, 512);
       setImage(URL.createObjectURL(file));
       setImagePreview(URL.createObjectURL(file));
       setFormData((prev: any) => ({
@@ -138,7 +138,6 @@ const Placeholder = styled.div`
 
 const Button = styled.button<{ photoUploaded: boolean }>`
   border: none;
-  background: #d9d9d91a;
   background: ${({ photoUploaded }) =>
     photoUploaded ? "#374151" : "rgba(170, 200, 255, 0.15)"};
   cursor: pointer;
