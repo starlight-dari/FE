@@ -73,7 +73,7 @@ const StarImageUpload: React.FC<ImageUploadProps> = ({
           <Placeholder>
             <Image src={photoIcon} alt="photoIcon" />
             <p style={{ fontWeight: "bold", fontSize: "20px" }}>
-              사진을 업로드해주세요.
+              사진을 올려주세요.
             </p>
             <p style={{ color: "#3A578D" }}>
               추억앨범에서 편지를 보내드릴 때
@@ -105,24 +105,21 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 460px;
-  height: 535px;
-  background-color: #ece6f0;
-  color: black;
-  border: 1px dashed #65558f;
+  width: 512px;
+  height: 512px;
+  background-color: #d9d9d91a;
+  color: #fff;
   gap: 10px;
   position: relative;
 `;
 
 const DropZone = styled.div<{ dragging: boolean }>`
   width: 100%;
-  height: 400px;
+  max-height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: black;
-  padding: 20px;
   text-align: center;
   cursor: pointer;
 `;
@@ -132,23 +129,24 @@ const Placeholder = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  color: #fff;
 `;
 
 const Button = styled.button`
   border: none;
-  background: #22225e;
+  background: rgba(170, 200, 255, 0.15);
   cursor: pointer;
   padding: 10px 30px;
-  color: #fff;
+  color: #adc3f3;
   border-radius: 5px;
   position: absolute;
   bottom: 10px;
 `;
 
 const Preview = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-  border-radius: 5px;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 `;
 
 const Input = styled.input`

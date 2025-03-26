@@ -23,6 +23,30 @@ interface AddStarModalProps {
   starId: number | null;
 }
 
+const ACTIVIY_OPTIONS = [
+  "WALK",
+  "PLAY",
+  "TRAINING",
+  "FOOD",
+  "HOSPITAL",
+  "GROOMING",
+  "TRAVEL",
+  "ANNIVERSARY",
+  "RELAX",
+];
+
+const EMOTION_OPTIONS = [
+  "HAPPY",
+  "TOUCHED",
+  "PEACEFUL",
+  "SAD",
+  "GRATEFUL",
+  "SURPRISED",
+  "REGRET",
+  "LOVE",
+  "EXPECTATION",
+];
+
 const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
   const params = useParams();
@@ -43,10 +67,10 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
   });
   const [image, setImage] = useState<string | null>(null);
 
-  const [isActivityOpen, setIsActivityOpen] = useState(false);
+  // const [isActivityOpen, setIsActivityOpen] = useState(false);
   const [activitySelected, setActivitySelected] = useState("상황");
 
-  const [isEmotionOpen, setIsEmotionOpen] = useState(false);
+  // const [isEmotionOpen, setIsEmotionOpen] = useState(false);
   const [emotionSelected, setEmotionSelected] = useState("감정");
 
   const handleActivitySelect = (option: string) => {
@@ -62,7 +86,7 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
       "쉬는 시간": "RELAX",
     };
     setActivitySelected(option);
-    setIsActivityOpen(false);
+    // setIsActivityOpen(false);
 
     setFormData((prev: StarFormData) => ({
       ...prev,
@@ -83,7 +107,7 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
       기대감: "EXPECTATION",
     };
     setEmotionSelected(option);
-    setIsEmotionOpen(false);
+    // setIsEmotionOpen(false);
 
     setFormData((prev: StarFormData) => ({
       ...prev,
@@ -178,7 +202,7 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
               />
               <Item>
                 <Label>어떤 상황이었나요? 어떤 감정을 느꼈나요?</Label>
-                <SelectBox>
+                {/* <SelectBox>
                   <SelectWrapper>
                     <SelectedOption
                       onClick={() => setIsActivityOpen(!isActivityOpen)}
@@ -261,10 +285,31 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
                       </OptionItem>
                     </OptionsList>
                   </SelectWrapper>
-                </SelectBox>
+                </SelectBox> */}
+                <Select
+                  value={activitySelected}
+                  onChange={(e) => handleActivitySelect(e.target.value)}
+                >
+                  <option>상황 선택</option>
+                  {ACTIVIY_OPTIONS.map((activity) => (
+                    <option key={activity} value={activity}>
+                      {activity}
+                    </option>
+                  ))}
+                </Select>
+                <Select
+                  value={emotionSelected}
+                  onChange={(e) => handleEmotionSelect(e.target.value)}
+                >
+                  <option>감정 선택</option>
+                  {EMOTION_OPTIONS.map((emotion) => (
+                    <option key={emotion} value={emotion}>
+                      {emotion}
+                    </option>
+                  ))}
+                </Select>
               </Item>
               <Item>
-                <Label>기록하고 싶은 내용을 작성해 주세요.</Label>
                 <Textarea
                   placeholder={`어떤 일이 있었는지 적어주세요.\n자세히 적어주실수록, 더 정확한 내용의 편지를 받아보실 수 있어요!`}
                   value={formData.content}
@@ -346,7 +391,7 @@ const ModalOverlay = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* 까만색 배경 필터 */
+  background-color: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -356,11 +401,10 @@ const ModalOverlay = styled.div`
 const ModalContent = styled.div`
   display: flex;
   position: relative;
-  background: #101827;
+  background: linear-gradient(to bottom, #23242b 0%, #0c172a 100%);
   width: 995px;
   height: 600px;
   padding: 40px 30px;
-  border: 1px solid #fff;
   color: #fff;
 `;
 
@@ -395,11 +439,11 @@ const Label = styled.div`
 `;
 
 const Input = styled.input`
-  width: 350px;
+  width: 500px;
   padding: 10px;
-  border: 1px solid #fff;
+  border: none;
   outline: none;
-  background: transparent;
+  background: #292e3a;
   color: #fff;
   font-family: "Pretendard-Regular", sans-serif; /* placeholder 글씨체 적용 */
 
@@ -410,50 +454,50 @@ const Input = styled.input`
   }
 `;
 
-const SelectBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  color: black;
-`;
+// const SelectBox = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   gap: 10px;
+//   color: black;
+// `;
 
-const SelectWrapper = styled.div`
-  position: relative;
-  width: 100px;
-`;
+// const SelectWrapper = styled.div`
+//   position: relative;
+//   width: 100px;
+// `;
 
-const SelectedOption = styled.div`
-  padding: 10px;
-  border: 1px solid gray;
-  background-color: #fff;
-  color: black;
-  cursor: pointer;
-`;
+// const SelectedOption = styled.div`
+//   padding: 10px;
+//   border: 1px solid gray;
+//   background-color: #fff;
+//   color: black;
+//   cursor: pointer;
+// `;
 
-const OptionsList = styled.ul<{ isOpen: boolean }>`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100px;
-  border: 1px solid gray;
-  background-color: #fff;
-  color: black;
-  list-style: none;
-  padding: 0;
-  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
-  z-index: 1000;
-  height: 170px;
-  overflow-y: auto;
-`;
+// const OptionsList = styled.ul<{ isOpen: boolean }>`
+//   position: absolute;
+//   top: 100%;
+//   left: 0;
+//   width: 100px;
+//   border: 1px solid gray;
+//   background-color: #fff;
+//   color: black;
+//   list-style: none;
+//   padding: 0;
+//   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+//   z-index: 1000;
+//   height: 170px;
+//   overflow-y: auto;
+// `;
 
-const OptionItem = styled.li`
-  padding: 10px;
-  cursor: pointer;
+// const OptionItem = styled.li`
+//   padding: 10px;
+//   cursor: pointer;
 
-  &:hover {
-    background-color: #ece6f0;
-  }
-`;
+//   &:hover {
+//     background-color: #ece6f0;
+//   }
+// `;
 
 const Button = styled.button`
   width: 146px;
@@ -471,7 +515,7 @@ const Button = styled.button`
 const SubmitButton = styled(Button)<{ disabled: boolean }>`
   border: none;
   background: ${({ disabled }) => (disabled ? "#d9d9d98c" : "#22225e")};
-  color: #fff;
+  color: #adc3f3;
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   right: 34px;
 `;
@@ -529,8 +573,8 @@ const ToggleWrapper = styled.div`
 const Textarea = styled.textarea`
   width: 500px;
   height: 150px;
-  border: 1px solid #fff;
-  background: transparent;
+  border: none;
+  background: #292e3a;
   color: #fff;
   font-family: "Pretendard-Regular", sans-serif; /* placeholder 글씨체 적용 */
   padding: 10px;
@@ -571,10 +615,19 @@ const RadioButtonWrapper = styled.label`
   border-radius: 5px;
 
   &:hover {
-    background-color: #ece6f0;
-    color: black;
+    // background-color: #ece6f0;
+    color: #adc3f3;
     cursor: pointer;
   }
+`;
+const Select = styled.select`
+  padding: 10px;
+  border: 1px solid #374151;
+  border-radius: 5px;
+  background: #1f2937;
+  color: white;
+  font-size: 14px;
+  width: 100%;
 `;
 
 export default AddStarModal;
