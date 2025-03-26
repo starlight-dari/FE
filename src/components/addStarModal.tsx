@@ -196,90 +196,6 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
               />
               <Item>
                 <Label>어떤 상황이었나요? 어떤 감정을 느꼈나요?</Label>
-                {/* <SelectBox>
-                  <SelectWrapper>
-                    <SelectedOption
-                      onClick={() => setIsActivityOpen(!isActivityOpen)}
-                    >
-                      {activitySelected}
-                    </SelectedOption>
-                    <OptionsList isOpen={isActivityOpen}>
-                      <OptionItem onClick={() => handleActivitySelect("산책")}>
-                        산책
-                      </OptionItem>
-                      <OptionItem onClick={() => handleActivitySelect("놀이")}>
-                        놀이
-                      </OptionItem>
-                      <OptionItem onClick={() => handleActivitySelect("훈련")}>
-                        훈련
-                      </OptionItem>
-                      <OptionItem
-                        onClick={() => handleActivitySelect("먹이/간식")}
-                      >
-                        먹이/간식
-                      </OptionItem>
-                      <OptionItem onClick={() => handleActivitySelect("병원")}>
-                        병원
-                      </OptionItem>
-                      <OptionItem
-                        onClick={() => handleActivitySelect("목욕/미용")}
-                      >
-                        목욕/미용
-                      </OptionItem>
-                      <OptionItem onClick={() => handleActivitySelect("여행")}>
-                        여행
-                      </OptionItem>
-                      <OptionItem
-                        onClick={() => handleActivitySelect("기념일")}
-                      >
-                        기념일
-                      </OptionItem>
-                      <OptionItem
-                        onClick={() => handleActivitySelect("쉬는 시간")}
-                      >
-                        쉬는 시간
-                      </OptionItem>
-                    </OptionsList>
-                  </SelectWrapper>
-                  <SelectWrapper>
-                    <SelectedOption
-                      onClick={() => setIsEmotionOpen(!isEmotionOpen)}
-                    >
-                      {emotionSelected}
-                    </SelectedOption>
-                    <OptionsList isOpen={isEmotionOpen}>
-                      <OptionItem onClick={() => handleEmotionSelect("행복")}>
-                        행복
-                      </OptionItem>
-                      <OptionItem onClick={() => handleEmotionSelect("감동")}>
-                        감동
-                      </OptionItem>
-                      <OptionItem
-                        onClick={() => handleEmotionSelect("안정/평화")}
-                      >
-                        안정/평화
-                      </OptionItem>
-                      <OptionItem onClick={() => handleEmotionSelect("슬픔")}>
-                        슬픔
-                      </OptionItem>
-                      <OptionItem onClick={() => handleEmotionSelect("감사")}>
-                        감사
-                      </OptionItem>
-                      <OptionItem onClick={() => handleEmotionSelect("놀람")}>
-                        놀람
-                      </OptionItem>
-                      <OptionItem onClick={() => handleEmotionSelect("아쉬움")}>
-                        아쉬움
-                      </OptionItem>
-                      <OptionItem onClick={() => handleEmotionSelect("사랑")}>
-                        사랑
-                      </OptionItem>
-                      <OptionItem onClick={() => handleEmotionSelect("기대감")}>
-                        기대감
-                      </OptionItem>
-                    </OptionsList>
-                  </SelectWrapper>
-                </SelectBox> */}
                 <Select
                   value={activitySelected}
                   onChange={(e) => handleActivitySelect(e.target.value)}
@@ -316,7 +232,6 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
                 />
               </Item>
               <Item>
-                <Label>어떤 사진인가요?</Label>
                 <RadioButtonWrapper htmlFor="petPhoto">
                   <RadioButton
                     type="radio"
@@ -394,11 +309,13 @@ const ModalOverlay = styled.div`
 
 const ModalContent = styled.div`
   display: flex;
+  align-items: center;
   position: relative;
   background: linear-gradient(to bottom, #23242b 0%, #0c172a 100%);
   height: 600px;
   padding: 40px 30px;
   color: #fff;
+  border-radius: 10px;
 `;
 
 const ModalBody = styled.div`
@@ -447,68 +364,24 @@ const Input = styled.input`
   }
 `;
 
-// const SelectBox = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   gap: 10px;
-//   color: black;
-// `;
-
-// const SelectWrapper = styled.div`
-//   position: relative;
-//   width: 100px;
-// `;
-
-// const SelectedOption = styled.div`
-//   padding: 10px;
-//   border: 1px solid gray;
-//   background-color: #fff;
-//   color: black;
-//   cursor: pointer;
-// `;
-
-// const OptionsList = styled.ul<{ isOpen: boolean }>`
-//   position: absolute;
-//   top: 100%;
-//   left: 0;
-//   width: 100px;
-//   border: 1px solid gray;
-//   background-color: #fff;
-//   color: black;
-//   list-style: none;
-//   padding: 0;
-//   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
-//   z-index: 1000;
-//   height: 170px;
-//   overflow-y: auto;
-// `;
-
-// const OptionItem = styled.li`
-//   padding: 10px;
-//   cursor: pointer;
-
-//   &:hover {
-//     background-color: #ece6f0;
-//   }
-// `;
-
 const Button = styled.button`
   width: 146px;
   height: 40px;
-  border: 1px solid #65558f;
+  border: 1px solid #adc3f3;
   border-radius: 5px;
-  background: #fff;
-  color: #65558f;
+  background: transparent;
+  color: #adc3f3;
   cursor: pointer;
   position: absolute;
   bottom: 25px;
   right: 190px;
+  font-family: "Pretendard-Regular", sans-serif;
 `;
 
 const SubmitButton = styled(Button)<{ disabled: boolean }>`
-  border: none;
-  background: ${({ disabled }) => (disabled ? "#d9d9d98c" : "#22225e")};
-  color: #adc3f3;
+  border: ${({ disabled }) => (disabled ? "1px solid #d9d9d98c" : "none")};
+  background: ${({ disabled }) => (disabled ? "transparent" : "#ADC3F3")};
+  color: ${({ disabled }) => (disabled ? "#d9d9d98c" : "#fff")};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   right: 34px;
 `;
@@ -549,7 +422,7 @@ const ToggleLabel = styled.label`
 
   /* 토글 ON 스타일 적용 */
   ${ToggleInput}:checked + & {
-    background-color: #65558f;
+    background-color: #adc3f3;
   }
 
   /* 토글 ON인 경우 버튼 이동 */
