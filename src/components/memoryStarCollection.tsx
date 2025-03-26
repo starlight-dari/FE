@@ -54,7 +54,19 @@ const MemoryStarCollection = () => {
   }, [server_url]);
 
   if (loading) {
-    return <h1>로딩 중입니다...</h1>;
+    return (
+      <Container>
+        <Title>나의 추억별</Title>
+        <MemoryStarList>
+          <SkeletonUI />
+          <SkeletonUI />
+          <SkeletonUI />
+          <SkeletonUI />
+          <SkeletonUI />
+          <SkeletonUI />
+        </MemoryStarList>
+      </Container>
+    );
   }
 
   if (!memoryStars) {
@@ -157,6 +169,26 @@ const NoMemoryStar = styled.div`
   height: 300px;
   align-items: center;
   justify-content: center;
+`;
+
+const SkeletonUI = styled.div`
+  width: 320px;
+  height: 430px;
+  border-radius: 18px;
+  background: #d9d9d929;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  animation: pulse 1.7s infinite ease-in-out;
+  @keyframes pulse {
+    0% {
+      background: rgba(200, 200, 200, 0.9);
+    }
+    50% {
+      background: rgba(200, 200, 200, 0.5);
+    }
+    100% {
+      background: rgba(200, 200, 200, 0.9);
+    }
+  }
 `;
 
 export default MemoryStarCollection;
