@@ -53,6 +53,7 @@ const EditOrDeleteModal: React.FC<MoreModalProps> = ({ onClose, memoryId }) => {
     <>
       <ModalContent>
         <Item onClick={() => handleEdit(memoryId)}>수정</Item>
+        <Line />
         <Item onClick={() => handleDelete(memoryId)}>삭제</Item>
       </ModalContent>
     </>
@@ -63,7 +64,8 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   background: #101827;
-  border: 1px solid #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 5px;
   color: #fff;
   z-index: 1000;
   position: absolute;
@@ -73,11 +75,16 @@ const ModalContent = styled.div`
 
 const Item = styled.div`
   cursor: pointer;
-  padding: 10px 20px;
+  padding: 13px 24px;
 
   &:hover {
     background-color: #ece6f0;
   }
 `;
 
+const Line = styled.hr`
+  height: 1px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.28);
+`;
 export default EditOrDeleteModal;
