@@ -184,6 +184,13 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleAddComment();
+    }
+  };
+
   const fetchComments = async (memoryId: number) => {
     try {
       const response = await axios({
@@ -380,6 +387,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
                 placeholder="댓글을 입력하세요..."
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
               <SubmitButton onClick={handleAddComment}>등록</SubmitButton>
             </CommentInputContainer>
