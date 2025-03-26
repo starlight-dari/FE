@@ -55,7 +55,13 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
   const [question, setQuestion] = useState<string>("");
   const [category, setCategory] = useState<number | null>(null);
   const [chatMessages, setChatMessages] = useState<
-    { question: string; response: string }[]
+    {
+      question: string;
+      response: string;
+      extraMessage?: string;
+      showBackButton?: boolean;
+      categories?: string[];
+    }[]
   >([]);
 
   const chatWindowRef = useRef<HTMLDivElement>(null);
@@ -75,15 +81,33 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
 
     setChatMessages((prevMessages) => [
       ...prevMessages,
-      { question: String(id), response: selectedQuestion },
+      {
+        question: String(id),
+        response: selectedQuestion,
+      },
+    ]);
+  };
+
+  const handleGoBack = () => {
+    setCategory(null); // 선택된 카테고리 초기화
+    setChatMessages((prevMessages) => [
+      ...prevMessages,
+      {
+        question: "돌아가기",
+        response: "어느 카테고리에 관련된 것이 궁금하신가요?",
+        categories: [
+          "펫 보험 정보",
+          "노령견/노묘 전문 정보",
+          "장례식장 정보",
+          "펫로스증후군 극복 프로그램",
+        ],
+      },
     ]);
   };
 
   const handleSendMessage = async () => {
-    console.log("버튼 클릭");
     console.log("category: ", category);
     console.log("question: ", question);
-    console.log("question.trim(): ", question.trim());
 
     if (category === null || !question.trim()) return;
 
@@ -96,14 +120,18 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
         },
         { withCredentials: true }
       );
-      console.log("전송한 내용:", question);
 
       setChatMessages((prevMessages) => [
         ...prevMessages,
-        { question, response: response.data.answer },
+        {
+          question,
+          response: response.data.answer,
+          extraMessage:
+            "추가적인 질문이 있다면 답변해드릴게요. 다른 카테고리가 궁금하시다면 돌아가기 버튼을 눌러주세요.",
+          showBackButton: true,
+        },
       ]);
       setQuestion("");
-      console.log("답변 내용:", response.data.answer);
     } catch (error) {
       console.error("메시지 전송 중 오류 발생:", error);
     }
@@ -143,6 +171,21 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
             >
               <ChatBubble isUser={true}>{chat.question}</ChatBubble>
               <ChatBubble isUser={false}>{chat.response}</ChatBubble>
+              {chat.extraMessage && (
+                <ChatBubble isUser={false}>{chat.extraMessage}</ChatBubble>
+              )}
+              {chat.showBackButton && (
+                <CategoryButton onClick={handleGoBack}>돌아가기</CategoryButton>
+              )}
+              {chat.categories &&
+                chat.categories.map((category, idx) => (
+                  <CategoryButton
+                    key={idx}
+                    onClick={() => handleCategorySelect(idx)}
+                  >
+                    {category}
+                  </CategoryButton>
+                ))}
             </ChatBubbleContainer>
           ))}
         </ChatWindow>
