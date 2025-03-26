@@ -50,7 +50,7 @@ const ConstellationCanvas: React.FC<{
     image.src = petData.svgPath;
 
     image.onload = () => {
-      const CANVAS_SIZE = 1000;
+      const CANVAS_SIZE = 900;
       canvas.width = CANVAS_SIZE;
       canvas.height = CANVAS_SIZE;
 
@@ -96,8 +96,8 @@ const ConstellationCanvas: React.FC<{
           {petData.starList.map((star: Star) => (
             <StarDiv
               key={star.star_id}
-              x={star.x_star * (1000 / 512) - 5} // x 좌표
-              y={star.y_star * (1000 / 512) - 4.5} // y 좌표
+              x={star.x_star * (900 / 512) - 5} // x 좌표
+              y={star.y_star * (900 / 512) - 4.5} // y 좌표
               selected={selectedStarId === star.star_id}
               written={star.written}
               onClick={() => handleStarClick(star)}
@@ -111,8 +111,8 @@ const ConstellationCanvas: React.FC<{
 
 const Container = styled.div`
   position: relative;
-  width: 1000px;
-  height: 1000px;
+  width: 900px;
+  height: 900px;
 `;
 
 const Canvas = styled.canvas`
@@ -129,18 +129,34 @@ const StarsContainer = styled.div`
   height: 100%;
 `;
 
+// const flicker = keyframes`
+//     0% {
+//       background: radial-gradient(circle, rgba(255, 255, 200, 1) 0%, rgba(255, 223, 128, 0.5) 100%);
+//       box-shadow: 0 0 10px 3px rgba(255, 223, 128, 0.7);
+//     }
+//     50% {
+//       background: radial-gradient(circle, rgba(255, 255, 200, 0.8) 0%, rgba(255, 223, 128, 0.6) 100%);
+//       box-shadow: 0 0 15px 5px rgba(255, 223, 128, 1);
+//     }
+//     100% {
+//       background: radial-gradient(circle, rgba(255, 255, 200, 1) 0%, rgba(255, 223, 128, 0.5) 100%);
+//       box-shadow: 0 0 10px 3px rgba(255, 223, 128, 0.7);
+//     }
+//   `;
+
 const flicker = keyframes`
     0% {
-      background: radial-gradient(circle, rgba(255, 255, 200, 1) 0%, rgba(255, 223, 128, 0.5) 100%);
-      box-shadow: 0 0 10px 3px rgba(255, 223, 128, 0.7);
+      background: radial-gradient(circle, rgba(255, 255, 200, 1) 0%, rgba(255, 223, 128, 0.3) 100%);
+      box-shadow: 0 0 15px 5px rgba(255, 223, 128, 0.5);
     }
     50% {
-      background: radial-gradient(circle, rgba(255, 255, 200, 0.8) 0%, rgba(255, 223, 128, 0.6) 100%);
-      box-shadow: 0 0 15px 5px rgba(255, 223, 128, 1);
+      background: radial-gradient(circle, rgba(255, 255, 220, 1) 0%, rgba(255, 223, 128, 0.8) 100%);
+      box-shadow: 0 0 30px 10px rgba(255, 223, 128, 1);
+      transform: scale(1.05);
     }
     100% {
-      background: radial-gradient(circle, rgba(255, 255, 200, 1) 0%, rgba(255, 223, 128, 0.5) 100%);
-      box-shadow: 0 0 10px 3px rgba(255, 223, 128, 0.7);
+      background: radial-gradient(circle, rgba(255, 255, 200, 1) 0%, rgba(255, 223, 128, 0.3) 100%);
+      box-shadow: 0 0 15px 5px rgba(255, 223, 128, 0.5);
     }
   `;
 
@@ -160,7 +176,7 @@ const StarDiv = styled.div<{
   cursor: pointer;
   pointer-events: all;
   box-shadow: ${({ written }) =>
-    written ? "0 0 10px 3px rgba(255, 223, 128, 0.7)" : "none"};
+    written ? "0 0 20px 8px rgba(255, 223, 128, 0.87)" : "none"};
   background: radial-gradient(
     circle,
     rgba(255, 255, 200, 1) 0%,
