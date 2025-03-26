@@ -173,7 +173,7 @@ const NoMemoryStar = styled.div`
 
 const SkeletonUI = styled.div`
   width: 320px;
-  height: 430px;
+  height: 415px;
   border-radius: 18px;
   background: #d9d9d929;
   background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
