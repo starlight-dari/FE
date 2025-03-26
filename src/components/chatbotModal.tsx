@@ -144,6 +144,13 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
     }
   };
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      handleSendMessage();
+    }
+  };
+
   return (
     <ModalOverlay>
       <ModalContainer>
@@ -203,6 +210,7 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
             type="text"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
+            onKeyDown={handleKeyDown}
             placeholder="궁금한 점이 있나요?"
           />
           <SendButton onClick={handleSendMessage}>
