@@ -37,8 +37,8 @@ const questions: QuestionData[] = [
     id: 3,
     category: "펫로스증후군 극복 프로그램",
     question: `다음은 펫로스 증후군 극복 프로그램 링크 목록입니다.\n
-마인드카페 센터: https://center.mindcafe.co.kr/program_petloss\n
-마음치유모임 with 펫로스: https://www.gangnam.go.kr/contents/mind_healing/1/view.do?mid=ID04_04075401`,
+[마인드카페 센터](https://center.mindcafe.co.kr/program_petloss)\n
+[마음치유모임 with 펫로스](https://www.gangnam.go.kr/contents/mind_healing/1/view.do?mid=ID04_04075401)`,
   },
 ];
 
