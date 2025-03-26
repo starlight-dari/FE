@@ -131,8 +131,8 @@ const AddStarModal: React.FC<AddStarModalProps> = ({ onClose, starId }) => {
     return (
       formData.img_url !== null &&
       formData.name?.trim() !== "" &&
-      formData.activityCtg?.trim() !== "" &&
-      formData.emotionCtg?.trim() !== "" &&
+      !!formData.activityCtg?.trim() &&
+      !!formData.emotionCtg?.trim() &&
       formData.content?.trim() !== ""
     );
   }, [formData]); // formData가 변경될 때마다 isFormValid 함수가 새로 생성됨

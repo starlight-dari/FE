@@ -75,7 +75,7 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
       formData.gender?.trim() !== "" &&
       formData.birth_date?.trim() !== "" &&
       formData.death_date?.trim() !== "" &&
-      formData.personality?.trim() !== ""
+      !!formData.personality?.trim()
     );
   }, [formData]); // formData가 변경될 때마다 isFormValid 함수가 새로 생성됨
 
