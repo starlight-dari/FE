@@ -178,6 +178,9 @@ const Body = styled.div`
 
 const ConstellationName = styled.div`
   font-size: 35px;
+  position: absolute;
+  bottom: 20px;
+  font-weight: bold;
 `;
 
 const ChatbotTab = styled.div`
@@ -190,6 +193,9 @@ const ChatbotTab = styled.div`
   font-size: 25px;
   color: #fff;
   cursor: pointer;
+  background: rgba(173, 195, 243, 0.55);
+  padding: 10px 20px;
+  border-radius: 10px;
 
   &:hover {
     color: #adc3f3;
