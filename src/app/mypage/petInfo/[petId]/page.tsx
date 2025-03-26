@@ -23,8 +23,8 @@ export interface PetInfoData {
 }
 
 const GenderMap: Record<string, string> = {
-  MALE: "남자",
-  FEMALE: "여자",
+  MALE: "남성",
+  FEMALE: "여성",
   NONE: "모르겠어요",
 };
 
