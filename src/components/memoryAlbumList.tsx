@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import styled from "styled-components";
-import React from "react";
+import React, { useEffect } from "react";
 import { useAlbum } from "../context/AlbumContext";
 
 interface AlbumListProps {
@@ -10,7 +10,12 @@ interface AlbumListProps {
 }
 
 const AlbumList: React.FC<AlbumListProps> = ({ onSelectPet }) => {
-  const { albumData, selectedPet } = useAlbum();
+  const { albumData, fetchPetList, selectedPet } = useAlbum();
+
+  useEffect(() => {
+    console.log("memoryAlbumList 컴포넌트 초기 앨범 데이터 가져오는 중...");
+    fetchPetList(null);
+  }, []);
 
   if (!albumData) return null;
 
