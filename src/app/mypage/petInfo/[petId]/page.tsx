@@ -77,7 +77,7 @@ export default function Page() {
   const handleDelete = async () => {
     if (
       confirm(
-        "동물 정보를 삭제하시면 별자리와 추억글이 모두 사라질 거에요. 정말 삭제하시겠어요?"
+        "동물 정보를 삭제하시면 별자리가 사라질 거에요. 정말 삭제하시겠어요?"
       )
     ) {
       try {
