@@ -60,7 +60,9 @@ const ConstellationCanvas: React.FC<{
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // 이미지 그리기 (좌측 하단 기준)
+        ctx.filter = "drop-shadow(5px 5px 10px rgba(173, 195, 243, 0.5))"; // 그림자 적용
         ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+        ctx.filter = "none";
 
         // 간선 그리기
         petData.edges.forEach((edge: Edge) => {
