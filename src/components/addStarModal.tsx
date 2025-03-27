@@ -397,7 +397,7 @@ const Button = styled.button`
 const SubmitButton = styled(Button)<{ disabled: boolean }>`
   border: ${({ disabled }) => (disabled ? "1px solid #d9d9d98c" : "none")};
   background: ${({ disabled }) => (disabled ? "transparent" : "#ADC3F3")};
-  color: ${({ disabled }) => (disabled ? "#d9d9d98c" : "#fff")};
+  color: ${({ disabled }) => (disabled ? "#d9d9d98c" : "#101829;")};
   cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
   right: 34px;
 `;
