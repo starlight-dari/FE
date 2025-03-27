@@ -81,12 +81,13 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
     setCategory(id);
     console.log(`${id}번 카테고리 선택`);
 
+    const selectedCategory = questions.find((q) => q.id === id)?.category || "";
     const selectedQuestion = questions.find((q) => q.id === id)?.question || "";
 
     setChatMessages((prevMessages) => [
       ...prevMessages,
       {
-        question: String(id),
+        question: selectedCategory,
         response: selectedQuestion,
         extraMessage:
           "다른 카테고리가 궁금하시다면 돌아가기 버튼을 눌러주세요.",
@@ -118,6 +119,14 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
 
     if (category === null || !question.trim()) return;
 
+    const newMessage = {
+      question,
+      response: "답변을 생성하고 있어요...",
+      showBackButton: false,
+    };
+    setChatMessages((prevMessages) => [...prevMessages, newMessage]);
+    setQuestion("");
+
     try {
       const response = await axios.post(
         `http://${server_url}:8080/chat`,
@@ -128,19 +137,43 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
         { withCredentials: true }
       );
 
-      setChatMessages((prevMessages) => [
-        ...prevMessages,
-        {
-          question,
-          response: response.data.answer,
-          extraMessage:
-            "추가적인 질문이 있다면 답변해드릴게요. 다른 카테고리가 궁금하시다면 돌아가기 버튼을 눌러주세요.",
-          showBackButton: true,
-        },
-      ]);
-      setQuestion("");
+      // setChatMessages((prevMessages) => [
+      //   ...prevMessages,
+      //   {
+      //     question,
+      //     response: response.data.answer,
+      //     extraMessage:
+      //       "추가적인 질문이 있다면 답변해드릴게요. 다른 카테고리가 궁금하시다면 돌아가기 버튼을 눌러주세요.",
+      //     showBackButton: true,
+      //   },
+      // ]);
+      // setQuestion("");
+      setChatMessages((prevMessages) =>
+        prevMessages.map((msg, index) =>
+          index === prevMessages.length - 1
+            ? {
+                ...msg,
+                response: response.data.answer,
+                extraMessage:
+                  "추가적인 질문이 있다면 답변해드릴게요. 다른 카테고리가 궁금하시다면 돌아가기 버튼을 눌러주세요.",
+                showBackButton: true,
+              }
+            : msg
+        )
+      );
     } catch (error) {
       console.error("메시지 전송 중 오류 발생:", error);
+      setChatMessages((prevMessages) =>
+        prevMessages.map((msg, index) =>
+          index === prevMessages.length - 1
+            ? {
+                ...msg,
+                response: "오류가 발생했습니다. 다시 시도해주세요.",
+                showBackButton: true,
+              }
+            : msg
+        )
+      );
     }
   };
 
