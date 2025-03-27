@@ -139,7 +139,7 @@ const Body = styled.div`
 
 const TitleWrapper = styled.div`
   display: flex;
-  width: 68vw;
+  width: 1190px;
   padding: 30px 0;
   align-items: end;
   gap: 15px;
@@ -156,7 +156,7 @@ const Subtitle = styled.div`
 
 const Container = styled.div`
   height: 926px;
-  width: 1189px;
+  width: 1190px;
   position: relative;
   overflow-y: auto;
 `;
