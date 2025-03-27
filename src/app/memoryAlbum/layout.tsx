@@ -40,4 +40,8 @@ const Body = styled.div`
   color: #fff;
 `;
 
-const Content = styled.div``;
+const Content = styled.div`
+  width: calc(100vw - 300px);
+  display: flex;
+  justify-content: center;
+`;

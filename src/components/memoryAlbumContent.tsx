@@ -44,16 +44,18 @@ const AlbumContent: React.FC<PetAlbumContentProps> = ({ petId }) => {
       <Container>
         <Title>도착한 편지들</Title>
         {petAlbumContent && petAlbumContent.length > 0 ? (
-          petAlbumContent?.map((item, index) => (
-            <Letter
-              key={index}
-              onClick={() => handleLetterClick(item.letter_id)}
-            >
-              <LetterTitle>{item.title}</LetterTitle>
-              <LetterContent>{item.content}</LetterContent>
-              {!item.opened && <AlertBadge />}
-            </Letter>
-          ))
+          <LetterWrapper>
+            {petAlbumContent?.map((item, index) => (
+              <Letter
+                key={index}
+                onClick={() => handleLetterClick(item.letter_id)}
+              >
+                <LetterTitle>{item.title}</LetterTitle>
+                <LetterContent>{item.content}</LetterContent>
+                {!item.opened && <AlertBadge />}
+              </Letter>
+            ))}
+          </LetterWrapper>
         ) : (
           <NoLetter>
             <p>아직 도착한 편지가 없어요. 조금만 기다려주세요.</p>
@@ -71,7 +73,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: start;
-  padding: 50px 110px;
+  padding: 50px 0;
   gap: 6px;
   width: 1200px;
   height: calc(-200px + 100vh);
@@ -81,6 +83,15 @@ const Container = styled.div`
 const Title = styled.div`
   font-size: 25px;
   padding-bottom: 20px;
+`;
+
+const LetterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 400;
+  height: 650px
+  overflow-y: auto;
 `;
 
 const Letter = styled.div`
