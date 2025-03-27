@@ -21,11 +21,12 @@ export default function Page() {
 const Body = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100vw;
+  width: 99vw;
   align-items: center;
   position: absolute;
   top: 90px;
   color: #fff;
   padding-top: 30px;
   gap: 65px;
+  overflow-x: hidden;
 `;

@@ -110,7 +110,7 @@ const MemoryStarCollection = () => {
 };
 
 const Container = styled.div`
-  width: 990px;
+  width: 1010px;
   position: relative;
   gap: 30px;
   display: flex;
@@ -126,7 +126,7 @@ const MemoryStarList = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 15px;
-  height: 740px;
+  height: 700px;
   overflow-y: auto;
 `;
 
