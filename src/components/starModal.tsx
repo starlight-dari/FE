@@ -272,8 +272,8 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
           <PostImage
             src={starPage.img_url}
             alt="Post Image"
-            width={600}
-            height={600}
+            width={500}
+            height={500}
           />
           <Title>{starPage.name}</Title>
           <InfoContainer>
@@ -419,8 +419,8 @@ const ModalContent = styled.div`
   display: flex;
   position: relative;
   background: #101827;
-  width: 1200px;
-  height: 900px;
+  width: 1100px;
+  height: 800px;
   padding: 40px 30px;
   color: #fff;
   //   overflow: auto;
@@ -438,8 +438,6 @@ const Title = styled.h1`
 const AuthorName = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
-  //   color: #a1cfff;
-  margin-bottom: 15px;
 `;
 
 const PostImage = styled(Image)`
@@ -472,7 +470,7 @@ const Content = styled.p`
   line-height: 1.6;
   margin: 20px 0;
   color: #c0c0c0;
-  height: 85px;
+  height: 112px;
   overflow-y: auto;
 `;
 
@@ -482,7 +480,7 @@ const CommentSection = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   padding-top: 15px;
   position: relative;
-  height: 830px;
+  height: 708px;
 `;
 
 const CommentWrapper = styled.div`
