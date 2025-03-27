@@ -2,7 +2,7 @@
 
 // import "../globals.css";
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CreateStarModal from "./createStarModal";
 import help from "/public/help.svg";
 import goBack from "/public/chevron_left.svg";
@@ -77,6 +77,10 @@ const PetCoordinatesInfo: React.FC<PetCoordinatesInfoProps> = ({
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    openModal();
+  }, []);
 
   return (
     <>
