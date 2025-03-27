@@ -63,6 +63,8 @@ export const AlbumProvider: React.FC<{ children: ReactNode }> = ({
   const fetchPetList = useCallback(
     async (petId: number | null) => {
       try {
+        console.log("fetchPetList 실행됨, petId:", petId);
+
         const response = await axios.get(
           `http://${server_url}:8080/memory-album/status`,
           { withCredentials: true }
@@ -110,8 +112,13 @@ export const AlbumProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   useEffect(() => {
+    console.log("📢 초기 앨범 데이터 가져오는 중...");
     fetchPetList(null);
   }, []);
+
+  useEffect(() => {
+    console.log("앨범 데이터 업데이트됨:", albumData);
+  }, [albumData]);
 
   useEffect(() => {
     if (selectedPet) {
