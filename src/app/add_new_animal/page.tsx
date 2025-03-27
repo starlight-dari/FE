@@ -95,5 +95,5 @@ const ProgressBar = styled.div`
 `;
 
 const CompletedBar = styled(ProgressBar)`
-  background: #d793ff;
+  background: #fff;
 `;
