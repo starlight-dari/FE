@@ -268,7 +268,7 @@ const StarPage: React.FC<StarPageModalProps> = ({ onClose, memoryId }) => {
         <Image src={X} alt="X" />
       </XButton>
       <ModalContent>
-        <div style={{ width: "600px" }}>
+        <div style={{ width: "500px" }}>
           <PostImage
             src={starPage.img_url}
             alt="Post Image"
