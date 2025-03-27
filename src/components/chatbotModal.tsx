@@ -42,15 +42,6 @@ const questions: QuestionData[] = [
   },
 ];
 
-interface ChatMessageSet {
-  chatId: number;
-  category: number;
-  question: string;
-  answer: string;
-  createdAt: string;
-  memberId: number;
-}
-
 const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
   const [question, setQuestion] = useState<string>("");
@@ -179,8 +170,13 @@ const ChatbotModal = ({ onClose }: { onClose: () => void }) => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault();
-      handleSendMessage();
+      if (
+        event.currentTarget.value.length > 0 &&
+        event.nativeEvent.isComposing === false
+      ) {
+        event.preventDefault();
+        handleSendMessage();
+      }
     }
   };
 
