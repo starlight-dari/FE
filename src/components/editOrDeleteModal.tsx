@@ -44,6 +44,7 @@ const EditOrDeleteModal: React.FC<MoreModalProps> = ({ onClose, memoryId }) => {
       console.log("서버 응답:", response);
       alert("별을 삭제했습니다.");
       onClose();
+      window.location.reload();
     } catch (error) {
       console.error("별 삭제 중 오류 발생:", error);
     }
