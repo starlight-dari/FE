@@ -31,7 +31,7 @@ const ModalContent = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: #070474;
+  background-color: #aac8ff26;
   color: white;
   border: none;
   padding: 10px 20px;
