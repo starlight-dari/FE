@@ -15,9 +15,11 @@ interface QuestionData {
 const ChatbotModalTemplate = ({
   questions,
   onClose,
+  introMessage,
 }: {
   questions: QuestionData[];
   onClose: () => void;
+  introMessage: string;
 }) => {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
   const [question, setQuestion] = useState<string>("");
@@ -130,15 +132,7 @@ const ChatbotModalTemplate = ({
         <ChatWindow ref={chatWindowRef}>
           {category === null && (
             <>
-              <IntroText>
-                안녕하세요! 별빛다리 AI챗봇입니다.
-                <br />
-                장례식장, 펫로스증후군 극복 프로그램, 펫 보험, 노령견/노묘 전문
-                정보에 대해 무엇이든 물어보세요. 최선을 다해 답변해드릴게요.
-                <br />
-                <br />
-                카테고리를 선택해주세요.
-              </IntroText>
+              <IntroText>{introMessage}</IntroText>
               {questions.map((q) => (
                 <CategoryButton
                   key={q.id}

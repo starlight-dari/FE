@@ -17,8 +17,18 @@ const notAliveQuestions = [
 ];
 
 const ChatbotModalNotAlive = ({ onClose }: { onClose: () => void }) => {
+  const introMessage = `💬 안녕하세요! 별빛다리 AI챗봇입니다.
+먼저 소중한 반려 친구의 이별에 깊은 위로를 전합니다.
+지금은 많이 힘드실 수 있지만, 저희가 함께하겠습니다.
+🕊 장례식장 정보와
+💛 펫로스 증후군 극복 프로그램을 안내해드릴게요.
+도움이 필요한 항목을 선택해주세요. 언제나 곁에 있겠습니다.`;
   return (
-    <ChatbotModalTemplate questions={notAliveQuestions} onClose={onClose} />
+    <ChatbotModalTemplate
+      questions={notAliveQuestions}
+      onClose={onClose}
+      introMessage={introMessage}
+    />
   );
 };
 
