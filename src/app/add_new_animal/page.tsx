@@ -36,7 +36,7 @@ export default function Page() {
     selected_y: 256,
   });
   const [image, setImage] = useState<string | null>(null);
-  const [isAlive, setIsAlive] = useState<boolean | null>(null);
+  const [isAlive, setIsAlive] = useState<boolean>(false);
   const [showModal, setShowModal] = useState(true);
 
   const handleAlive = (status: boolean) => {

@@ -20,24 +20,14 @@ const ModalContent = styled.div`
   align-items: center;
   position: relative;
   background: linear-gradient(to bottom, #23242b 0%, #0c172a 100%);
-  height: 600px;
+  height: 110px;
   padding: 40px 30px;
   color: #fff;
   border-radius: 10px;
-`;
-
-const MessageWrapper = styled.div`
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #4b5973;
-  color: #070474;
-  padding: 20px;
-  text-align: center;
+  width: 50%;
   font-size: 16px;
-  border-top: 2px solid #070474;
-  transition: transform 0.5s ease-out;
+  text-align: center;
+  flex-direction: column;
 `;
 
 const Button = styled.button`
@@ -52,7 +42,7 @@ const Button = styled.button`
   font-family: "Pretendard-Regular", sans-serif;
 
   &:hover {
-    background-color: #d793ff;
+    background-color: #aac8ff;
   }
 `;
 
@@ -64,12 +54,10 @@ const PetAliveOrNotModal = ({ onSelect }: PetAliveOrNotModalProps) => {
   return (
     <ModalOverlay>
       <ModalContent>
-        <MessageWrapper>
-          <p>현재 반려동물과 함께하고 계신가요?</p>
+        <p>현재 반려동물과 함께하고 계신가요?</p>
 
-          <Button onClick={() => onSelect(true)}>네, 함께하고 있어요.</Button>
-          <Button onClick={() => onSelect(false)}>아니요, 떠나보냈어요.</Button>
-        </MessageWrapper>
+        <Button onClick={() => onSelect(true)}>네, 함께하고 있어요.</Button>
+        <Button onClick={() => onSelect(false)}>아니요, 떠나보냈어요.</Button>
       </ModalContent>
     </ModalOverlay>
   );
