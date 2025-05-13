@@ -10,12 +10,12 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "starlightbucket.s3.ap-northeast-2.amazonaws.com",
+        hostname: "starlightbucket2.s3.ap-northeast-2.amazonaws.com",
         port: "",
       },
       {
         protocol: "https",
-        hostname: "starlightbucket.s3.amazonaws.com",
+        hostname: "starlightbucket2.s3.amazonaws.com",
         port: "",
       },
       { protocol: "http", hostname: "img1.kakaocdn.net" },
