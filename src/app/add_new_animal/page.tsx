@@ -15,6 +15,7 @@ export interface PetFormData {
   gender: string;
   birth_date: string;
   death_date: string;
+  live: boolean;
   personality: string;
   nickname: string;
   selected_x: number;
@@ -30,6 +31,7 @@ export default function Page() {
     gender: "",
     birth_date: "",
     death_date: "",
+    live: false,
     personality: "",
     nickname: "",
     selected_x: 256,
@@ -45,7 +47,7 @@ export default function Page() {
 
     if (status) {
       // 살아있다면 death_date 초기화
-      setFormData((prev) => ({ ...prev, death_date: "" }));
+      setFormData((prev) => ({ ...prev, death_date: "", live: true }));
     }
   };
 
