@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import Header from "../../components/header";
 import NewPetInfo from "../../components/newPetInfo";
 import PetCoordinatesInfo from "../../components/petCoordinatesInfo";
+import PetAliveOrNotModal from "../../components/petAliveOrNotModal";
 
 export interface PetFormData {
   pet_img: File | null;
@@ -35,9 +36,22 @@ export default function Page() {
     selected_y: 256,
   });
   const [image, setImage] = useState<string | null>(null);
+  const [isAlive, setIsAlive] = useState<boolean | null>(null);
+  const [showModal, setShowModal] = useState(true);
+
+  const handleAlive = (status: boolean) => {
+    setIsAlive(status);
+    setShowModal(false);
+
+    if (status) {
+      // 살아있다면 death_date 초기화
+      setFormData((prev) => ({ ...prev, death_date: "" }));
+    }
+  };
 
   return (
     <>
+      {showModal && <PetAliveOrNotModal onSelect={handleAlive} />}
       <Header />
       <Body>
         <Title>새 별자리 만들기</Title>
@@ -47,6 +61,7 @@ export default function Page() {
             setFormData={setFormData}
             setImage={setImage}
             nextStep={() => setStep(2)}
+            isAlive={isAlive}
           />
         ) : (
           <PetCoordinatesInfo
