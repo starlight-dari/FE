@@ -11,6 +11,7 @@ interface NewPetInfoFormProps {
   setFormData: React.Dispatch<React.SetStateAction<PetFormData>>;
   setImage: React.Dispatch<React.SetStateAction<string | null>>;
   nextStep: () => void;
+  isAlive: boolean | null;
 }
 
 const GENDER_OPTIONS = [
@@ -33,6 +34,7 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
   setFormData,
   setImage,
   nextStep,
+  isAlive,
 }) => {
   const [genderSelected, setGenderSelected] = useState<string>("");
 
@@ -179,6 +181,7 @@ const NewPetInfo: React.FC<NewPetInfoFormProps> = ({
                 death_date: e.target.value,
               }))
             }
+            disabled={isAlive === true}
           />
 
           <Label>성격</Label>
