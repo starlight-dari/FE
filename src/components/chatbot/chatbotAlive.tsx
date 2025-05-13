@@ -20,7 +20,18 @@ const aliveQuestions = [
 ];
 
 const ChatbotModalAlive = ({ onClose }: { onClose: () => void }) => {
-  return <ChatbotModalTemplate questions={aliveQuestions} onClose={onClose} />;
+  const introMessage = `💬 안녕하세요! 별빛다리 AI챗봇입니다. 반려 친구가 지금 함께하고 있다니 정말 다행이에요.
+건강하고 행복한 시간을 오래도록 이어가실 수 있도록
+🐶 펫 보험 정보와
+🐾 노령견/노묘를 위한 전문 관리 정보를 안내해드릴게요.
+궁금한 주제를 선택해주세요!`;
+  return (
+    <ChatbotModalTemplate
+      questions={aliveQuestions}
+      onClose={onClose}
+      introMessage={introMessage}
+    />
+  );
 };
 
 export default ChatbotModalAlive;
