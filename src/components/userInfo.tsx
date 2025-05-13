@@ -94,7 +94,13 @@ const UserInfo = () => {
 
   return (
     <Container>
-      <UserImage src={userData.profile_img} alt="user photo" />
+      <UserImage
+        src={userData.profile_img}
+        alt="user photo"
+        width={70}
+        height={70}
+        unoptimized
+      />
       <UserWrapper>
         <UserDetail>
           <User>
