@@ -12,10 +12,11 @@ import ConstellationCanvas, {
   Star,
 } from "../../../components/constellationCanvas";
 import StarPage from "../../../components/starModal";
-import ChatbotModal from "../../../components/chatbotModal";
 import Image from "next/image";
 import chatbot_logo_white from "/public/chatbot_logo_white.svg";
 import chatbot_logo_colored from "/public/chatbot_logo_colored.svg";
+import ChatbotModalAlive from "../../../components/chatbot/chatbotAlive";
+import ChatbotModalNotAlive from "../../../components/chatbot/chatbotNotAlive";
 
 export default function Page() {
   const server_url = process.env.NEXT_PUBLIC_SERVER_URL;
@@ -23,6 +24,7 @@ export default function Page() {
   const petId = Number(params.petId);
 
   const [petData, setPetData] = useState<PetData | null>(null);
+  const [petAlive, setPetAlive] = useState<boolean>(false);
   const [loading, setLoading] = useState(true);
 
   const [selectedStarId, setSelectedStarId] = useState<number | null>(null);
@@ -114,7 +116,21 @@ export default function Page() {
         setLoading(false);
       }
     };
+    const getPetAliveOrNot = async () => {
+      try {
+        const response = await axios({
+          method: "GET",
+          url: `http://${server_url}:8080/pets/${petId}/live`,
+          withCredentials: true,
+        });
+        console.log("사망 여부:", response);
+        setPetAlive(response.data.live);
+      } catch (error) {
+        console.error("반려동물의 사망 여부 조회 중 오류 발생:", error);
+      }
+    };
     getPetStarInfo();
+    getPetAliveOrNot();
   }, [petId, isAddStarModalOpen, isStarInfoModalOpen, server_url]);
 
   if (loading) return <p>로딩 중...</p>;
@@ -149,9 +165,13 @@ export default function Page() {
           onAddClick={() => handleAddStar(selectedStarId)}
         />
       </Body>
-      {isChatbotOpen && (
-        <ChatbotModal onClose={() => setIsChatbotOpen(false)} />
-      )}
+      {isChatbotOpen &&
+        (petAlive ? (
+          <ChatbotModalAlive onClose={() => setIsChatbotOpen(false)} />
+        ) : (
+          <ChatbotModalNotAlive onClose={() => setIsChatbotOpen(false)} />
+        ))}
+
       {isAddStarModalOpen && (
         <AddStarModal starId={selectedStarId} onClose={closeAddStarModal} />
       )}
